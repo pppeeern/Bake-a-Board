@@ -1,0 +1,43 @@
+:root{
+    --pr: 14px;
+}
+
+#sideBar{
+    width: 100%;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#logoContainer{
+    width: 100%;
+    margin: 10px 0;
+    padding: 4px var(--pr);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+aside{
+    margin-top: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.navItems, #setting{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+    text-transform: uppercase;
+    padding: 12px var(--pr); /* items box size */
+    border-radius: 8px;
+    line-height: 0%;
+}
+.navItems:hover, #setting:hover{
+    background-color: rgb(245, 245, 245);
+    color: black;
+}
