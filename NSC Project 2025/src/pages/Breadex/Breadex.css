@@ -1,0 +1,43 @@
+#breadex_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#breadex_menu{
+    padding: 10px 0;
+    display: flex;
+    margin: 10px;
+}
+
+.breadex_menu{
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    width: 150px;
+    padding: 2px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color ease 0.15s;
+}
+.breadex_menu.active{
+    font-weight: 500;
+    border-bottom: 2px dotted rgb(160, 160, 160);
+}
+.breadex_menu:hover{
+    border-radius: 10px;
+    background-color: rgb(250, 250, 250);
+    /* font-weight: 500; */
+}
+
+#breadex_item{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px 20px;
+}
+#breadex_item div{
+    width: 200px;
+    aspect-ratio: 1;
+    background-color: rgb(250, 250, 250);
+}
