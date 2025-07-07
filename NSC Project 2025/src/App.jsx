@@ -1,12 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SideBar from "./components/sidebar/SideBar";
-import Learn from './pages/Learn/Learn';
-import Breadex from './pages/Breadex/Breadex';
-import Bakery from './pages/Bakery/Bakery';
-import Profile from './pages/Profile/Profile';
+import Learn from "./pages/Learn/Learn";
+import Breadex from "./pages/Breadex/Breadex";
+import Bakery from "./pages/Bakery/Bakery";
+import Profile from "./pages/Profile/Profile";
 
-import BreadexInfo from './components/breadexInfo/BreadexInfo';
+import BreadexInfo from "./components/breadexInfo/BreadexInfo";
 
 import "./MainLayout.css";
 import "./App.css";
