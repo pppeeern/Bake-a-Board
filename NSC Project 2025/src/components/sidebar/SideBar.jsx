@@ -17,9 +17,10 @@ function SideBar(){
             <aside>
                 {navItems.map((item, index) => (
                     <a
-                        key={index}
-                        className='navItems'
-                        href={item.path}
+                        key = {index}
+                        className = 'navItems'
+                        href = {item.path}
+                        title = {item.text}
                     >
                         <div><img src="https://placehold.co/24x24"/></div>
                         <div>{item.text}</div>
@@ -27,7 +28,7 @@ function SideBar(){
                 ))}
             </aside>
             <div>
-                <a id="setting">
+                <a id="setting" className='navItems' title='Settings'>
                     <div><img src="https://placehold.co/24x24"/></div>
                     <div>Settings</div>
                 </a>

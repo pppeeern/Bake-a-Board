@@ -38,7 +38,7 @@ aside{
     flex-direction: column;
 }
 
-.navItems, #setting{
+.navItems{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,8 +48,9 @@ aside{
     padding: 12px var(--pr); /* items box size */
     border-radius: 8px;
     line-height: 0%;
+    transition: all ease .2s;
 }
-.navItems:hover, #setting:hover{
+.navItems:hover{
     background-color: rgb(245, 245, 245);
     color: black;
 }

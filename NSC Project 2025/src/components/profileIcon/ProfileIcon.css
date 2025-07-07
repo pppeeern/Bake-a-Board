@@ -1,0 +1,17 @@
+#profile_icon{
+    position: absolute;
+    border-radius: 100%;
+    width: 60px;
+    aspect-ratio: 1;
+    top: 30px;
+    right: 30px;
+}
+
+#profile_level{
+    background-color: rgb(171, 221, 171);
+    width: 20px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    position: relative;
+    transform: translate(100%, 100%);
+}

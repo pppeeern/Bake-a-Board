@@ -1,0 +1,19 @@
+#info_container{
+    width: 600px;
+    /* background-color: aliceblue; */
+    gap: 30px;
+}
+
+#info_img{
+    width: 50%;
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(250, 250, 250);
+}
+
+#info_text_container{
+    width: 50%;
+    padding: 20px 0;
+    gap: 10px;
+}
