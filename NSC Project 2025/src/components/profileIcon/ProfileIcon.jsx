@@ -1,14 +1,17 @@
+import { Link } from "react-router-dom";
 import "./ProfileIcon.css";
 
 function ProfileIcon() {
   return (
     <div id="profile_icon_container">
-      <button id="profile_icon">
+      <button id="profile_icon" title="User">
         <div id="profile_level"></div>
         <div id="profile_box">
           <div id="profile_box_container" className="flex-col">
             <div id="profile_user_container" className="flex-row dashed">
-              <div id="profile_user">User</div>
+              <Link to={`/profile/`} id="profile_user">
+                User
+              </Link>
               <div id="profile_logout"></div>
             </div>
             <div id="profile_status" className="flex-col">

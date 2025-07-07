@@ -1,0 +1,52 @@
+#chapter_container {
+  position: sticky;
+  top: -20px;
+  padding-top: 20px;
+  background-color: white;
+  width: 100%;
+  z-index: 55;
+}
+
+#chapter_button {
+  justify-self: center;
+  display: block;
+  background-color: aliceblue;
+  padding: 10px 30px;
+  border-radius: 16px;
+  width: 400px;
+  text-align: center;
+}
+
+#chapter_label {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+#lessons_container {
+  position: relative;
+  top: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 32%;
+}
+#lessons_container > div {
+  position: relative;
+  margin-top: -20px;
+}
+#lessons_container > :nth-child(4n + 1) {
+  align-self: flex-start;
+}
+#lessons_container > :nth-child(4n + 2) {
+  left: -15px;
+}
+#lessons_container > :nth-child(4n + 4) {
+  left: 15px;
+}
+#lessons_container > :nth-child(2n) {
+  align-self: center;
+  /* margin-top: -20px; */
+  margin-bottom: 10px;
+}
+#lessons_container > :nth-child(4n + 3) {
+  align-self: flex-end;
+}

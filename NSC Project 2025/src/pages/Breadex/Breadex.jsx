@@ -31,10 +31,7 @@ function Breadex() {
           ))}
         </div>
         <button id="breadex_quiz">Quiz</button>
-        <div id="breadex_item_container">
-          <BreadexCard content={breadexMenu[smenu]} />
-          <BreadexCard content={breadexMenu[smenu]} />
-        </div>
+        <div id="breadex_item_container"></div>
       </div>
     </div>
   );

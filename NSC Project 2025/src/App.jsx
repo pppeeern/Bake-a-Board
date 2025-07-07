@@ -6,7 +6,7 @@ import Breadex from "./pages/Breadex/Breadex";
 import Bakery from "./pages/Bakery/Bakery";
 import Profile from "./pages/Profile/Profile";
 
-import BreadexInfo from "./components/breadexInfo/BreadexInfo";
+import BreadexInfo from "./pages/breadexInfo/BreadexInfo";
 
 import "./MainLayout.css";
 import "./App.css";
@@ -23,6 +23,7 @@ function App() {
             <Route path="/bakery/" element={<Bakery />} />
             <Route path="/profile/" element={<Profile />} />
 
+            <Route path="/menus" element={<BreadexInfo />} />
             <Route path="/breadex/info" element={<BreadexInfo />} />
           </Routes>
         </div>
