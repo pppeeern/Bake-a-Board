@@ -4,7 +4,11 @@ import "./ProfileIcon.css";
 function ProfileIcon() {
   return (
     <div id="profile_icon_container">
-      <button id="profile_icon" title="User">
+      <button
+        id="profile_icon"
+        title="User"
+        onClick={() => (location.href = "/profile/")}
+      >
         <div id="profile_level"></div>
         <div id="profile_box">
           <div id="profile_box_container" className="flex-col">

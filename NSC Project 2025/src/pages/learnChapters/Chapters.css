@@ -1,0 +1,54 @@
+#chapters_container_top {
+  width: 100%;
+  /* background-color: aliceblue; */
+  min-height: 60px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.chapters_container_top_button {
+  background-color: rgb(245, 245, 245);
+  border: 1px solid rgb(235, 235, 235);
+  transition: all ease 0.15s;
+  width: 200px;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.chapters_container_top_button button {
+  width: 100%;
+  height: 100%;
+  font-size: 1.1rem;
+  outline: none;
+  border: none;
+}
+
+#join_quiz {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#join_quiz input {
+  width: 70%;
+  height: 100%;
+  padding-left: 14px;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+}
+#join_quiz button {
+  width: 30%;
+}
+
+#chapters_card_container {
+  width: 100%;
+  flex: 1;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  overflow-x: scroll;
+}

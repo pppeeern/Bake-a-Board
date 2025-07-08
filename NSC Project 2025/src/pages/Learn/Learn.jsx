@@ -8,7 +8,7 @@ function Learn() {
       <ProfileIcon />
       <div className="wrapper learn_container">
         <div id="chapter_container">
-          <Link to={`/menus`} id="chapter_button">
+          <Link to={`/chapters`} id="chapter_button">
             <span id="chapter_label">Chapter</span>
           </Link>
         </div>

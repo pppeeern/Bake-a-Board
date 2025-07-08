@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Breadex.css";
 import BreadexCard from "../../components/breadexCard/BreadexCard";
+// import BreadexCard from "../../components/breadexCard/BreadexCard";
 import ProfileIcon from "../../components/profileIcon/profileIcon";
 
 const breadexMenu = [
@@ -31,7 +32,9 @@ function Breadex() {
           ))}
         </div>
         <button id="breadex_quiz">Quiz</button>
-        <div id="breadex_item_container"></div>
+        <div id="breadex_item_container">
+          <BreadexCard content={breadexMenu[smenu]} />
+        </div>
       </div>
     </div>
   );
