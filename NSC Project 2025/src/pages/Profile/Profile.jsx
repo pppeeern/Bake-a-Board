@@ -5,7 +5,7 @@ function Profile() {
     <div className="wrapper-m">
       <div id="profile_container">
         <div id="avatar_display">
-          <img src="" alt="avatar" />
+          {/* <img src="https://placehold.co/360x520  " alt="avatar" /> */}
         </div>
         <div id="profile_detail_container">
           <div id="profile_detail_user" className="profile_detail_box">

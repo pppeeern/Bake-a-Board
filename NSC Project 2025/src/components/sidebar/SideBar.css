@@ -50,6 +50,7 @@ aside {
   line-height: 0%;
   transition: all ease 0.2s;
 }
+.navItems.active,
 .navItems:hover {
   background-color: rgb(245, 245, 245);
   color: black;

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import "./SideBar.css";
+import { Link } from "react-router-dom";
 
 const navItems = [
   { text: "Learn", icon: "", path: "/" },
@@ -8,6 +10,8 @@ const navItems = [
 ];
 
 function SideBar() {
+  const [nav, SetNav] = useState(0);
+
   return (
     <nav id="sideBar">
       <div id="logoContainer" onClick={() => (location.href = "/")}>
@@ -20,26 +24,31 @@ function SideBar() {
       </div>
       <aside>
         {navItems.map((item, index) => (
-          <a
+          <Link
             key={index}
-            className="navItems"
-            href={item.path}
+            className={`navItems ${
+              location.pathname === item.path ? "active" : ""
+            }`}
+            to={item.path}
             title={item.text}
+            onClick={() => {
+              SetNav(index);
+            }}
           >
             <div>
               <img src="https://placehold.co/24x24" />
             </div>
             <div>{item.text}</div>
-          </a>
+          </Link>
         ))}
       </aside>
       <div>
-        <a id="setting" className="navItems" title="Settings">
+        <Link to="/settings" id="setting" className="navItems" title="Settings">
           <div>
             <img src="https://placehold.co/24x24" />
           </div>
           <div>Settings</div>
-        </a>
+        </Link>
       </div>
     </nav>
   );
