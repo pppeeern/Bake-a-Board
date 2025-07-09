@@ -45,6 +45,7 @@ aside {
   gap: 14px;
   overflow: hidden;
   text-transform: uppercase;
+  color: rgb(100, 100, 100);
   padding: 12px var(--pr); /* items box size */
   border-radius: 8px;
   line-height: 0%;

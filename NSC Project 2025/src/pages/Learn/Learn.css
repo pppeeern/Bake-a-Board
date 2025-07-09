@@ -34,7 +34,7 @@
   flex-direction: column;
   width: 32%;
 }
-#lessons_container > div {
+#lessons_container > * {
   position: relative;
   margin-top: -10px;
 }

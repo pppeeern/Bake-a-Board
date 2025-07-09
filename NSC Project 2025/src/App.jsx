@@ -24,8 +24,8 @@ function App() {
             <Route path="/bakery/" element={<Bakery />} />
             <Route path="/profile/" element={<Profile />} />
 
-            <Route path="/chapters" element={<Chapters />} />
-            <Route path="/breadex/info" element={<BreadexInfo />} />
+            <Route path="/chapters/" element={<Chapters />} />
+            <Route path="/breadex/info/" element={<BreadexInfo />} />
           </Routes>
         </div>
       </section>

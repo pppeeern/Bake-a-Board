@@ -1,13 +1,12 @@
 import { useState } from "react";
 import "./Breadex.css";
 import BreadexCard from "../../components/breadexCard/BreadexCard";
-// import BreadexCard from "../../components/breadexCard/BreadexCard";
-import ProfileIcon from "../../components/profileIcon/profileIcon";
+import ProfileIcon from "../../components/profileIcon/ProfileIcon";
 
 const breadexMenu = [
-  { text: "Electronics", path: "" },
-  { text: "Tools", path: "" },
-  { text: "Symbols", path: "" },
+  { text: "Electronics" },
+  { text: "Tools" },
+  { text: "Symbols" },
 ];
 
 function Breadex() {
