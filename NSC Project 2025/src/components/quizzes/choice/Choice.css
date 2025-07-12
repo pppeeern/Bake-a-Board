@@ -1,0 +1,36 @@
+#choice_container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
+}
+
+#choice_question_container {
+  display: grid;
+  grid-template-rows: 20% 75%;
+  align-content: space-between;
+}
+
+#quiz_question {
+  align-self: self-end;
+  font-size: 1.5rem;
+  /* padding-bottom: 10px; */
+}
+#quiz_question_img {
+  width: 100%;
+  height: 100%;
+  background-color: aliceblue;
+}
+
+#choice_answer_container {
+  justify-content: flex-end;
+  gap: 30px;
+}
+.choice_answer {
+  height: 60px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 1.2rem;
+}

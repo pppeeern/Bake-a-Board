@@ -12,7 +12,7 @@ function LessonCard() {
         </div>
         <div className="lesson_hover_detail">Detail</div>
         <button className="lesson_hover_button">
-          <Link to={`/profile`}>Start</Link>
+          <Link to={`/quiz/`}>Start</Link>
         </button>
       </div>
     </Link>
