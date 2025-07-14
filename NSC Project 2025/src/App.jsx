@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SideBar from "./components/sidebar/SideBar";
+
 import Learn from "./pages/Learn/Learn";
 import Breadex from "./pages/Breadex/Breadex";
 import Bakery from "./pages/Bakery/Bakery";
 import Profile from "./pages/Profile/Profile";
+import Settings from "./pages/Settings/Setting";
 
 import Quiz from "./pages/Quiz/Quiz";
 import Chapters from "./pages/learnChapters/Chapters";
@@ -25,6 +27,7 @@ function App() {
             <Route path="/breadex/" element={<Breadex />} />
             <Route path="/bakery/" element={<Bakery />} />
             <Route path="/profile/" element={<Profile />} />
+            <Route path="/settings/" element={<Settings />} />
 
             <Route path="/quiz/" element={<Quiz />} />
             <Route path="/chapters/" element={<Chapters />} />
