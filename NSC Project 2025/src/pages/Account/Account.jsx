@@ -1,7 +1,5 @@
-// src/pages/Account/Account.jsx
 import React, { useState } from "react";
 import "./Account.css";
-
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,159 +7,95 @@ import {
   GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../../config/firebase";
 import {
   validateForm,
   handleAuthError,
-  useForm,
-  useLoading,
   INITIAL_FORM_DATA,
 } from "./accountUtils";
 
 function Account() {
   const [isLogin, setIsLogin] = useState(true);
-  const { isLoading, startLoading, stopLoading } = useLoading();
-  const {
-    formData,
-    errors,
-    handleInputChange,
-    setMultipleErrors,
-    clearErrors,
-    resetForm,
-  } = useForm(INITIAL_FORM_DATA);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState({});
 
-  // Authentication functions
-  const loginUser = async () => {
-    startLoading();
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      console.log("User logged in successfully:", userCredential.user);
-      return { success: true, user: userCredential.user };
-    } catch (error) {
-      console.error("Login error:", error);
-      return { success: false, error };
-    } finally {
-      stopLoading();
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    const field = id.replace("in_", "");
+
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    if (errors[field]) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: "",
+      }));
     }
   };
 
-  const registerUser = async () => {
-    startLoading();
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-
-      await updateProfile(userCredential.user, {
-        displayName: formData.username,
-      });
-
-      console.log("User registered successfully:", userCredential.user);
-      return { success: true, user: userCredential.user };
-    } catch (error) {
-      console.error("Registration error:", error);
-      return { success: false, error };
-    } finally {
-      stopLoading();
-    }
-  };
-
-  const googleSignIn = async () => {
-    startLoading();
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      console.log("Google sign-in successful:", result.user);
-      return { success: true, user: result.user };
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-      return { success: false, error };
-    } finally {
-      stopLoading();
-    }
-  };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validation = validateForm(formData, isLogin);
     if (!validation.isValid) {
-      setMultipleErrors(validation.errors);
+      setErrors(validation.errors);
       return;
     }
 
-    const result = isLogin ? await loginUser() : await registerUser();
+    setLoading(true);
 
-    if (result.success) {
-      alert(`${isLogin ? "Login" : "Registration"} successful!`);
-      resetForm();
-    } else {
-      handleAuthError(result.error, setMultipleErrors);
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        alert("Login successful!");
+      } else {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+
+        await updateProfile(userCredential.user, {
+          displayName: formData.username,
+        });
+
+        alert("Registration successful!");
+      }
+
+      setFormData(INITIAL_FORM_DATA);
+    } catch (error) {
+      handleAuthError(error, setErrors);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    const result = await googleSignIn();
-
-    if (result.success) {
+    setLoading(true);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
       alert("Google sign-in successful!");
-    } else {
-      handleAuthError(result.error, setMultipleErrors);
+    } catch (error) {
+      alert("Google sign-in failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
-    clearErrors();
-    resetForm();
+    setErrors({});
+    setFormData(INITIAL_FORM_DATA);
   };
-
-  const welcomeFormElement = [
-    {
-      input: "Username",
-      id: "in_username",
-      type: "text",
-      value: formData.username,
-      error: errors.username,
-    },
-    {
-      input: "Email",
-      id: "in_email",
-      type: "email",
-      value: formData.email,
-      error: errors.email,
-    },
-    {
-      input: "Password",
-      id: "in_password",
-      type: "password",
-      value: formData.password,
-      error: errors.password,
-    },
-    {
-      input: "Confirm Password",
-      id: "in_confirmPassword",
-      type: "password",
-      value: formData.confirmPassword,
-      error: errors.confirmPassword,
-    },
-  ];
-
-  const welcomeFormRender = !isLogin
-    ? welcomeFormElement
-    : welcomeFormElement.filter(
-        (e) =>
-          e.id === "in_username" ||
-          // e.id === "in_email" ||
-          e.id === "in_password"
-      );
 
   return (
     <div className="wrapper-m">
@@ -173,30 +107,73 @@ function Account() {
             Bake a Board!
           </h1>
         </div>
+
         <div id="welcome_form">
           <form onSubmit={handleSubmit}>
-            {welcomeFormRender.map((e) => (
-              <div key={e.id} className="welcome_form_input">
-                <label htmlFor={e.id}>{e.input}</label>
+            {!isLogin && (
+              <div className="welcome_form_input">
+                <label htmlFor="in_username">Username</label>
                 <input
-                  id={e.id}
-                  type={e.type}
-                  placeholder={e.input}
-                  value={e.value}
+                  id="in_username"
+                  type="text"
+                  placeholder="Username"
+                  value={formData.username}
                   onChange={handleInputChange}
                 />
-                {e.error && <div className="welcome_form_error">{e.error}</div>}
+                {errors.username && (
+                  <div className="welcome_form_error">{errors.username}</div>
+                )}
               </div>
-            ))}
+            )}
 
-            <button id="welcome_form_submit" type="submit" disabled={isLoading}>
-              {isLoading
-                ? isLogin
-                  ? "Logging in..."
-                  : "Registering..."
-                : isLogin
-                ? "Login"
-                : "Register"}
+            <div className="welcome_form_input">
+              <label htmlFor="in_email">Email</label>
+              <input
+                id="in_email"
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              {errors.email && (
+                <div className="welcome_form_error">{errors.email}</div>
+              )}
+            </div>
+
+            <div className="welcome_form_input">
+              <label htmlFor="in_password">Password</label>
+              <input
+                id="in_password"
+                type="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              {errors.password && (
+                <div className="welcome_form_error">{errors.password}</div>
+              )}
+            </div>
+
+            {!isLogin && (
+              <div className="welcome_form_input">
+                <label htmlFor="in_confirmPassword">Confirm Password</label>
+                <input
+                  id="in_confirmPassword"
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                />
+                {errors.confirmPassword && (
+                  <div className="welcome_form_error">
+                    {errors.confirmPassword}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <button id="welcome_form_submit" type="submit" disabled={loading}>
+              {loading ? "Loading..." : isLogin ? "Login" : "Register"}
             </button>
 
             <div className="welcome_form_or">
@@ -204,16 +181,18 @@ function Account() {
               <span>or</span>
               <div className="dashed"></div>
             </div>
+
             <button
               id="welcome_form_google"
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={isLoading}
+              disabled={loading}
             >
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" />
-              {isLoading ? "Signing in..." : "Sign in with Google"}
+              Sign in with Google
             </button>
           </form>
+
           <p id="welcome_form_switch">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <span onClick={toggleMode}>{isLogin ? "Register" : "Login"}</span>
