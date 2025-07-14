@@ -13,7 +13,9 @@ function ProfileIcon() {
             <div id="profile_box_container" className="flex-col">
               <div id="profile_user_container" className="flex-row dashed">
                 <div id="profile_user">User</div>
-                <div id="profile_logout" title="Log out"></div>
+                <Link to={"/welcome/"}>
+                  <div id="profile_logout" title="Log out"></div>
+                </Link>
               </div>
               <div id="profile_status" className="flex-col">
                 <div id="profile_status_level" className="flex-row">

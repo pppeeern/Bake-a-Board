@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SideBar from "./components/sidebar/SideBar";
 
+import Account from "./pages/Account/Account";
+
 import Learn from "./pages/Learn/Learn";
 import Breadex from "./pages/Breadex/Breadex";
 import Bakery from "./pages/Bakery/Bakery";
@@ -9,7 +11,7 @@ import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Setting";
 
 import Quiz from "./pages/Quiz/Quiz";
-import Chapters from "./pages/learnChapters/Chapters";
+import Chapters from "./pages/Learn/learnChapters/Chapters";
 import BreadexInfo from "./pages/breadexInfo/BreadexInfo";
 
 import "./MainLayout.css";
@@ -22,6 +24,8 @@ function App() {
         <SideBar />
         <div id="content">
           <Routes>
+            <Route path="/welcome/" element={<Account />} />
+
             {/* Navigation */}
             <Route path="/" element={<Learn />} />
             <Route path="/breadex/" element={<Breadex />} />

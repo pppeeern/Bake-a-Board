@@ -1,6 +1,6 @@
 import "./Chapters.css";
-import ChaptersCard from "../../components/chaptersCard/ChaptersCard";
-import CloseButton from "../../components/closeButton/CloseButton";
+import ChaptersCard from "../../../components/chaptersCard/ChaptersCard";
+import CloseButton from "../../../components/closeButton/CloseButton";
 
 function Chapters() {
   return (
