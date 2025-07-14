@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Breadex.css";
-import BreadexCard from "../../components/breadexCard/BreadexCard";
+import BreadexCard from "./breadexCard/BreadexCard";
 import ProfileIcon from "../../components/profileIcon/ProfileIcon";
 
 const breadexMenu = [

@@ -1,5 +1,5 @@
 import "./BreadexInfo.css";
-import CloseButton from "../../components/closeButton/CloseButton";
+import CloseButton from "../../../components/closeButton/CloseButton";
 
 function BreadexInfo() {
   return (

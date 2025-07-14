@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Quiz.css";
 import CloseButton from "../../components/closeButton/CloseButton";
-import Choice from "../../components/quizzes/choice/Choice";
+import Choice from "./quizzes/choice/Choice";
 
 function Quiz() {
   const [showEachResult, setShowEachResult] = useState(false);

@@ -11,8 +11,8 @@ import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Setting";
 
 import Quiz from "./pages/Quiz/Quiz";
-import Chapters from "./pages/Learn/learnChapters/Chapters";
-import BreadexInfo from "./pages/breadexInfo/BreadexInfo";
+import Chapters from "./pages/Learn/chaptersMenu/ChaptersMenu";
+import BreadexInfo from "./pages/Breadex/breadexInfo/BreadexInfo";
 
 import "./MainLayout.css";
 import "./App.css";
