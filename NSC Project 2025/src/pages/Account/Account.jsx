@@ -94,6 +94,46 @@ function Account() {
     setFormData(INITIAL_FORM_DATA);
   };
 
+  const welcomeFormElement = [
+    {
+      input: "Username",
+      id: "in_username",
+      type: "text",
+      value: formData.username,
+      error: errors.username,
+    },
+    {
+      input: "Email",
+      id: "in_email",
+      type: "email",
+      value: formData.email,
+      error: errors.email,
+    },
+    {
+      input: "Password",
+      id: "in_password",
+      type: "password",
+      value: formData.password,
+      error: errors.password,
+    },
+    {
+      input: "Confirm Password",
+      id: "in_confirmPassword",
+      type: "password",
+      value: formData.confirmPassword,
+      error: errors.confirmPassword,
+    },
+  ];
+
+  const welcomeFormRender = !isLogin
+    ? welcomeFormElement
+    : welcomeFormElement.filter(
+        (e) =>
+          e.id === "in_username" ||
+          // e.id === "in_email" ||
+          e.id === "in_password"
+      );
+
   return (
     <div className="wrapper-m">
       <div className="welcome_container">
@@ -107,70 +147,28 @@ function Account() {
 
         <div id="welcome_form">
           <form onSubmit={handleSubmit}>
-            {!isLogin && (
-              <div className="welcome_form_input">
-                <label htmlFor="in_username">Username</label>
+            {welcomeFormRender.map((e) => (
+              <div key={e.id} className="welcome_form_input">
+                <label htmlFor={e.id}>{e.input}</label>
                 <input
-                  id="in_username"
-                  type="text"
-                  placeholder="Username"
-                  value={formData.username}
+                  id={e.id}
+                  type={e.type}
+                  placeholder={e.input}
+                  value={e.value}
                   onChange={handleInputChange}
                 />
-                {errors.username && (
-                  <div className="welcome_form_error">{errors.username}</div>
-                )}
+                {e.error && <div className="welcome_form_error">{e.error}</div>}
               </div>
-            )}
-
-            <div className="welcome_form_input">
-              <label htmlFor="in_email">Email</label>
-              <input
-                id="in_email"
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-              {errors.email && (
-                <div className="welcome_form_error">{errors.email}</div>
-              )}
-            </div>
-
-            <div className="welcome_form_input">
-              <label htmlFor="in_password">Password</label>
-              <input
-                id="in_password"
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              {errors.password && (
-                <div className="welcome_form_error">{errors.password}</div>
-              )}
-            </div>
-
-            {!isLogin && (
-              <div className="welcome_form_input">
-                <label htmlFor="in_confirmPassword">Confirm Password</label>
-                <input
-                  id="in_confirmPassword"
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                />
-                {errors.confirmPassword && (
-                  <div className="welcome_form_error">
-                    {errors.confirmPassword}
-                  </div>
-                )}
-              </div>
-            )}
+            ))}
 
             <button id="welcome_form_submit" type="submit" disabled={loading}>
-              {loading ? "Loading..." : isLogin ? "Login" : "Register"}
+              {loading
+                ? isLogin
+                  ? "Logging in..."
+                  : "Registering..."
+                : isLogin
+                ? "Login"
+                : "Register"}
             </button>
 
             <div className="welcome_form_or">

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Breadex.css";
 import BreadexCard from "./breadexCard/BreadexCard";
 import ProfileIcon from "../../components/profileIcon/ProfileIcon";
+import { renderBreadexItems } from "./breadexUtils";
+import { useNavigate } from "react-router-dom";
 
 const breadexMenu = [
   { text: "Electronics" },
@@ -11,6 +13,30 @@ const breadexMenu = [
 
 function Breadex() {
   const [smenu, setMenu] = useState(0); // menu = variable, setMenu = function that set menu variable
+  const [bdxItems, setBdxItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadItems = async () => {
+      setIsLoading(true);
+      try {
+        const items = await renderBreadexItems();
+        setBdxItems(items);
+      } catch (error) {
+        console.error("Error loading items:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadItems();
+  }, []);
+
+  const handleItemClick = (item) => {
+    navigate(`/breadex/i/${item.id}`, {
+      state: { itemData: item },
+    });
+  };
 
   return (
     <div className="wrapper">
@@ -32,7 +58,25 @@ function Breadex() {
         </div>
         <button id="breadex_quiz">Quiz</button>
         <div id="breadex_item_container">
-          <BreadexCard content={breadexMenu[smenu]} />
+          {isLoading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+            </div>
+          ) : (
+            // </div>
+            bdxItems
+              .filter(
+                (item) =>
+                  item.category === breadexMenu[smenu].text.toLowerCase()
+              )
+              .map((item) => (
+                <BreadexCard
+                  key={item.id}
+                  item={item}
+                  onClick={() => handleItemClick(item)}
+                />
+              ))
+          )}
         </div>
       </div>
     </div>

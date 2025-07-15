@@ -1,6 +1,6 @@
 .welcome_container {
   width: 60%;
-  min-width: 700px;
+  min-width: 600px;
   /* background-color: aliceblue; */
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -17,7 +17,7 @@
 
 #welcome_form {
   width: 65%;
-  min-width: 240px;
+  min-width: 280px;
   /* background-color: antiquewhite; */
   justify-self: self-end;
 }

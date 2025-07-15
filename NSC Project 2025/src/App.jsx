@@ -35,7 +35,7 @@ function App() {
 
             <Route path="/quiz/" element={<Quiz />} />
             <Route path="/chapters/" element={<Chapters />} />
-            <Route path="/breadex/info/" element={<BreadexInfo />} />
+            <Route path="/breadex/i/:id" element={<BreadexInfo />} />
           </Routes>
         </div>
       </section>
