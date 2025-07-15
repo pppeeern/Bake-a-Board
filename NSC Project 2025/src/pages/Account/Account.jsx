@@ -8,11 +8,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import {
-  validateForm,
-  handleAuthError,
-  INITIAL_FORM_DATA,
-} from "./accountUtils";
+
+import { validateForm, handleAuthError, INITIAL_FORM_DATA } from "./authUtils";
 
 function Account() {
   const [isLogin, setIsLogin] = useState(true);

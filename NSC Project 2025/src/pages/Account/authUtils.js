@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+// Form validation utility
 export const validateForm = (formData, isLogin) => {
   const errors = {};
 
