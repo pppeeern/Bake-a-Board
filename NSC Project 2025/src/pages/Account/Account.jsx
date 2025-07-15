@@ -1,98 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Account.css";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  updateProfile,
-} from "firebase/auth";
-import { auth } from "../../config/firebase";
-
-import { validateForm, handleAuthError, INITIAL_FORM_DATA } from "./authUtils";
+import { useAccountForm } from "./useAccountForm";
+import LoginAlert from "../../components/LoginAlert/LoginAlert";
 
 function Account() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    const field = id.replace("in_", "");
-
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-
-    if (errors[field]) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const validation = validateForm(formData, isLogin);
-    if (!validation.isValid) {
-      setErrors(validation.errors);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
-        alert("Login successful!");
-      } else {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
-
-        await updateProfile(userCredential.user, {
-          displayName: formData.username,
-        });
-
-        alert("Registration successful!");
-      }
-
-      setFormData(INITIAL_FORM_DATA);
-    } catch (error) {
-      handleAuthError(error, setErrors);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    setLoading(true);
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      alert("Google sign-in successful!");
-    } catch (error) {
-      alert("Google sign-in failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setErrors({});
-    setFormData(INITIAL_FORM_DATA);
-  };
+  const {
+    isLogin,
+    loading,
+    formData,
+    errors,
+    toast,
+    handleInputChange,
+    handleSubmit,
+    handleGoogleSignIn,
+    toggleMode,
+    hideToast,
+  } = useAccountForm();
 
   const welcomeFormElement = [
     {
@@ -136,6 +59,14 @@ function Account() {
 
   return (
     <div className="wrapper-m">
+      {toast && (
+        <LoginAlert
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+        />
+      )}
+
       <div className="welcome_container">
         <div className="welcome_text_container">
           <h1>
