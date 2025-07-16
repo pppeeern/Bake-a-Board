@@ -64,3 +64,15 @@
     transform: rotate(360deg);
   }
 }
+
+#breadex_scan_container {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+#breadex_scan_button {
+  position: sticky;
+  width: 75px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+}

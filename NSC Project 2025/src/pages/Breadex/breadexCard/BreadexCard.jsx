@@ -4,6 +4,7 @@ import "./BreadexCard.css";
 function BreadexCard({ item }) {
   return (
     <Link
+      to={`/breadex/i/${item.id}`}
       className="breadex_item"
       title={item.englishName}
       state={{ itemData: item }}

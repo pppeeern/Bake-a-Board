@@ -1,8 +1,9 @@
 import "./ChaptersMenu.css";
 import ChaptersCard from "../chaptersCard/ChaptersCard";
 import CloseButton from "../../../components/closeButton/CloseButton";
+import { chapterData } from "../data/chapterData";
 
-function Chapters() {
+function Chapters({ setChapter }) {
   return (
     <div className="wrapper-m">
       <CloseButton />
@@ -16,14 +17,13 @@ function Chapters() {
         </div>
       </div>
       <div id="chapters_card_container">
-        <ChaptersCard />
-        <ChaptersCard className="chapters_card active" />
-        <ChaptersCard className="learned" />
-        <ChaptersCard />
-        <ChaptersCard />
-        <ChaptersCard />
-        <ChaptersCard />
-        <ChaptersCard />
+        {chapterData.map((chapter) => (
+          <ChaptersCard
+            key={chapter.id}
+            chapter={chapter}
+            onSelect={() => setChapter(chapter)}
+          />
+        ))}
       </div>
     </div>
   );

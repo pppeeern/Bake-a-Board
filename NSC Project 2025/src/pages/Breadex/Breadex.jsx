@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Breadex.css";
+import { renderBreadexItems } from "./breadexUtils";
 import BreadexCard from "./breadexCard/BreadexCard";
 import ProfileIcon from "../../components/profileIcon/ProfileIcon";
-import { renderBreadexItems } from "./breadexUtils";
-import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 
 const breadexMenu = [
   { text: "Electronics" },
@@ -32,11 +33,11 @@ function Breadex() {
     loadItems();
   }, []);
 
-  const handleItemClick = (item) => {
-    navigate(`/breadex/i/${item.id}`, {
-      state: { itemData: item },
-    });
-  };
+  // const handleItemClick = (item) => {
+  //   navigate(`/breadex/i/${item.id}`, {
+  //     state: { itemData: item },
+  //   });
+  // };
 
   return (
     <div className="wrapper">
@@ -59,11 +60,8 @@ function Breadex() {
         <button id="breadex_quiz">Quiz</button>
         <div id="breadex_item_container">
           {isLoading ? (
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
-            </div>
+            <LoadingSpinner />
           ) : (
-            // </div>
             bdxItems
               .filter(
                 (item) =>
@@ -73,11 +71,22 @@ function Breadex() {
                 <BreadexCard
                   key={item.id}
                   item={item}
-                  onClick={() => handleItemClick(item)}
+                  // onClick={() => handleItemClick(item)}
                 />
               ))
           )}
         </div>
+      </div>
+      <div id="breadex_scan_container">
+        <button
+          id="breadex_scan_button"
+          title="Breadex Scanner"
+          onClick={() => navigate(`/breadex/scanner`)}
+        >
+          Breadex
+          <br />
+          Scanner
+        </button>
       </div>
     </div>
   );

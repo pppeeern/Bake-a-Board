@@ -1,19 +1,22 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ChaptersCard.css";
 
-function ChaptersCard() {
+function ChaptersCard({ chapter, onSelect }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onSelect(chapter);
+    navigate("/");
+  };
+
   return (
-    <Link to={`/`} className="chapters_card">
-      <div className="chapters_card_title">Chapter Title</div>
+    <div onClick={handleClick} className="chapters_card">
+      <div className="chapters_card_title">{chapter.name}</div>
       <div className="chapters_card_thumb">
-        <img src="#" alt="chapter_thumbnail" />
+        <img src={chapter.thumb} alt={chapter.name} />
       </div>
-      <div className="chapters_card_detail">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad nam
-        excepturi dolorem optio necessitatibus earum itaque nesciunt atque
-        voluptatem.
-      </div>
-    </Link>
+      <div className="chapters_card_detail">{chapter.detail}</div>
+    </div>
   );
 }
 

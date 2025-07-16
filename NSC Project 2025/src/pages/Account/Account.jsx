@@ -52,9 +52,8 @@ function Account() {
     ? welcomeFormElement
     : welcomeFormElement.filter(
         (e) =>
-          e.id === "in_username" ||
-          // e.id === "in_email" ||
-          e.id === "in_password"
+          // e.id === "in_username" ||
+          e.id === "in_email" || e.id === "in_password"
       );
 
   return (

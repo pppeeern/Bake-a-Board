@@ -1,21 +1,27 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./LessonCard.css";
 
-function LessonCard() {
+function LessonCard({ lesson }) {
+  const navigate = useNavigate();
+
   return (
-    <Link className="lesson_card">
-      <img src="https://placehold.co/75x75" />
+    <div className="lesson_card">
       <div className="lesson_hover flex-col">
         <div className="lesson_hover_title flex-row dashed">
-          <div id="lesson_name">Lesson</div>
-          <div id="lesson_progress">1/4</div>
+          <div id="lesson_name">{lesson.name}</div>
+          <span id="lesson_progress">
+            {lesson.progress.completed}/{lesson.progress.total}
+          </span>
         </div>
-        <div className="lesson_hover_detail">Detail</div>
-        <button className="lesson_hover_button">
-          <Link to={`/quiz/`}>Start</Link>
+        <div className="lesson_hover_detail">{lesson.detail}</div>
+        <button
+          className="lesson_hover_button"
+          onClick={() => navigate(`/quiz/`)}
+        >
+          <span>Start</span>
         </button>
       </div>
-    </Link>
+    </div>
   );
 }
 

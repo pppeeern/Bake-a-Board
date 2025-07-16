@@ -33,6 +33,7 @@
   display: flex;
   flex-direction: column;
   width: 32%;
+  min-width: 260px;
 }
 #lessons_container > * {
   position: relative;
