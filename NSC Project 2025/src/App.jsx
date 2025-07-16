@@ -45,7 +45,9 @@ function App() {
             <Route path="/quiz/" element={<Quiz />} />
             <Route
               path="/chapters/"
-              element={<Chapters setChapter={setChapter} />}
+              element={
+                <Chapters setChapter={setChapter} selectedChapter={chapter} />
+              }
             />
             <Route path="/breadex/i/:id" element={<BreadexInfo />} />
             <Route path="/breadex/scanner" element={<BreadexScanner />} />

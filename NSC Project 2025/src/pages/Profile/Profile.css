@@ -13,7 +13,7 @@
 
 #profile_avatar_display {
   height: 100%;
-  border: 2px solid rgb(235, 235, 235);
+  /* border: 2px solid rgb(235, 235, 235); */
   /* background-color: aliceblue; */
   border-radius: 20px;
   display: flex;

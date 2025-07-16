@@ -1,7 +1,7 @@
 function Setting() {
   return (
-    <div>
-      <div>Profile</div>
+    <div className="wrapper">
+      <div>Account</div>
       <div>
         <label htmlFor="username">Username</label>
         <input type="text" placeholder="Username" />

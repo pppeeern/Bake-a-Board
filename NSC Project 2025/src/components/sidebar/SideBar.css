@@ -36,6 +36,7 @@ aside {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .navItems {
@@ -45,7 +46,9 @@ aside {
   gap: 14px;
   overflow: hidden;
   text-transform: uppercase;
+  fill: currentColor;
   color: rgb(100, 100, 100);
+  font-weight: 500;
   padding: 12px var(--pr); /* items box size */
   border-radius: 8px;
   line-height: 0%;
@@ -54,5 +57,5 @@ aside {
 .navItems.active,
 .navItems:hover {
   background-color: rgb(245, 245, 245);
-  color: black;
+  color: #540f5c;
 }

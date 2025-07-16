@@ -3,7 +3,7 @@ import ChaptersCard from "../chaptersCard/ChaptersCard";
 import CloseButton from "../../../components/closeButton/CloseButton";
 import { chapterData } from "../data/chapterData";
 
-function Chapters({ setChapter }) {
+function Chapters({ setChapter, selectedChapter }) {
   return (
     <div className="wrapper-m">
       <CloseButton />
@@ -21,6 +21,7 @@ function Chapters({ setChapter }) {
           <ChaptersCard
             key={chapter.id}
             chapter={chapter}
+            selectedChapter={selectedChapter}
             onSelect={() => setChapter(chapter)}
           />
         ))}

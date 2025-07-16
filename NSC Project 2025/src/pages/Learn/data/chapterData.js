@@ -1,24 +1,24 @@
 export const chapterData = [
   {
     id: 1,
-    name: "Electronics",
+    name: "Electrofund",
     detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     thumb: "",
     isUnlocked: true,
   },
   {
     id: 2,
-    name: "Chapt 2",
+    name: "Breadboard Basics",
     detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     thumb: "",
-    isUnlocked: false,
+    isUnlocked: true,
   },
   {
     id: 3,
     name: "Chapter 3",
     detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     thumb: "",
-    isUnlocked: false,
+    isUnlocked: true,
   },
   {
     id: 4,

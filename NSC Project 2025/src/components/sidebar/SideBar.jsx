@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./SideBar.css";
 import { Link, useLocation } from "react-router-dom";
+import SideBarIcon from "./SideBarIcon";
 
 const navItems = [
   { text: "Learn", icon: "", path: "/" },
@@ -32,17 +33,33 @@ function SideBar() {
             to={item.path}
             title={item.text}
           >
-            <div>
-              <img src="https://placehold.co/24x24" />
-            </div>
+            <SideBarIcon icon={item.text} />
             <div>{item.text}</div>
           </Link>
         ))}
       </aside>
       <div>
-        <Link to="/settings" id="setting" className="navItems" title="Settings">
+        <Link
+          to="/settings/"
+          id="setting"
+          className={`navItems ${
+            location.pathname === "/settings/" ? "active" : ""
+          }`}
+          title="Settings"
+        >
           <div>
-            <img src="https://placehold.co/24x24" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 820 800"
+            >
+              <path
+                className="cls-1"
+                d="M830.88,414.44A120,120,0,0,0,808.7,275.28h0a120.05,120.05,0,0,0-140.28-21.61A130,130,0,0,0,540,144h0A130,130,0,0,0,411.58,253.67,120.05,120.05,0,0,0,271.3,275.28h0a120,120,0,0,0-22.18,139.16A130,130,0,0,0,130,544h0A130,130,0,0,0,249.12,673.52,120,120,0,0,0,271.3,812.68h0a120.05,120.05,0,0,0,140.28,21.61A130,130,0,0,0,540,944h0A130,130,0,0,0,668.42,834.29,120.05,120.05,0,0,0,808.7,812.68h0a120,120,0,0,0,22.18-139.16A130,130,0,0,0,950,544h0A130,130,0,0,0,830.88,414.44ZM390,727a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,390,727Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,390,577Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,390,427ZM540,727a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,540,727Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,540,577Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,540,427ZM690,727a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,690,727Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,690,577Zm0-150a26.89,26.89,0,1,1,26.82-26.89A26.86,26.86,0,0,1,690,427Z"
+                transform="translate(-130 -143.98)"
+              />
+            </svg>
           </div>
           <div>Settings</div>
         </Link>
