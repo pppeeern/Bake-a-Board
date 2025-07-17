@@ -3,17 +3,27 @@
   width: 75px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: rgb(191, 182, 249);
+  background-color: aliceblue;
+  border: 2px dashed rgb(200, 200, 200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all ease 0.15s;
 }
 .lesson_card.locked {
-  cursor: default;
-  background-color: rgb(235, 235, 235);
+  /* cursor: default; */
+  background: none;
+}
+.lesson_card:hover {
+  width: 77px;
+  box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
 }
 
 .lesson_card:hover .lesson_hover,
 .lesson_card:focus .lesson_hover {
   visibility: visible;
-  transform: translate(-25%, 30%);
+  transform: translate(-25%, 70%);
+  opacity: 1;
 }
 
 .lesson_hover {
@@ -21,15 +31,16 @@
   align-items: center;
   cursor: default;
   z-index: 10;
+  opacity: 0;
   visibility: hidden;
-  transform: translate(-25%, 25%);
+  transform: translate(-25%, 65%);
   min-width: 240px;
   background-color: rgb(254, 254, 254);
   box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
   position: absolute;
   padding: 16px 20px;
   border-radius: 14px;
-  transition: transform ease 0.2s;
+  transition: all ease 0.15s;
   flex-wrap: wrap;
 }
 
@@ -57,6 +68,10 @@
   align-items: center;
   gap: 6px;
   background-color: rgb(191, 182, 249);
+  transition: background-color ease 0.15s;
+}
+.lesson_hover_button:hover {
+  background-color: rgb(205, 198, 255);
 }
 .lesson_card.locked .lesson_hover_button {
   cursor: default;

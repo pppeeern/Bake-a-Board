@@ -1,10 +1,15 @@
 #close_button {
   position: absolute;
   top: 30px;
-  right: 50px;
-  border-radius: 8px;
-  /* border: none; */
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  right: 40px;
   transition: all ease 0.15s;
+  cursor: pointer;
+}
+
+#close_button ellipse {
+  fill: rgb(150, 150, 150);
+  transition: all ease 0.15s;
+}
+#close_button:hover ellipse {
+  fill: rgb(120, 120, 120);
 }

@@ -1,6 +1,5 @@
 #profile_container {
   display: grid;
-  /* grid-template-areas: "a d"; */
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   width: 100%;
@@ -17,7 +16,7 @@
   /* background-color: aliceblue; */
   border-radius: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 

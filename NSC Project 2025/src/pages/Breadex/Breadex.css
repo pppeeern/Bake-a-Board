@@ -71,8 +71,18 @@
   right: 30px;
 }
 #breadex_scan_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: sticky;
   width: 75px;
   aspect-ratio: 1;
   border-radius: 12px;
+}
+#breadex_scan_button svg {
+  fill: rgb(160, 160, 160);
+  opacity: 0.8;
+}
+#breadex_scan_button:hover svg {
+  opacity: 1;
 }

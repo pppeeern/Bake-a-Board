@@ -14,7 +14,7 @@
   border: 2px solid rgb(235, 235, 235);
   padding: 10px 30px;
   border-radius: 16px;
-  width: 400px;
+  width: 500px;
   text-align: center;
   transition: all ease 0.15s;
 }
@@ -23,7 +23,7 @@
 }
 
 #chapter_label {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 500;
 }
 

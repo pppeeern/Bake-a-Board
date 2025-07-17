@@ -3,14 +3,14 @@ export const lessonData = [
     id: "chapter1/lesson1",
     name: "I saw a Spark",
     detail:
-      "Understand the concept of electricity, its discovery, basic atomic theory behind electric charge, and why it matters",
+      "Learn the concept of electricity and basic atomic theory behind electric charge",
     progress: { completed: 4, total: 4 },
     isUnlocked: true,
   },
   {
     id: "chapter1/lesson2",
     name: "This World’s Run by Current",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+    detail: "Learn the concept of current and how it flows",
     progress: { completed: 0, total: 4 },
     isUnlocked: true,
   },

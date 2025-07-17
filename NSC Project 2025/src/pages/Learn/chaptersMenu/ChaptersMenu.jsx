@@ -7,7 +7,7 @@ function Chapters({ setChapter, selectedChapter }) {
   return (
     <div className="wrapper-m">
       <CloseButton />
-      <div id="chapters_container_top" className="flex-row dashed">
+      <div id="chapters_container_top" className="flex-row">
         <div className="chapters_container_top_button">
           <button onClick={() => console.log("Create")}>+ Create Quiz</button>
         </div>
