@@ -6,7 +6,8 @@
   margin-bottom: 40px;
 }
 
-#quiz_navigator {
+#quiz_navigator,
+#quiz_each_result {
   border-top: 2px dashed rgb(235, 235, 235);
   padding-top: 30px;
   position: absolute;
@@ -17,23 +18,15 @@
   align-items: center;
   transition: all ease 0.15s;
 }
-#quiz_each_result {
-  position: absolute;
-  bottom: 10px;
-  width: 800px;
-  border-radius: 12px;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(215, 255, 184);
-  padding: 20px 5%;
-  transition: all ease 0.15s;
-}
+
 #quiz_navigator > button,
 #quiz_each_result > button {
+  text-align: center;
   font-size: 1.2rem;
   padding: 5px 20px;
   border-radius: 10px;
-  width: 100px;
+  min-width: 120px;
+  transition: all ease 0.15s;
 }
 
 .quiz_progress_container {

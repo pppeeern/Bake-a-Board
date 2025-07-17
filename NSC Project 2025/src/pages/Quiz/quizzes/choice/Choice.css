@@ -7,9 +7,10 @@
 }
 
 #choice_question_container {
+  height: 100%;
   display: grid;
-  grid-template-rows: 20% 75%;
-  align-content: space-between;
+  /* grid-template-rows: 20% 75%; */
+  align-content: center;
 }
 
 #quiz_question {
@@ -27,10 +28,19 @@
   justify-content: flex-end;
   gap: 30px;
 }
+
 .choice_answer {
   height: 60px;
   padding: 10px 20px;
   border-radius: 12px;
   text-align: left;
   font-size: 1.2rem;
+  transition: background-color ease 0.2s;
+}
+.choice_answer:focus {
+  outline: none;
+}
+.choice_answer.selected {
+  outline: 2px dashed rgb(235, 235, 235);
+  background-color: aliceblue;
 }

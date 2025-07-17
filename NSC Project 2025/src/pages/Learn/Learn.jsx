@@ -5,6 +5,10 @@ import LessonCard from "./lessonCard/LessonCard";
 import { lessonData } from "./data/lessonData";
 
 function Learn({ chapter }) {
+  const lessons = lessonData.filter((lesson) =>
+    lesson.id.startsWith(`${chapter.id}`)
+  );
+
   return (
     <div className="wrapper">
       <ProfileIcon />
@@ -15,7 +19,7 @@ function Learn({ chapter }) {
           </Link>
         </div>
         <div id="lessons_container">
-          {lessonData.map((lesson) => (
+          {lessons.map((lesson) => (
             <LessonCard key={lesson.id} lesson={lesson} />
           ))}
         </div>
