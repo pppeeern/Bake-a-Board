@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { useAuth } from "../Account/AuthContext";
 import "./Setting.css";
 
@@ -9,6 +10,24 @@ function Setting() {
       await logout();
     } catch (error) {
       console.error("Logout failed:", error);
+    }
+  };
+
+  const curPasRef = useRef(null);
+  const handleShowPass = () => {
+    const input = curPasRef.current;
+    if (input.type === "password") input.type = "text";
+    else input.type = "password";
+  };
+
+  const [curPas, setCurPas] = useState({});
+  const [changePas, setChangePas] = useState(false);
+  const handleChangePass = () => {
+    if (curPas.trim()) {
+      // if (input_password === current_password)
+      setChangePas(true);
+    } else {
+      alert("Enter your current password first!");
     }
   };
 
@@ -37,12 +56,39 @@ function Setting() {
           </div>
           <div className="setting_content_body">
             <label htmlFor="curpas">Current Password</label>
-            <input type="password" placeholder="Current Password" value={""} />
+            <div style={{ display: "flex", gap: "20px" }}>
+              <input
+                id="curPas"
+                type="password"
+                placeholder="Current Password"
+                // value={""}
+                onChange={(e) => setCurPas(e.target.value)}
+                ref={curPasRef}
+              />
+              <input
+                type="checkbox"
+                className="show_password"
+                onClick={handleShowPass}
+              />
+              <button onClick={handleChangePass}>Change</button>
+            </div>
           </div>
-          <div className="setting_content_body">
-            <label htmlFor="newpas">New Password</label>
-            <input type="password" placeholder="New Password" value={""} />
-          </div>
+          {changePas && (
+            <>
+              <div className="setting_content_body">
+                <label htmlFor="newpas">New Password</label>
+                <input type="password" placeholder="New Password" value={""} />
+              </div>
+              <div className="setting_content_body">
+                <label htmlFor="conpas">Confirm Password</label>
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={""}
+                />
+              </div>
+            </>
+          )}
           <div className="setting_button_container">
             <button type="submit">Save Changes</button>
             <button id="logout_button" onClick={handleLogout}>

@@ -7,17 +7,23 @@ function ProfileIcon() {
 
   return (
     <div id="profile_icon_container">
-      <div id="profile_icon" title="User" onClick={() => navitage(`/profile/`)}>
+      <div id="profile_icon" title="User">
         <div id="profile_level_value" className="icon">
           1
         </div>
         <div id="profile_box">
           <div id="profile_box_container" className="flex-col">
             <div id="profile_user_container" className="flex-row dashed">
-              <div id="profile_user">User</div>
+              <div id="profile_user" onClick={() => navitage(`/profile/`)}>
+                User
+              </div>
               <LogoutButton />
             </div>
-            <div id="profile_status" className="flex-col">
+            <div
+              id="profile_status"
+              className="flex-col"
+              onClick={() => navitage(`/profile/`)}
+            >
               <div id="profile_status_level" className="flex-row">
                 <div className="profile_status_label">Level</div>
                 <div

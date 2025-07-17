@@ -63,6 +63,11 @@
   color: rgb(210, 69, 69);
 }
 
+.show_password {
+  min-width: unset !important;
+  padding: 10px !important;
+}
+
 .setting_content button {
   padding: 10px 14px;
   border-radius: 12px;
