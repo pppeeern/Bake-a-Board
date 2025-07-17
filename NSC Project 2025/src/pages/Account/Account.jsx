@@ -57,7 +57,9 @@ function Account() {
       );
 
   return (
-    <div className="wrapper-m">
+    <div className="login-wrapper">
+      {" "}
+      {/* Changed from wrapper-m to login-wrapper */}
       {toast && (
         <LoginAlert
           message={toast.message}
@@ -65,7 +67,6 @@ function Account() {
           onClose={hideToast}
         />
       )}
-
       <div className="welcome_container">
         <div className="welcome_text_container">
           <h1>

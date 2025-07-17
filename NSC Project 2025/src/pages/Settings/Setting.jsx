@@ -1,6 +1,17 @@
+import { useAuth } from "../Account/AuthContext";
 import "./Setting.css";
 
 function Setting() {
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <div className="wrapper">
       <div className="setting_container">
@@ -8,23 +19,35 @@ function Setting() {
           <div className="setting_content_head dashed">Account</div>
           <div className="setting_content_body">
             <label htmlFor="username">Username</label>
-            <input type="text" placeholder="Username" value={""} />
+            <input
+              type="text"
+              placeholder="Username"
+              value={user?.displayName || ""}
+              readOnly
+            />
           </div>
           <div className="setting_content_body">
             <label htmlFor="email">Email</label>
-            <input type="text" placeholder="Email@email.com" value={""} />
+            <input
+              type="text"
+              placeholder="Email@email.com"
+              value={user?.email || ""}
+              readOnly
+            />
           </div>
           <div className="setting_content_body">
             <label htmlFor="curpas">Current Password</label>
-            <input type="text" placeholder="Current Password" value={""} />
+            <input type="password" placeholder="Current Password" value={""} />
           </div>
           <div className="setting_content_body">
             <label htmlFor="newpas">New Password</label>
-            <input type="text" placeholder="New Password" value={""} />
+            <input type="password" placeholder="New Password" value={""} />
           </div>
           <div className="setting_button_container">
             <button type="submit">Save Changes</button>
-            <button id="logout_button">Log out</button>
+            <button id="logout_button" onClick={handleLogout}>
+              Log out
+            </button>
             <button id="explode_button">Explode account</button>
           </div>
         </div>

@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "./authService";
 import { validateForm, handleAuthError, INITIAL_FORM_DATA } from "./authUtils";
+import { useAuth } from "./AuthContext";
 
 export const useAccountForm = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const showToast = (message, type = "success") => {
     setToast({ message, type });

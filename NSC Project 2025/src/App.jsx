@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import SideBar from "./components/sidebar/SideBar";
+import { AuthProvider, useAuth } from "./pages/Account/AuthContext";
 
 import Account from "./pages/Account/Account";
 
@@ -21,6 +22,37 @@ import { chapterData } from "./pages/Learn/data/chapterData";
 import "./MainLayout.css";
 import "./App.css";
 
+// Create a component that handles the protected layout
+function ProtectedLayout({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Account />;
+  }
+
+  return (
+    <section className="mainLayout">
+      <SideBar />
+      <div id="content">{children}</div>
+    </section>
+  );
+}
+
 function App() {
   const [chapter, setChapter] = useState(() => {
     const lastUnlocked = [...chapterData].reverse().find((c) => c.isUnlocked);
@@ -28,33 +60,93 @@ function App() {
   });
 
   return (
-    <Router>
-      <section className="mainLayout">
-        <SideBar />
-        <div id="content">
-          <Routes>
-            <Route path="/welcome/" element={<Account />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/welcome/" element={<Account />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedLayout>
+                <Learn chapter={chapter} />
+              </ProtectedLayout>
+            }
+          />
 
-            {/* Navigation */}
-            <Route path="/" element={<Learn chapter={chapter} />} />
-            <Route path="/breadex/" element={<Breadex />} />
-            <Route path="/bakery/" element={<Bakery />} />
-            <Route path="/profile/" element={<Profile />} />
-            <Route path="/settings/" element={<Settings />} />
+          <Route
+            path="/breadex/"
+            element={
+              <ProtectedLayout>
+                <Breadex />
+              </ProtectedLayout>
+            }
+          />
 
-            <Route path="/quiz/:chapterId/:lessonId" element={<Quiz />} />
-            <Route
-              path="/chapters/"
-              element={
+          <Route
+            path="/bakery/"
+            element={
+              <ProtectedLayout>
+                <Bakery />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/profile/"
+            element={
+              <ProtectedLayout>
+                <Profile />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/settings/"
+            element={
+              <ProtectedLayout>
+                <Settings />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/quiz/:chapterId/:lessonId"
+            element={
+              <ProtectedLayout>
+                <Quiz />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/chapters/"
+            element={
+              <ProtectedLayout>
                 <Chapters setChapter={setChapter} selectedChapter={chapter} />
-              }
-            />
-            <Route path="/breadex/i/:id" element={<BreadexInfo />} />
-            <Route path="/breadex/scanner" element={<BreadexScanner />} />
-          </Routes>
-        </div>
-      </section>
-    </Router>
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/breadex/i/:id"
+            element={
+              <ProtectedLayout>
+                <BreadexInfo />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/breadex/scanner"
+            element={
+              <ProtectedLayout>
+                <BreadexScanner />
+              </ProtectedLayout>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
