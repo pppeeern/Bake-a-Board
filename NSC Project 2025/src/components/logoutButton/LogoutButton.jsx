@@ -1,15 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../pages/Account/AuthContext";
 import "./LogoutButton.css";
 
 function LogoutButton() {
-  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      try {
+        await logout();
+      } catch (error) {
+        console.error("Logout failed:", error);
+        alert("Logout failed. Please try again.");
+      }
+    }
+  };
 
   return (
-    <button
-      className="logout_button"
-      onClick={() => navigate(`/welcome/`)}
-      title="Log out"
-    >
+    <button className="logout_button" onClick={handleLogout} title="Log out">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={"100%"}
