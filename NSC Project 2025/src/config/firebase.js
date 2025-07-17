@@ -30,5 +30,19 @@ const testConnection = async () => {
   }
 };
 
-//เอาไว้เทสเซิฟพิมพ์ testConnection(); ใน console เพิ่อดูการตอบกลับ
+const testUserData = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    console.log("User data connection successful!");
+    querySnapshot.forEach((doc) => {
+      console.log("User:", doc.id, " => ", doc.data());
+    });
+  } catch (error) {
+    console.error("User data connection failed: ", error);
+  }
+};
+
+// เอาไว้เทสเซิฟพิมพ์ testConnection(); ใน console เพิ่อดูการตอบกลับ
+// เอาไว้เทสเซิฟพิมพ์ testUserData(); ใน console เพิ่อดูการตอบกลับ user data
 window.testConnection = testConnection;
+window.testUserData = testUserData;

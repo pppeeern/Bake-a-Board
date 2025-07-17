@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import SideBar from "./components/sidebar/SideBar";
 import { AuthProvider, useAuth } from "./pages/Account/AuthContext";
+import UserDataProvider from "./services/UserDataContext";
 
 import Account from "./pages/Account/Account";
 
@@ -22,7 +23,6 @@ import { chapterData } from "./pages/Learn/data/chapterData";
 import "./MainLayout.css";
 import "./App.css";
 
-// Create a component that handles the protected layout
 function ProtectedLayout({ children }) {
   const { user, loading } = useAuth();
 
@@ -61,91 +61,93 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/welcome/" element={<Account />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedLayout>
-                <Learn chapter={chapter} />
-              </ProtectedLayout>
-            }
-          />
+      <UserDataProvider>
+        <Router>
+          <Routes>
+            <Route path="/welcome/" element={<Account />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedLayout>
+                  <Learn chapter={chapter} />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/breadex/"
-            element={
-              <ProtectedLayout>
-                <Breadex />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/breadex/"
+              element={
+                <ProtectedLayout>
+                  <Breadex />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/bakery/"
-            element={
-              <ProtectedLayout>
-                <Bakery />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/bakery/"
+              element={
+                <ProtectedLayout>
+                  <Bakery />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/profile/"
-            element={
-              <ProtectedLayout>
-                <Profile />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/profile/"
+              element={
+                <ProtectedLayout>
+                  <Profile />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/settings/"
-            element={
-              <ProtectedLayout>
-                <Settings />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/settings/"
+              element={
+                <ProtectedLayout>
+                  <Settings />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/quiz/:chapterId/:lessonId"
-            element={
-              <ProtectedLayout>
-                <Quiz />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/quiz/:chapterId/:lessonId"
+              element={
+                <ProtectedLayout>
+                  <Quiz />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/chapters/"
-            element={
-              <ProtectedLayout>
-                <Chapters setChapter={setChapter} selectedChapter={chapter} />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/chapters/"
+              element={
+                <ProtectedLayout>
+                  <Chapters setChapter={setChapter} selectedChapter={chapter} />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/breadex/i/:id"
-            element={
-              <ProtectedLayout>
-                <BreadexInfo />
-              </ProtectedLayout>
-            }
-          />
+            <Route
+              path="/breadex/i/:id"
+              element={
+                <ProtectedLayout>
+                  <BreadexInfo />
+                </ProtectedLayout>
+              }
+            />
 
-          <Route
-            path="/breadex/scanner"
-            element={
-              <ProtectedLayout>
-                <BreadexScanner />
-              </ProtectedLayout>
-            }
-          />
-        </Routes>
-      </Router>
+            <Route
+              path="/breadex/scanner"
+              element={
+                <ProtectedLayout>
+                  <BreadexScanner />
+                </ProtectedLayout>
+              }
+            />
+          </Routes>
+        </Router>
+      </UserDataProvider>
     </AuthProvider>
   );
 }
