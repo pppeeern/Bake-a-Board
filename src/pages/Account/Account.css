@@ -30,6 +30,9 @@
   min-width: 280px;
   /* background-color: antiquewhite; */
   justify-self: self-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .welcome_form_input {
   display: flex;
@@ -46,7 +49,7 @@
   padding: 12px;
   padding-left: 16px;
   border-radius: 16px;
-  border: 2px solid rgb(235, 235, 235);
+  border: 4px solid var(--active-color);
   transition: all ease 0.3s;
 }
 .welcome_form_input > input::placeholder {
@@ -54,50 +57,36 @@
 }
 .welcome_form_input > input:focus {
   padding-left: 18px;
-  border: 2px solid #540f5c;
+  border: 4px solid var(--primary);
 }
 .welcome_form_input > input:focus::placeholder {
   opacity: 80%;
 }
 
 .welcome_form_error {
-  color: red;
+  color: var(--danger);
   opacity: 80%;
   margin-top: 6px;
   padding-left: 10px;
   font-size: 0.9rem;
 }
 
-#welcome_form button {
-  width: 100%;
-  padding: 10px;
-  font-size: 1.1rem;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
 #welcome_form button > img {
   height: 1rem;
+  margin-right: 10px;
 }
 #welcome_form_submit {
   margin-top: 10px;
-  background-color: #540f5c;
-  color: white;
-}
-#welcome_form_submit:hover {
-  background-color: #4b0751;
 }
 
 .welcome_form_or {
+  color: var(--text-color-secondary);
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   padding: 14px 8px;
-  color: rgb(100, 100, 100);
 }
 .welcome_form_or .dashed {
   width: 100%;
@@ -106,11 +95,12 @@
 #welcome_form_switch {
   text-align: center;
   margin-top: 30px;
-  color: rgb(100, 100, 100);
+  color: var(--text-color-secondary);
 }
 #welcome_form_switch span {
+  font-size: 1.1rem;
   padding-left: 6px;
   text-decoration: underline;
   cursor: pointer;
-  color: #540f5c;
+  color: var(--primary);
 }

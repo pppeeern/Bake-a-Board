@@ -13,7 +13,9 @@ function Chapters({ setChapter, selectedChapter }) {
         </div>
         <div className="chapters_container_top_button" id="join_quiz">
           <input type="number" name="quiz_code" />
-          <button onClick={() => console.log("Join!")}>Join</button>
+          <button className="side" onClick={() => console.log("Join!")}>
+            Join
+          </button>
         </div>
       </div>
       <div id="chapters_card_container">

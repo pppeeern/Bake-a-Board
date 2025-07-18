@@ -76,54 +76,57 @@ function Account() {
           </h1>
         </div>
 
-        <div id="welcome_form">
-          <form onSubmit={handleSubmit}>
-            {welcomeFormRender.map((e) => (
-              <div key={e.id} className="welcome_form_input">
-                <label htmlFor={e.id}>{e.input}</label>
-                <input
-                  id={e.id}
-                  type={e.type}
-                  placeholder={e.input}
-                  value={e.value}
-                  onChange={handleInputChange}
-                />
-                {e.error && <div className="welcome_form_error">{e.error}</div>}
-              </div>
-            ))}
-
-            <button id="welcome_form_submit" type="submit" disabled={loading}>
-              {loading
-                ? isLogin
-                  ? "Logging in..."
-                  : "Registering..."
-                : isLogin
-                ? "Login"
-                : "Register"}
-            </button>
-
-            <div className="welcome_form_or">
-              <div className="dashed"></div>
-              <span>or</span>
-              <div className="dashed"></div>
+        <form id="welcome_form" onSubmit={handleSubmit}>
+          {welcomeFormRender.map((e) => (
+            <div key={e.id} className="welcome_form_input">
+              <label htmlFor={e.id}>{e.input}</label>
+              <input
+                id={e.id}
+                type={e.type}
+                placeholder={e.input}
+                value={e.value}
+                onChange={handleInputChange}
+              />
+              {e.error && <div className="welcome_form_error">{e.error}</div>}
             </div>
+          ))}
 
-            <button
-              id="welcome_form_google"
-              type="button"
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-            >
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" />
-              Sign in with Google
-            </button>
-          </form>
+          <button
+            className="primary"
+            id="welcome_form_submit"
+            type="submit"
+            disabled={loading}
+          >
+            {loading
+              ? isLogin
+                ? "Logging in..."
+                : "Registering..."
+              : isLogin
+              ? "Login"
+              : "Register"}
+          </button>
+
+          <div className="welcome_form_or">
+            <div className="dashed"></div>
+            <span>or</span>
+            <div className="dashed"></div>
+          </div>
+
+          <button
+            id="welcome_form_google"
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" />
+            Sign in with Google
+          </button>
 
           <p id="welcome_form_switch">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <span onClick={toggleMode}>{isLogin ? "Register" : "Login"}</span>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );
