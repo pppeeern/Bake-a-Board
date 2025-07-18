@@ -1,6 +1,11 @@
 import "./Choice.css";
 
-function Choice({ question, selectedAnswer, setSelectedAnswer }) {
+function Choice({
+  question,
+  selectedAnswer,
+  setSelectedAnswer,
+  showEachResult,
+}) {
   return (
     <div id="choice_container">
       <div id="choice_question_container">
@@ -18,6 +23,7 @@ function Choice({ question, selectedAnswer, setSelectedAnswer }) {
               if (selectedAnswer !== index) setSelectedAnswer(index);
               else setSelectedAnswer(null);
             }}
+            disabled={showEachResult}
           >
             <span>{option}</span>
           </button>

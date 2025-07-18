@@ -124,10 +124,10 @@ function Setting() {
           )}
           <div className="setting_button_container">
             <button type="submit">Save Changes</button>
-            <button id="logout_button" onClick={handleLogout}>
+            <button className="danger-secondary" onClick={handleLogout}>
               Log out
             </button>
-            <button id="explode_button">Explode account</button>
+            <button className="danger">Explode account</button>
           </div>
         </div>
         <div className="setting_content">
@@ -153,7 +153,7 @@ function Setting() {
             <label>Language</label>
             <select name="language" id="sel_lan">
               <option value="eng">English</option>
-              <option value="tha">Thai</option>
+              {/* <option value="tha">Thai</option> */}
             </select>
           </div>
         </div>

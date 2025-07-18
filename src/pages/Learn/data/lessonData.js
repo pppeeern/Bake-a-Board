@@ -4,7 +4,7 @@ export const lessonData = [
     name: "I saw a Spark",
     detail:
       "Learn the concept of electricity and basic atomic theory behind electric charge",
-    progress: { completed: 4, total: 4 },
+    progress: { completed: 3, total: 4 },
     isUnlocked: true,
   },
   {
@@ -12,7 +12,7 @@ export const lessonData = [
     name: "This World’s Run by Current",
     detail: "Learn the concept of current and how it flows",
     progress: { completed: 0, total: 4 },
-    isUnlocked: true,
+    isUnlocked: false,
   },
   {
     id: "chapter1/lesson3",

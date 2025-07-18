@@ -46,7 +46,7 @@ function Profile() {
                       id="profile_exp_value"
                       className="profile_detail_exp_value"
                     >
-                      {userData?.exp || 0} exp
+                      {userData?.exp || 0}
                     </div>
                     <div
                       id="profile_level_bar_value"

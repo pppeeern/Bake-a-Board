@@ -72,9 +72,16 @@ function Quiz() {
           <div id="quiz_each_result_detail">{question.explanation || ""}</div>
         </div>
         {currentQuestion < totalQuestions - 1 ? (
-          <button onClick={handleNext}>Next</button>
+          <button
+            onClick={handleNext}
+            className={isCorrect ? "success" : "danger"}
+          >
+            Next
+          </button>
         ) : (
-          <button onClick={handleComplete}>Complete</button>
+          <button onClick={handleComplete} className="success">
+            Complete
+          </button>
         )}
       </div>
     );
@@ -89,6 +96,7 @@ function Quiz() {
           question={question}
           selectedAnswer={selectedAnswer}
           setSelectedAnswer={setSelectedAnswer}
+          showEachResult={showEachResult}
         />
       </div>
 
@@ -102,7 +110,11 @@ function Quiz() {
             <span>/</span>
             <span id="quiz_total">{questions.length}</span>
           </div>
-          <button onClick={handleCheck} disabled={selectedAnswer === null}>
+          <button
+            onClick={handleCheck}
+            disabled={selectedAnswer === null}
+            className={`primary ${selectedAnswer === null ? "disable" : ""}`}
+          >
             Check
           </button>
         </div>

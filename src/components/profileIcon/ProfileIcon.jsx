@@ -53,7 +53,7 @@ function ProfileIcon() {
                     className="profile_status_exp_value"
                     id="profile_exp_value"
                   >
-                    {userData?.exp || 0} exp
+                    {userData?.exp || 0}
                   </div>
                   <div
                     className="profile_status_level_bar_value"
