@@ -9,15 +9,17 @@ export const chapterData = [
   },
   {
     id: "chapter2",
-    name: "Chapter 2",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    name: "And there are Physics",
+    detail:
+      "A great engineer doesn't just connect components — they understand the physics behind each one, calculate what's needed, and design with precision.",
     thumb: "/",
     isUnlocked: true,
   },
   {
     id: "chapter3",
-    name: "Chapter 3",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    name: "Signal Run the world",
+    detail:
+      "Power isn't everything—circuits need timing. Signals tell parts when to act, like a conductor leading a band. This chapter shows how signals make lights blink, buzzers buzz, and circuits come alive.",
     thumb: "/",
     isUnlocked: false,
   },
