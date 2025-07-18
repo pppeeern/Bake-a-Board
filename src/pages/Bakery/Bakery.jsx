@@ -28,6 +28,15 @@ function Bakery() {
     <div className="wrapper-m">
       <ProfileIcon />
       <div className="bakery_header">Bakery</div>
+      <div className="bakery_breadboard"></div>
+      <div className="bakery_mission_container">
+        <div className="bakery_mission_head">Mission</div>
+        <div className="bakery_mission_body">
+          <div>- Light the LED</div>
+          <div>- Use switch to control the LED</div>
+          <div>- 555 timer with the capacitor</div>
+        </div>
+      </div>
       <div className="bakery_baking_container">
         <div className="bakery_items_container">
           {isLoading ? (
