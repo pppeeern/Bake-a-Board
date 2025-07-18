@@ -13,7 +13,7 @@ export const chapterData = [
     detail:
       "A great engineer doesn't just connect components — they understand the physics behind each one, calculate what's needed, and design with precision.",
     thumb: "/",
-    isUnlocked: true,
+    isUnlocked: false,
   },
   {
     id: "chapter3",
