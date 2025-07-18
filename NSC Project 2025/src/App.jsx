@@ -22,6 +22,7 @@ import { chapterData } from "./pages/Learn/data/chapterData";
 
 import "./MainLayout.css";
 import "./App.css";
+import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 
 function ProtectedLayout({ children }) {
   const { user, loading } = useAuth();
@@ -33,10 +34,11 @@ function ProtectedLayout({ children }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          width: "100%",
           height: "100vh",
         }}
       >
-        Loading...
+        <LoadingSpinner />
       </div>
     );
   }

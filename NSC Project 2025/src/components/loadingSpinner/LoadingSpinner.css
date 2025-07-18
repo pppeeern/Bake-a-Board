@@ -1,11 +1,23 @@
-#breadex_scan_container {
-  position: absolute;
-  bottom: 20px;
-  right: 30px;
+.loading-container {
+  grid-column: span 5;
+  display: flex;
+  justify-content: center;
 }
-#breadex_scan_button {
-  position: sticky;
-  width: 75px;
-  aspect-ratio: 1;
-  border-radius: 12px;
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--default);
+  border-top: 4px solid var(--orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-top: 50px;
+  margin-bottom: 1rem;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

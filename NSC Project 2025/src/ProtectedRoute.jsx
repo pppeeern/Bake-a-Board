@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./pages/Account/AuthContext";
+import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -8,16 +9,15 @@ const ProtectedRoute = ({ children }) => {
   if (loading) {
     return (
       <div
-        className="loading-container"
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
           width: "100%",
+          height: "100vh",
         }}
       >
-        Loading...
+        <LoadingSpinner />
       </div>
     );
   }
