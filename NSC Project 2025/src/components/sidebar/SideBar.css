@@ -9,11 +9,11 @@
   flex-direction: column;
   justify-content: space-between;
 
-  border-right: 2px solid transparent;
+  border-right: 4px solid transparent;
   border-image: repeating-linear-gradient(
     to bottom,
-    var(--text-color-secondary) 0px,
-    var(--text-color-secondary) 12px,
+    var(--active-color-secondary) 0px,
+    var(--active-color-secondary) 12px,
     transparent 12px,
     transparent 36px
   );
@@ -64,13 +64,13 @@ aside {
   padding: 12px var(--pr); /* items box size */
   border-radius: 8px;
   line-height: 0%;
-  outline: 3px dashed transparent;
+  outline: 4px dashed transparent;
   transition: all ease 0.15s;
   /* border: 2px soli; */
 }
 .navItems.active {
   background-color: var(--active-color);
-  outline: 3px solid var(--active-color-secondary);
+  outline: 4px solid var(--active-color-secondary);
   color: var(--text-color);
 }
 .navItems:not(.active):hover {

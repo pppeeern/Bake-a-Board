@@ -57,7 +57,7 @@ function Breadex() {
             </div>
           ))}
         </div>
-        <button id="breadex_quiz">Quiz</button>
+        {/* <button id="breadex_quiz">Quiz</button> */}
         <div id="breadex_item_container">
           {isLoading ? (
             <LoadingSpinner />

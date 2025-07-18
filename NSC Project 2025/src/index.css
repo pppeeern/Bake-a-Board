@@ -6,7 +6,9 @@
   font-weight: 400;
 
   --orange: #e97c00;
-  --default: black;
+  --orange-dark: #f2600b;
+  --default: #1d1d1d;
+  --default-alt: #fff8eed3;
   --text-color: rgb(252, 252, 252);
   --text-color-secondary: #c6c1bb;
   --bg-color: #262624;
@@ -46,14 +48,16 @@ button {
   font-weight: 500;
   background-color: #1a1a1a;
   transition: border-color 0.25s; */
-  background-color: rgb(245, 245, 245);
-  border: 1px solid rgb(235, 235, 235);
+  background-color: var(--active-color);
+  border: 1px solid transparent;
+  /* border: 1px solid var(--active-color-secondary); */
+  color: inherit;
   font-family: inherit;
   cursor: pointer;
   transition: background-color ease 0.15s, box-shadow ease 0.15s;
 }
 button:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: var(--hover-color-default);
   box-shadow: 0px 2px 10px -3px var(--shadow-color);
 }
 button:focus,
@@ -77,7 +81,8 @@ input {
     --active-color: #eedac861;
     --active-color-secondary: #e9bda09b;
     --default: white;
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --default-alt: #fff8eed3;
+    --shadow-color: rgba(30, 10, 2, 0.05);
 
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -89,9 +94,10 @@ input {
     --text-color-secondary: #c6c1bb;
     --bg-color: #262624;
     --hover-color-default: #4b484562;
-    --active-color: #6e5a4c61;
-    --active-color-secondary: rgba(138, 92, 62, 0.1);
+    --active-color: #6e5a4c44;
+    --active-color-secondary: rgba(130, 90, 60, 0.4);
     --default: #1d1d1d;
+    --default-alt: #fff8eed3;
     --shadow-color: rgba(100, 100, 100, 0.1);
 
     color: var(--text-color);
@@ -109,7 +115,8 @@ body.light {
   --active-color: #eedac861;
   --active-color-secondary: #e9bda09b;
   --default: white;
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --default-alt: #fff8eed3;
+  --shadow-color: rgba(30, 10, 2, 0.05);
 
   color: var(--text-color);
   background-color: var(--bg-color);
@@ -119,9 +126,10 @@ body.dark {
   --text-color-secondary: #c6c1bb;
   --bg-color: #262624;
   --hover-color-default: #4b484562;
-  --active-color: #6e5a4c61;
-  --active-color-secondary: rgba(138, 92, 62, 0.1);
+  --active-color: #6e5a4c44;
+  --active-color-secondary: rgba(130, 90, 60, 0.4);
   --default: #1d1d1d;
+  --default-alt: #fff8eed3;
   --shadow-color: rgba(100, 100, 100, 0.1);
 
   color: var(--text-color);
@@ -129,7 +137,7 @@ body.dark {
 }
 
 .dashed {
-  border-bottom: 2px dashed rgb(160, 160, 160);
+  border-bottom: 3px dashed rgb(160, 160, 160);
   padding-bottom: 5px;
   margin-bottom: 5px;
 }

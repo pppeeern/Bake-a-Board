@@ -23,7 +23,7 @@ function ChaptersCard({ chapter, selectedChapter, onSelect }) {
     >
       <div className="chapters_card_title">{name}</div>
       <div className="chapters_card_thumb">
-        <img src={thumb} alt={name} />
+        {/* <img src={thumb} alt={name} /> */}
       </div>
       <div className="chapters_card_detail">{detail}</div>
     </div>

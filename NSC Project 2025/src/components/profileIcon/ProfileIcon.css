@@ -109,7 +109,8 @@
   align-items: center;
   background-color: rgb(245, 245, 245);
   outline: 2px solid rgb(235, 235, 235);
-  color: green;
+  color: var(--orange);
+  font-weight: 500;
   height: 1rem;
   border-radius: 100px;
   line-height: 1;

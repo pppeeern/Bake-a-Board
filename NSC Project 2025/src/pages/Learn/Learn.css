@@ -10,16 +10,19 @@
 #chapter_button {
   justify-self: center;
   display: block;
-  background-color: rgb(254, 254, 254);
-  border: 2px solid rgb(235, 235, 235);
+  color: white;
+  background-color: var(--orange);
+  border: 4px dashed transparent;
+  /* border: 2px solid var(--active-color); */
   padding: 10px 30px;
   border-radius: 16px;
   width: 500px;
   text-align: center;
-  transition: all ease 0.15s;
+  transition: all ease 0.3s;
 }
 #chapter_button:hover {
-  box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--active-color);
+  box-shadow: 0px 2px 16px 6px var(--shadow-color);
 }
 
 #chapter_label {
@@ -37,7 +40,7 @@
 }
 #lessons_container > * {
   position: relative;
-  margin-top: -10px;
+  /* margin-top: -10px; */
 }
 #lessons_container > :nth-child(4n + 1) {
   align-self: flex-start;

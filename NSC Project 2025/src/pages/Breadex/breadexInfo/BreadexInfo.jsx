@@ -39,7 +39,7 @@ function BreadexInfo() {
         <div id="info_text_container" className="flex-col">
           <div className="flex-row" style={{ gap: "10px" }}>
             <div className="info_text_name">{itemData.englishName}</div>
-            <div>...</div>
+            {/* <div>...</div> */}
           </div>
           <div className="dashed"></div>
           <div>{itemData.description || "No description available"}</div>
