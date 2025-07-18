@@ -69,17 +69,7 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
-  background-color: var(--orange);
-  color: var(--bg-color);
   transition: background-color ease 0.15s;
-}
-.lesson_hover_button:hover {
-  background-color: var(--svg-color);
-}
-.lesson_card.locked .lesson_hover_button {
-  cursor: default;
-  background-color: initial;
-  color: var(--text-color-secondary);
 }
 
 #lesson_progress {

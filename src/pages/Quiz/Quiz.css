@@ -19,16 +19,6 @@
   transition: all ease 0.15s;
 }
 
-#quiz_navigator > button,
-#quiz_each_result > button {
-  text-align: center;
-  font-size: 1.2rem;
-  padding: 5px 20px;
-  border-radius: 10px;
-  min-width: 120px;
-  transition: all ease 0.15s;
-}
-
 .quiz_progress_container {
   font-size: 1.4rem;
   display: flex;
@@ -38,4 +28,17 @@
 #quiz_each_result_status {
   font-weight: 500;
   font-size: 1.4rem;
+}
+
+.quiz_complete_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.quiz_complete_text {
+  font-size: 3.2rem;
+  display: flex;
+  gap: 14px;
 }

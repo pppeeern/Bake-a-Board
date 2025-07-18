@@ -17,7 +17,7 @@ function LogoutButton() {
   };
 
   return (
-    <button className="logout_button" onClick={handleLogout} title="Log out">
+    <div className="logout_button" onClick={handleLogout} title="Log out">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={"100%"}
@@ -36,7 +36,7 @@ function LogoutButton() {
           transform="translate(-158.39 -120)"
         />
       </svg>
-    </button>
+    </div>
   );
 }
 

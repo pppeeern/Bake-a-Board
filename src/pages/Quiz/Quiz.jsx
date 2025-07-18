@@ -18,6 +18,7 @@ function Quiz() {
   const [showEachResult, setShowEachResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const quiz = quizData[quizSelector];
@@ -36,6 +37,7 @@ function Quiz() {
   const handleCheck = () => {
     if (selectedAnswer === null) return;
     const correct = selectedAnswer === question.answer;
+    if (correct) setScore(score + 1);
     setIsCorrect(correct);
     setShowEachResult(true);
   };
@@ -62,6 +64,24 @@ function Quiz() {
     });
   };
 
+  if (isComplete) {
+    return (
+      <div className="wrapper-m">
+        <div className="quiz_complete_container">
+          <div>Your score:</div>
+          <div className="quiz_complete_text">
+            <span id="quiz_progress">{score}</span>
+            <span>/</span>
+            <span id="quiz_total">{questions.length}</span>
+          </div>
+          <button className="primary" onClick={handleComplete}>
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const renderEachResult = () => {
     return (
       <div id="quiz_each_result" className="flex-row">
@@ -79,7 +99,7 @@ function Quiz() {
             Next
           </button>
         ) : (
-          <button onClick={handleComplete} className="success">
+          <button onClick={handleNext} className="success">
             Complete
           </button>
         )}

@@ -55,7 +55,12 @@ function LessonCard({ lesson }) {
           </span>
         </div>
         <div className="lesson_hover_detail">{detail}</div>
-        <button className="lesson_hover_button" onClick={handleClick}>
+        <button
+          className={`lesson_hover_button ${
+            isUnlocked ? "primary" : "disable"
+          }`}
+          onClick={handleClick}
+        >
           <span>{isUnlocked ? "Start" : "Locked"}</span>
         </button>
       </div>
