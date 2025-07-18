@@ -2,14 +2,14 @@
   position: absolute;
   top: 30px;
   right: 40px;
-  transition: all ease 0.15s;
+  transition: all ease 0.2s;
   cursor: pointer;
 }
 
 #close_button ellipse {
-  fill: rgb(150, 150, 150);
+  fill: var(--orange);
   transition: all ease 0.15s;
 }
 #close_button:hover ellipse {
-  fill: rgb(120, 120, 120);
+  fill: var(--svg-color);
 }

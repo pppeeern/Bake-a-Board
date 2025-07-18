@@ -1,13 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Mali:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap");
 
 :root {
-  font-family: "Winky Sans", "Itim";
+  font-family: "Winky Sans", "Itim", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --orange: #e97c00;
+  --default: black;
+  --text-color: rgb(252, 252, 252);
+  --text-color-secondary: #c6c1bb;
+  --bg-color: #262624;
+  --svg-color: #c86442;
+  --hover-color-default: #4b484562;
+  --active-color: #6e5a4c61;
+  --active-color-secondary: rgba(138, 92, 62, 0.608);
+  --shadow-color: rgba(0, 0, 0, 0.1);
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,8 +28,14 @@
 }
 
 a {
+  color: inherit;
   text-decoration: inherit;
   cursor: pointer;
+  /* color: inherit; */
+}
+
+svg {
+  fill: var(--svg-color);
 }
 
 button {
@@ -41,7 +54,7 @@ button {
 }
 button:hover {
   background-color: rgb(235, 235, 235);
-  box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 10px -3px var(--shadow-color);
 }
 button:focus,
 button:focus-visible {
@@ -57,22 +70,62 @@ input {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #fffefe;
-  }
-  a {
-    color: black;
-  }
-  /* button {
-    background-color: #f9f9f9;
-  } */
-}
+    --text-color: #482f18;
+    --text-color-secondary: rgb(100, 100, 100);
+    --bg-color: #fdfbf8;
+    --hover-color-default: #e9e3db62;
+    --active-color: #eedac861;
+    --active-color-secondary: #e9bda09b;
+    --default: white;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 
-.bake-a-board {
-  font-family: "Atma";
-  font-weight: 600;
-  font-size: 1.8rem;
-  line-height: 28px;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: rgb(245, 245, 245);
+    --text-color-secondary: #c6c1bb;
+    --bg-color: #262624;
+    --hover-color-default: #4b484562;
+    --active-color: #6e5a4c61;
+    --active-color-secondary: rgba(138, 92, 62, 0.1);
+    --default: #1d1d1d;
+    --shadow-color: rgba(100, 100, 100, 0.1);
+
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  }
+}
+body {
+  transition: background-color ease 0.2s, color ease 0.2s;
+}
+body.light {
+  --text-color: #482f18;
+  --text-color-secondary: rgb(100, 100, 100);
+  --bg-color: #fdfbf8;
+  --hover-color-default: #e9e3db62;
+  --active-color: #eedac861;
+  --active-color-secondary: #e9bda09b;
+  --default: white;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+body.dark {
+  --text-color: rgb(245, 245, 245);
+  --text-color-secondary: #c6c1bb;
+  --bg-color: #262624;
+  --hover-color-default: #4b484562;
+  --active-color: #6e5a4c61;
+  --active-color-secondary: rgba(138, 92, 62, 0.1);
+  --default: #1d1d1d;
+  --shadow-color: rgba(100, 100, 100, 0.1);
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 .dashed {

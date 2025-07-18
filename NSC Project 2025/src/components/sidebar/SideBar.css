@@ -8,13 +8,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 1.1rem;
 
   border-right: 2px solid transparent;
   border-image: repeating-linear-gradient(
     to bottom,
-    black 0px,
-    black 12px,
+    var(--text-color-secondary) 0px,
+    var(--text-color-secondary) 12px,
     transparent 12px,
     transparent 36px
   );
@@ -28,7 +27,20 @@
   display: flex;
   gap: 12px;
   align-items: center;
+}
+.bake-a-board {
   cursor: pointer;
+  font-family: "Atma";
+  color: var(--orange);
+  font-weight: 900;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-size: 2.6rem;
+  line-height: 40px;
+  transition: all ease 0.2s;
+}
+.bake-a-board:hover {
+  font-size: 2.7rem;
 }
 
 aside {
@@ -46,16 +58,22 @@ aside {
   gap: 14px;
   overflow: hidden;
   text-transform: uppercase;
-  fill: currentColor;
-  color: rgb(100, 100, 100);
-  font-weight: 500;
+  color: var(--text-color-secondary);
+  font-size: 1.2rem;
+  font-weight: 600;
   padding: 12px var(--pr); /* items box size */
   border-radius: 8px;
   line-height: 0%;
-  transition: all ease 0.2s;
+  outline: 3px dashed transparent;
+  transition: all ease 0.15s;
+  /* border: 2px soli; */
 }
-.navItems.active,
-.navItems:hover {
-  background-color: rgb(245, 245, 245);
-  color: #540f5c;
+.navItems.active {
+  background-color: var(--active-color);
+  outline: 3px solid var(--active-color-secondary);
+  color: var(--text-color);
+}
+.navItems:not(.active):hover {
+  background-color: var(--hover-color-default);
+  /* color: #540f5c; */
 }

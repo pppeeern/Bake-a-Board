@@ -11,10 +11,9 @@
   width: 60px;
   padding: 0.6em 1.2em;
   aspect-ratio: 1;
-  /* top: 10px; */
-  /* margin-left: auto; */
   outline: none;
-  border: 2px solid rgb(235, 235, 235);
+  background-color: var(--active-color);
+  border: 2px solid var(--active-color-secondary);
   z-index: 99;
   transition: all ease 0.15s;
 }
@@ -29,8 +28,8 @@
 }
 
 #profile_level_value {
-  background-color: rgb(171, 221, 171);
-  outline: 2px solid rgb(235, 235, 235);
+  background-color: var(--orange);
+  outline: 2px solid var(--active-color-secondary);
   width: 30px;
   aspect-ratio: 1;
   border-radius: 100%;
@@ -42,7 +41,7 @@
   width: 24px;
   font-size: small;
   position: relative;
-  transform: translate(95%, 95%);
+  transform: translate(95%, 110%);
 }
 
 #profile_box {
@@ -51,8 +50,8 @@
   opacity: 0;
   transition: all ease 0.15s;
   width: 220px;
-  background-color: rgb(254, 254, 254);
-  box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
+  background-color: var(--default);
+  box-shadow: 0px 2px 10px -3px var(--shadow-color);
   position: absolute;
   right: 0;
   transform: translateY(16%);
@@ -80,7 +79,7 @@
   cursor: pointer;
 }
 #profile_logout:hover {
-  box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 10px -3px var(--shadow-color);
 }
 
 #profile_status {
@@ -92,7 +91,7 @@
   text-align: left;
   text-transform: uppercase;
   margin-right: 10px;
-  color: rgb(100, 100, 100);
+  color: var(--text-color-secondary);
 }
 .profile_status_value {
   width: 70%;

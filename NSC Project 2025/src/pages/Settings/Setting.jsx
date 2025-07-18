@@ -1,9 +1,42 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../Account/AuthContext";
 import "./Setting.css";
 
 function Setting() {
   const { user, logout } = useAuth();
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "system";
+  });
+  useEffect(() => {
+    const body = document.body;
+
+    const applyTheme = (theme) => {
+      body.classList.remove("light", "dark");
+      if (theme === "light" || theme === "dark") {
+        body.classList.add(theme);
+      } else if (theme === "system") {
+        // Use matchMedia to check system preference
+        const isDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        body.classList.add(isDark ? "dark" : "light");
+      }
+    };
+
+    applyTheme(theme);
+
+    if (theme === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const listener = (e) => {
+        body.classList.remove("light", "dark");
+        body.classList.add(e.matches ? "dark" : "light");
+      };
+      mediaQuery.addEventListener("change", listener);
+
+      return () => mediaQuery.removeEventListener("change", listener);
+    }
+  }, [theme]);
 
   const handleLogout = async () => {
     try {
@@ -101,7 +134,16 @@ function Setting() {
           <div className="setting_content_head dashed">Preferences</div>
           <div className="setting_content_body">
             <label>Appearance</label>
-            <select name="appearance" id="sel_apr">
+            <select
+              name="appearance"
+              id="sel_apr"
+              value={theme}
+              onChange={(e) => {
+                const selectedTheme = e.target.value;
+                setTheme(selectedTheme);
+                localStorage.setItem("theme", selectedTheme);
+              }}
+            >
               <option value="system">System Default</option>
               <option value="light">Light</option>
               <option value="dark">Dark</option>
