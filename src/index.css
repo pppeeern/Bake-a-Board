@@ -9,6 +9,7 @@
   --dark: #482f18;
   --orange: #e97c00;
   --orange-dark: #f2600b;
+  --primary: #5b3885;
   --success: #3a855c;
   --danger: #e90611;
   --default: #1d1d1d;
@@ -47,9 +48,12 @@ svg {
 }
 
 button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 1.2rem;
-  padding: 5px 20px;
+  padding: 10px 20px;
   border-radius: 10px;
   min-width: 120px;
   background-color: var(--button-color);
@@ -76,7 +80,7 @@ button.disable {
 }
 button.primary {
   color: var(--light);
-  background-color: #4b3468;
+  background-color: var(--primary);
 }
 button.success {
   color: var(--light);
@@ -89,6 +93,10 @@ button.danger {
 button.danger-secondary {
   color: var(--danger);
   background-color: var(--button-color);
+}
+button.side {
+  min-width: fit-content;
+  border-radius: 0;
 }
 
 input,
@@ -174,7 +182,7 @@ body.dark {
 }
 
 .dashed {
-  border-bottom: 3px dashed rgb(160, 160, 160);
+  border-bottom: 3px dashed var(--text-color-secondary);
   padding-bottom: 5px;
   margin-bottom: 5px;
 }
