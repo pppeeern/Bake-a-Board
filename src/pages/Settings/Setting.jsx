@@ -1,5 +1,14 @@
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../Account/AuthContext";
+import {
+  updateProfile,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  deleteUser,
+} from "firebase/auth";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
 import "./Setting.css";
 
 function Setting() {
@@ -39,6 +48,10 @@ function Setting() {
   }, [theme]);
 
   const handleLogout = async () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+
+    if (!confirmLogout) return;
+
     try {
       await logout();
     } catch (error) {
@@ -47,20 +60,132 @@ function Setting() {
   };
 
   const curPasRef = useRef(null);
+  const newPasRef = useRef(null);
+  const conPasRef = useRef(null);
+
   const handleShowPass = () => {
     const input = curPasRef.current;
     if (input.type === "password") input.type = "text";
     else input.type = "password";
   };
 
-  const [curPas, setCurPas] = useState({});
+  const handleShowNewPass = () => {
+    const input = newPasRef.current;
+    if (input.type === "password") input.type = "text";
+    else input.type = "password";
+  };
+
+  const handleShowConPass = () => {
+    const input = conPasRef.current;
+    if (input.type === "password") input.type = "text";
+    else input.type = "password";
+  };
+
+  const [curPas, setCurPas] = useState("");
+  const [newPas, setNewPas] = useState("");
+  const [conPas, setConPas] = useState("");
   const [changePas, setChangePas] = useState(false);
+  const [displayName, setDisplayName] = useState(user?.displayName || "");
+  const [isEditingName, setIsEditingName] = useState(false);
+
+  // Check if user signed in with Google
+  const isGoogleUser = user?.providerData?.some(
+    (provider) => provider.providerId === "google.com"
+  );
+
   const handleChangePass = () => {
     if (curPas.trim()) {
-      // if (input_password === current_password)
       setChangePas(true);
     } else {
       alert("Enter your current password first!");
+    }
+  };
+
+  const handleSaveUsername = async () => {
+    if (!user) return;
+
+    try {
+      await updateProfile(user, { displayName });
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, { displayName });
+      setIsEditingName(false);
+      alert("Username updated successfully!");
+    } catch (error) {
+      console.error("Failed to update username:", error);
+      alert("Failed to update username: " + error.message);
+    }
+  };
+
+  const handleSavePassword = async () => {
+    if (!user) return;
+
+    if (newPas !== conPas) {
+      alert("New passwords don't match!");
+      return;
+    }
+    if (newPas.length < 6) {
+      alert("New password must be at least 6 characters!");
+      return;
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, curPas);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPas);
+
+      setCurPas("");
+      setNewPas("");
+      setConPas("");
+      setChangePas(false);
+      alert("Password changed successfully!");
+    } catch (error) {
+      console.error("Password change failed:", error);
+      alert("Password change failed: " + error.message);
+    }
+  };
+
+  const handleExplodeAccount = async () => {
+    if (!user) return;
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to explode your account? This action cannot be undone."
+    );
+
+    if (!confirmDelete) return;
+
+    // For Google users, just confirm deletion
+    if (isGoogleUser) {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        await deleteDoc(userRef);
+        await deleteUser(user);
+        alert("Account exploded successfully!");
+      } catch (error) {
+        console.error("Account explosion failed:", error);
+        alert("Account explosion failed: " + error.message);
+      }
+      return;
+    }
+
+    // For email users, require password
+    const password = window.prompt(
+      "Enter your current password to confirm account deletion:"
+    );
+
+    if (!password) return;
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+
+      const userRef = doc(db, "users", user.uid);
+      await deleteDoc(userRef);
+
+      await deleteUser(user);
+      alert("Account exploded successfully!");
+    } catch (error) {
+      console.error("Account explosion failed:", error);
+      alert("Account explosion failed: " + error.message);
     }
   };
 
@@ -74,9 +199,31 @@ function Setting() {
             <input
               type="text"
               placeholder="Username"
-              value={user?.displayName || ""}
-              readOnly
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              onClick={() => setIsEditingName(true)}
+              readOnly={!isEditingName}
             />
+            {isEditingName && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  marginTop: "10px",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <button
+                  onClick={() => {
+                    setIsEditingName(false);
+                    setDisplayName(user?.displayName || "");
+                  }}
+                >
+                  Cancel
+                </button>
+                <button onClick={handleSaveUsername}>Save</button>
+              </div>
+            )}
           </div>
           <div className="setting_content_body">
             <label htmlFor="email">Email</label>
@@ -87,47 +234,106 @@ function Setting() {
               readOnly
             />
           </div>
-          <div className="setting_content_body">
-            <label htmlFor="curpas">Current Password</label>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <input
-                id="curPas"
-                type="password"
-                placeholder="Current Password"
-                // value={""}
-                onChange={(e) => setCurPas(e.target.value)}
-                ref={curPasRef}
-              />
-              <input
-                type="checkbox"
-                className="show_password"
-                onClick={handleShowPass}
-              />
-              <button onClick={handleChangePass}>Change</button>
-            </div>
-          </div>
-          {changePas && (
+
+          {/* Only show password section for non-Google users */}
+          {!isGoogleUser && (
             <>
               <div className="setting_content_body">
-                <label htmlFor="newpas">New Password</label>
-                <input type="password" placeholder="New Password" value={""} />
+                <label htmlFor="curpas">Current Password</label>
+                <div style={{ display: "flex", gap: "20px" }}>
+                  <input
+                    id="curPas"
+                    type="password"
+                    placeholder="Current Password"
+                    value={curPas}
+                    onChange={(e) => setCurPas(e.target.value)}
+                    ref={curPasRef}
+                  />
+                  <input
+                    type="checkbox"
+                    className="show_password"
+                    onClick={handleShowPass}
+                  />
+                  <button onClick={handleChangePass}>Change</button>
+                </div>
               </div>
-              <div className="setting_content_body">
-                <label htmlFor="conpas">Confirm Password</label>
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={""}
-                />
-              </div>
+
+              {changePas && (
+                <>
+                  <div className="setting_content_body">
+                    <label htmlFor="newpas">New Password</label>
+                    <div style={{ display: "flex", gap: "20px" }}>
+                      <input
+                        type="password"
+                        placeholder="New Password (min 6 characters)"
+                        value={newPas}
+                        onChange={(e) => setNewPas(e.target.value)}
+                        ref={newPasRef}
+                      />
+                      <input
+                        type="checkbox"
+                        className="show_password"
+                        onClick={handleShowNewPass}
+                      />
+                    </div>
+                  </div>
+                  <div className="setting_content_body">
+                    <label htmlFor="conpas">Confirm Password</label>
+                    <div style={{ display: "flex", gap: "20px" }}>
+                      <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={conPas}
+                        onChange={(e) => setConPas(e.target.value)}
+                        ref={conPasRef}
+                      />
+                      <input
+                        type="checkbox"
+                        className="show_password"
+                        onClick={handleShowConPass}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      marginTop: "10px",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        setChangePas(false);
+                        setCurPas("");
+                        setNewPas("");
+                        setConPas("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button onClick={handleSavePassword}>Save Password</button>
+                  </div>
+                </>
+              )}
             </>
           )}
+
+          {isGoogleUser && (
+            <div className="setting_content_body">
+              <p style={{ color: "#666", fontStyle: "italic" }}>
+                Password changes not available for Google accounts
+              </p>
+            </div>
+          )}
+
           <div className="setting_button_container">
-            <button type="submit">Save Changes</button>
             <button className="danger-secondary" onClick={handleLogout}>
               Log out
             </button>
-            <button className="danger">Explode account</button>
+            <button className="danger" onClick={handleExplodeAccount}>
+              Explode account
+            </button>
           </div>
         </div>
         <div className="setting_content">
