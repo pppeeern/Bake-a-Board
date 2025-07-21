@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import { roboflowService } from "../../../services/roboflowService";
 import "./BreadexScanner.css";
+import CloseButton from "../../../components/closeButton/CloseButton";
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 
 function BreadexScanner() {
   const [inputImage, setInputImage] = useState("");
@@ -101,15 +103,17 @@ function BreadexScanner() {
   };
 
   return (
-    <div className="breadex-scanner">
+    <div className="wrapper-m">
+      <CloseButton />
       <canvas ref={canvasRef} className="hidden-canvas" />
 
-      <div className="scanner-header">
-        <h1>Breadex Scanner</h1>
-        <p>Scan and analyze breadboard components using AI</p>
+      <div className="scanner_head">
+        <h1>Breadex</h1>
+        <span>Scanner</span>
+        {/* <p>Scan and analyze breadboard components using AI</p> */}
       </div>
 
-      <div className="main-content">
+      <div className="scanner_body">
         <div className="left-section">
           {!inputImage && (
             <div className="upload-card">
@@ -147,12 +151,14 @@ function BreadexScanner() {
                   <button
                     onClick={analyzeImage}
                     disabled={loading}
-                    className="analyze-button"
+                    className={`primary analyze-button ${
+                      loading ? "disabled" : ""
+                    }`}
                   >
-                    {loading ? "Analyzing..." : "🔍 Analyze Components"}
+                    {loading ? "Analyzing..." : "Scan"}
                   </button>
-                  <button onClick={resetScanner} className="reset-button">
-                    🔄 Reset
+                  <button onClick={resetScanner} className="danger">
+                    Change
                   </button>
                 </div>
               )}
@@ -177,12 +183,7 @@ function BreadexScanner() {
         </div>
 
         <div className="right-section">
-          {loading && (
-            <div className="loading-card">
-              <div className="loading-spinner"></div>
-              <p>Analyzing your breadboard components...</p>
-            </div>
-          )}
+          {loading && <LoadingSpinner />}
 
           {error && (
             <div className="error-card">

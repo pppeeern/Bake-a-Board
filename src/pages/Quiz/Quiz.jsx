@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import "./Quiz.css";
 import CloseButton from "../../components/closeButton/CloseButton";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+
 import Choice from "./quizzes/choice/Choice";
+import Match from "./quizzes/match/Match";
 
 import { quizData } from "../Learn/data/quizData";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +22,7 @@ function Quiz() {
   const [isComplete, setIsComplete] = useState(false);
   const [score, setScore] = useState(0);
 
+  // get lesson's quiz data
   useEffect(() => {
     const quiz = quizData[quizSelector];
     if (quiz) {
@@ -33,11 +36,16 @@ function Quiz() {
 
   const totalQuestions = questions.length;
   const question = questions[currentQuestion];
+  const isMatchType = question.type === "match";
+
+  const plusScore = () => {
+    setScore(score + 1);
+  };
 
   const handleCheck = () => {
     if (selectedAnswer === null) return;
     const correct = selectedAnswer === question.answer;
-    if (correct) setScore(score + 1);
+    if (correct) plusScore();
     setIsCorrect(correct);
     setShowEachResult(true);
   };
@@ -64,9 +72,77 @@ function Quiz() {
     });
   };
 
-  if (isComplete) {
+  const renderQuestion = () => {
+    switch (question.type) {
+      case "choice":
+        return (
+          <Choice
+            question={question}
+            selectedAnswer={selectedAnswer}
+            setSelectedAnswer={setSelectedAnswer}
+            showEachResult={showEachResult}
+          />
+        );
+      case "match":
+        return (
+          <Match
+            question={question}
+            setSelectedAnswer={setSelectedAnswer}
+            plusScore={plusScore}
+          />
+        );
+      default:
+        return <div>Unknown question type</div>;
+    }
+  };
+
+  const renderNavigator = () => {
     return (
-      <div className="wrapper-m">
+      <>
+        <div id="quiz_navigator" className="flex-row">
+          <div className="quiz_progress_container">
+            <span id="quiz_progress">{currentQuestion + 1}</span>
+            <span>/</span>
+            <span id="quiz_total">{questions.length}</span>
+          </div>
+          <button
+            onClick={isMatchType ? handleNext : handleCheck}
+            disabled={selectedAnswer === null}
+            className={`primary ${selectedAnswer === null ? "disable" : ""}`}
+          >
+            {isMatchType ? "Next" : "Check"}
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  const renderEachResult = () => {
+    // setSelectedAnswer(null);
+    return (
+      <>
+        <div id="quiz_each_result" className="flex-row">
+          <div className="flex-column">
+            <div id="quiz_each_result_status">
+              {isCorrect ? "Correct!" : "Incorrect"}
+            </div>
+            <div id="quiz_each_result_detail">{question.explanation || ""}</div>
+          </div>
+          <button
+            onClick={handleNext}
+            className={isCorrect ? "success" : "danger"}
+          >
+            Next
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="wrapper-m">
+      <CloseButton />
+      {isComplete ? (
         <div className="quiz_complete_container">
           <div>Your score:</div>
           <div className="quiz_complete_text">
@@ -78,66 +154,11 @@ function Quiz() {
             Back
           </button>
         </div>
-      </div>
-    );
-  }
-
-  const renderEachResult = () => {
-    return (
-      <div id="quiz_each_result" className="flex-row">
-        <div className="flex-column">
-          <div id="quiz_each_result_status">
-            {isCorrect ? "Correct!" : "Incorrect"}
-          </div>
-          <div id="quiz_each_result_detail">{question.explanation || ""}</div>
-        </div>
-        {currentQuestion < totalQuestions - 1 ? (
-          <button
-            onClick={handleNext}
-            className={isCorrect ? "success" : "danger"}
-          >
-            Next
-          </button>
-        ) : (
-          <button onClick={handleNext} className="success">
-            Complete
-          </button>
-        )}
-      </div>
-    );
-  };
-
-  return (
-    <div className="wrapper-m">
-      <CloseButton />
-
-      <div className="quiz_container">
-        <Choice
-          question={question}
-          selectedAnswer={selectedAnswer}
-          setSelectedAnswer={setSelectedAnswer}
-          showEachResult={showEachResult}
-        />
-      </div>
-
-      {showEachResult ? (
-        renderEachResult()
       ) : (
-        <div id="quiz_navigator" className="flex-row">
-          {/* <button onClick={handleNext}>Skip</button> */}
-          <div className="quiz_progress_container">
-            <span id="quiz_progress">{currentQuestion + 1}</span>
-            <span>/</span>
-            <span id="quiz_total">{questions.length}</span>
-          </div>
-          <button
-            onClick={handleCheck}
-            disabled={selectedAnswer === null}
-            className={`primary ${selectedAnswer === null ? "disable" : ""}`}
-          >
-            Check
-          </button>
-        </div>
+        <>
+          <div className="quiz_container">{renderQuestion()}</div>
+          {showEachResult ? renderEachResult() : renderNavigator()}
+        </>
       )}
     </div>
   );

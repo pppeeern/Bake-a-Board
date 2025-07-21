@@ -42,3 +42,29 @@
   display: flex;
   gap: 14px;
 }
+
+.quiz_question {
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.quiz_option {
+  text-align: center;
+  height: 60px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  /* outline: 4px dotted transparent; */
+  transition: background-color ease 0.2s, color ease 0.2s;
+}
+.quiz_option:hover {
+  outline: 4px dotted var(--active-color);
+}
+.quiz_option:focus {
+  outline: none;
+}
+.quiz_option.selected {
+  outline: 4px solid var(--svg-color);
+  background-color: var(--orange);
+  color: var(--light);
+}

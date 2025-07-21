@@ -1,7 +1,7 @@
 export const lessonData = [
   {
     id: "chapter1/lesson1",
-    name: "I saw a Spark",
+    name: "I saw a Spark!",
     detail:
       "Learn the concept of electricity and basic atomic theory behind electric charge",
     progress: { completed: 0, total: 4 },

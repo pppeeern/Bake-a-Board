@@ -42,7 +42,9 @@ function BreadexInfo() {
             {/* <div>...</div> */}
           </div>
           <div className="dashed"></div>
-          <div>{itemData.description || "No description available"}</div>
+          <div className="info_text_des">
+            {itemData.description || "No description available"}
+          </div>
 
           {/* {itemData.category && (
             <div>

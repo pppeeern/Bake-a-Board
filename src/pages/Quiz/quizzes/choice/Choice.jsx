@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./Choice.css";
 
 function Choice({
@@ -6,17 +7,27 @@ function Choice({
   setSelectedAnswer,
   showEachResult,
 }) {
+  const [option, setOption] = useState([]);
+
+  useEffect(() => {
+    const shuffled = [...question.options] // clone
+      .map((option, index) => ({ option, index }))
+      .sort(() => Math.random() - 0.5);
+    setOption(shuffled);
+    setSelectedAnswer(null);
+  }, [question]);
+
   return (
     <div id="choice_container">
       <div id="choice_question_container">
-        <div id="quiz_question">{question.question}</div>
-        {/* <div id="quiz_question_img"></div> */}
+        <div className="quiz_question">{question.question}</div>
+        <div id="quiz_question_img"></div>
       </div>
       <div id="choice_answer_container" className="flex-col">
-        {question.options.map((option, index) => (
+        {option.map(({ option, index }, i) => (
           <button
-            key={index}
-            className={`choice_answer ${
+            key={i}
+            className={`quiz_option ${
               selectedAnswer === index ? "selected" : ""
             }`}
             onClick={() => {

@@ -13,40 +13,16 @@
   align-content: center;
 }
 
-#quiz_question {
+.quiz_question {
   align-self: self-end;
-  font-size: 1.7rem;
-  font-weight: 500;
   /* padding-bottom: 10px; */
 }
 #quiz_question_img {
   width: 100%;
   height: 100%;
-  background-color: aliceblue;
 }
 
 #choice_answer_container {
   justify-content: flex-end;
   gap: 30px;
-}
-
-.choice_answer {
-  height: 60px;
-  padding: 10px 20px;
-  border-radius: 12px;
-  text-align: left;
-  font-size: 1.2rem;
-  /* outline: 4px dotted transparent; */
-  transition: background-color ease 0.2s, color ease 0.2s;
-}
-.choice_answer:hover {
-  outline: 4px dotted var(--active-color);
-}
-.choice_answer:focus {
-  outline: none;
-}
-.choice_answer.selected {
-  outline: 4px solid var(--svg-color);
-  background-color: var(--orange);
-  color: var(--light);
 }

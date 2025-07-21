@@ -2,6 +2,7 @@ import LogoutButton from "../../components/logoutButton/LogoutButton";
 import { useAuth } from "../Account/AuthContext";
 import { useUserData } from "../../services/UserDataContext";
 import "./Profile.css";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 
 function Profile() {
   const { user } = useAuth();
@@ -44,7 +45,7 @@ function Profile() {
                   >
                     <div
                       id="profile_exp_value"
-                      className="profile_detail_exp_value"
+                      className="profile_detail_exp_value profile_detail_value"
                     >
                       {userData?.exp || 0}
                     </div>
@@ -77,7 +78,12 @@ function Profile() {
                       transform="translate(-125.36 -130.5)"
                     />
                   </svg>
-                  <div id="profile_cookie_value">{userData?.cookies || 0}</div>{" "}
+                  <div
+                    id="profile_cookie_value"
+                    className="profile_detail_value"
+                  >
+                    {userData?.cookies || 0}
+                  </div>{" "}
                 </div>
                 <div className="profile_detail_subbox_label">Cookies</div>
               </div>
@@ -88,12 +94,10 @@ function Profile() {
             <div className="profile_detail_body">
               <div className="profile_detail_subbox">
                 {loading ? (
-                  "🕓 Loading..."
+                  <LoadingSpinner />
                 ) : (
                   <div>
                     <div>📊 Level: {userData?.level || 1}</div>
-                    <div>⚡ Experience: {userData?.exp || 0}</div>
-                    <div>🍪 Cookies: {userData?.cookies || 0}</div>
                     <div>
                       📅 Joined:{" "}
                       {userData?.createdAt

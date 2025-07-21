@@ -1,7 +1,7 @@
 #profile_icon_container {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 30px;
+  right: 40px;
 }
 
 #profile_icon {
@@ -13,7 +13,7 @@
   aspect-ratio: 1;
   outline: none;
   background-color: var(--active-color);
-  border: 2px solid var(--active-color-secondary);
+  outline: 4px solid var(--active-color-secondary);
   z-index: 99;
   transition: all ease 0.15s;
 }
@@ -28,8 +28,10 @@
 }
 
 #profile_level_value {
-  background-color: var(--orange);
-  outline: 2px solid var(--active-color-secondary);
+  font-weight: 700;
+  color: var(--default);
+  background-color: var(--svg-color);
+  /* outline: 2px solid var(--default); */
   width: 30px;
   aspect-ratio: 1;
   border-radius: 100%;
@@ -62,7 +64,7 @@
 
 #profile_user_container {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   padding-bottom: 6px;
 }
 #profile_user {
@@ -94,6 +96,7 @@
   color: var(--text-color-secondary);
 }
 .profile_status_value {
+  font-weight: 600;
   width: 70%;
   text-align: center;
   display: flex;
@@ -118,6 +121,7 @@
   text-align: center;
 }
 .profile_status_exp_value {
+  font-weight: 600;
   position: absolute;
   text-align: center;
   margin-left: 10px;

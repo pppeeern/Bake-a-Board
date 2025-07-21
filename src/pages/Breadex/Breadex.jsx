@@ -79,6 +79,7 @@ function Breadex() {
       </div>
       <div id="breadex_scan_container">
         <button
+          className="square"
           id="breadex_scan_button"
           title="Breadex Scanner"
           onClick={() => navigate(`/breadex/scanner`)}

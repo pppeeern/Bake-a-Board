@@ -1,0 +1,27 @@
+.match_container {
+  width: 100%;
+  height: 100%;
+  gap: 1.6rem;
+}
+
+.quiz_question {
+  width: 100%;
+}
+
+.match_options_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10%;
+}
+
+.terms_container,
+.defs_container {
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 30px;
+}
+.defs_container button {
+  text-transform: none;
+  font-weight: 400;
+}

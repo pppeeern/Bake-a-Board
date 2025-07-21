@@ -9,9 +9,9 @@
   --dark: #482f18;
   --orange: #e97c00;
   --orange-dark: #f2600b;
-  --primary: #5b3885;
+  --primary: #623896;
   --success: #3a855c;
-  --danger: #e90611;
+  --danger: #d71923;
   --default: #1d1d1d;
   --default-alt: #fff8eed3;
   --text-color: rgb(252, 252, 252);
@@ -52,7 +52,6 @@ button {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.2rem;
   padding: 10px 20px;
   border-radius: 10px;
   min-width: 120px;
@@ -60,6 +59,9 @@ button {
   /* border: 1px solid transparent; */
   color: inherit;
   font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
   cursor: pointer;
   outline: none;
   border: none;
@@ -77,6 +79,7 @@ button.disable {
   background-color: var(--button-color-disable);
   opacity: 0.5;
   cursor: default;
+  pointer-events: none;
 }
 button.primary {
   color: var(--light);
@@ -98,6 +101,10 @@ button.side {
   min-width: fit-content;
   border-radius: 0;
 }
+button.square {
+  aspect-ratio: 1;
+  min-width: 50px;
+}
 
 input,
 select {
@@ -114,7 +121,7 @@ select {
     --text-color: var(--dark);
     --text-color-secondary: rgb(100, 100, 100);
     --bg-color: #fdfbf8;
-    --hover-color-default: #e9e3db62;
+    --hover-color-default: #e9e3db80;
     --active-color: #eedac861;
     --active-color-secondary: #e9bda09b;
     --default: white;
@@ -152,7 +159,7 @@ body.light {
   --text-color: var(--dark);
   --text-color-secondary: rgb(100, 100, 100);
   --bg-color: #fdfbf8;
-  --hover-color-default: #e9e3db62;
+  --hover-color-default: #e9e3db80;
   --active-color: #eedac861;
   --active-color-secondary: #e9bda09b;
   --default: white;
