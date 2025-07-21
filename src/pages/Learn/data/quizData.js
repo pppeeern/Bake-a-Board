@@ -72,6 +72,33 @@ export const quizData = {
       ],
       explanation: "",
     },
+    {
+      id: 7,
+      type: "choice",
+      order: NaN,
+      question: "What are the sparks that Benjamin Franklin saw?",
+      image: "-",
+      options: ["Electricity", "Election", "Elevator", "Elon Musk"],
+      answer: 0,
+      explanation:
+        "When Franklin flew his kite in a storm, he saw sparks caused by electricity from lightning. It proved that lightning and electricity are the same!",
+    },
+    {
+      id: 8,
+      type: "choice",
+      order: NaN,
+      question: "What is electricity made of?",
+      image: "-",
+      options: [
+        "Moving electrons",
+        "Battery",
+        "Power of God",
+        "Moving protons",
+      ],
+      answer: 0,
+      explanation:
+        "Electricity is the flow of charges carried by electrons. When they move, they create an electric current!",
+    },
   ],
   "chapter1/lesson2": [
     {

@@ -25,11 +25,18 @@ function Quiz() {
   // get lesson's quiz data
   useEffect(() => {
     const quiz = quizData[quizSelector];
-    if (quiz) {
-      setQuestions(quiz);
-    } else {
+    if (!quiz) {
       console.error(`Quiz not found at ${quizSelector}`);
+      return;
     }
+
+    const ordered = quiz.filter((q) => !isNaN(q.order));
+    const unordered = quiz.filter((q) => isNaN(q.order));
+
+    const sortedOrdered = ordered.sort((a, b) => a.order - b.order);
+    const shuffledUnordered = unordered.sort(() => Math.random() - 0.5);
+
+    setQuestions([...sortedOrdered, ...shuffledUnordered]);
   }, [quizSelector]);
 
   if (!questions.length) return <LoadingSpinner />;
