@@ -7,7 +7,7 @@ export const quizData = {
       question: "What are the sparks that Benjamin Franklin saw?",
       image: "-",
       options: ["Electricity", "Power of God", "Fire", "Thor"],
-      answer: 0,
+      answer: "Electricity",
       explanation:
         "When Franklin flew his kite in a storm, he saw sparks caused by electricity from lightning. It proved that lightning and electricity are the same!",
     },
@@ -18,7 +18,7 @@ export const quizData = {
       question: "What is electricity made of?",
       image: "-",
       options: ["Moving electrons", "Moving air", "Light Energy", "Heat"],
-      answer: 0,
+      answer: "Moving electrons",
       explanation:
         "Electricity is the flow of charges carried by electrons. When they move, they create an electric current!",
     },
@@ -29,7 +29,7 @@ export const quizData = {
       question: "Which object can store electricity for later use?",
       image: "-",
       options: ["Battery", "Wire", "Light bulb", "Switch"],
-      answer: 0,
+      answer: "Battery",
       explanation:
         "A battery stores electrical energy. When connected to a circuit, it lets electricity flow out and power things!",
     },
@@ -40,7 +40,7 @@ export const quizData = {
       question: "What does electricity need to flow through?",
       image: "-",
       options: ["Metal", "Wool", "Plastic", "Paper"],
-      answer: 0,
+      answer: "Metal",
       explanation:
         "Electricity travels best through conductors like metal. That’s why wires are usually made of copper!",
     },
@@ -79,7 +79,7 @@ export const quizData = {
       question: "What are the sparks that Benjamin Franklin saw?",
       image: "-",
       options: ["Electricity", "Election", "Elevator", "Elon Musk"],
-      answer: 0,
+      answer: "Electricity",
       explanation:
         "When Franklin flew his kite in a storm, he saw sparks caused by electricity from lightning. It proved that lightning and electricity are the same!",
     },
@@ -95,9 +95,32 @@ export const quizData = {
         "Power of God",
         "Moving protons",
       ],
-      answer: 0,
+      answer: "Moving electrons",
       explanation:
         "Electricity is the flow of charges carried by electrons. When they move, they create an electric current!",
+    },
+    {
+      id: 9,
+      type: "fill",
+      order: NaN,
+      question:
+        "The _ is the part of the atom that moves to create electricity.",
+      image: "-",
+      options: ["neutron", "nucleus", "electron", "protons"],
+      answer: "electron",
+      explanation:
+        "Electrons are the tiny, negatively charged particles zipping around atoms — they’re the ones that flow and create electricity!",
+    },
+    {
+      id: 10,
+      type: "fill",
+      order: NaN,
+      question: "A material that blocks electricity is called an _.",
+      image: "-",
+      options: ["engine", "insulator", "conductor", "electron"],
+      answer: "insulator",
+      explanation:
+        "Insulators, like rubber or plastic, stop electricity from passing through — they keep circuits safe and controlled!",
     },
   ],
   "chapter1/lesson2": [

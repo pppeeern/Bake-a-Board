@@ -5,6 +5,7 @@ import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 
 import Choice from "./quizzes/choice/Choice";
 import Match from "./quizzes/match/Match";
+import Fill from "./quizzes/fill/Fill";
 
 import { quizData } from "../Learn/data/quizData";
 import { useNavigate, useParams } from "react-router-dom";
@@ -96,6 +97,15 @@ function Quiz() {
             question={question}
             setSelectedAnswer={setSelectedAnswer}
             plusScore={plusScore}
+          />
+        );
+      case "fill":
+        return (
+          <Fill
+            question={question}
+            selectedAnswer={selectedAnswer}
+            setSelectedAnswer={setSelectedAnswer}
+            showEachResult={showEachResult}
           />
         );
       default:

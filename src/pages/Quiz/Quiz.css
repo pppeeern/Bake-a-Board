@@ -4,6 +4,10 @@
   min-width: 700px;
   height: 60%;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #quiz_navigator,
@@ -46,6 +50,9 @@
 .quiz_question {
   font-size: 1.7rem;
   font-weight: 600;
+  line-height: 1.8;
+  vertical-align: bottom;
+  transition: all ease 0.15s;
 }
 
 .quiz_option {

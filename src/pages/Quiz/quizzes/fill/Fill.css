@@ -1,0 +1,36 @@
+.fill_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15%;
+}
+
+.fill_options_container {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.fill_blank {
+  display: inline-block;
+  text-align: center;
+  margin: 0 6px;
+  min-width: 120px;
+  width: fit-content;
+  padding: 0 10px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--orange);
+  border-bottom: 4px dotted var(--orange);
+  transition: all 0.2s ease;
+}
+
+.fill_blank.locked {
+  color: var(--text-color);
+  border-bottom: 4px dotted var(--text-color);
+  opacity: 0.6;
+}
