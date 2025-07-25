@@ -24,14 +24,14 @@ function Choice({
         <div id="quiz_question_img"></div>
       </div>
       <div id="choice_answer_container" className="flex-col">
-        {option.map(({ option, index }, i) => (
+        {option.map(({ option }, i) => (
           <button
             key={i}
             className={`quiz_option ${
-              selectedAnswer === index ? "selected" : ""
+              selectedAnswer === option ? "selected" : ""
             }`}
             onClick={() => {
-              if (selectedAnswer !== index) setSelectedAnswer(index);
+              if (selectedAnswer !== option) setSelectedAnswer(option);
               else setSelectedAnswer(null);
             }}
             disabled={showEachResult}
