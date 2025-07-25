@@ -16,6 +16,10 @@ class UserDataService {
       cookies: 0,
       exp: 0,
       level: 1,
+      unlockedLessons: ["chapter1/lesson1"],
+      unlockedChapters: ["chapter1"],
+      completedQuizzes: [],
+      lessonProgress: {},
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       ...userData,
@@ -90,7 +94,6 @@ class UserDataService {
     return Math.floor(exp / 100) + 1;
   }
 
-  // Simple reward function
   async giveRewards(userId, rewards = { exp: 50, cookies: 10 }) {
     try {
       const userRef = doc(db, "users", userId);
@@ -120,6 +123,167 @@ class UserDataService {
       return { success: false, error: "User not found" };
     } catch (error) {
       console.error("Error giving rewards:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async updateLessonProgress(userId, lessonId, completedCount) {
+    try {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const lessonProgress = userData.lessonProgress || {};
+
+        lessonProgress[lessonId] = completedCount;
+
+        await updateDoc(userRef, {
+          lessonProgress,
+          updatedAt: serverTimestamp(),
+        });
+
+        return { success: true, lessonProgress };
+      }
+
+      return { success: false, error: "User not found" };
+    } catch (error) {
+      console.error("Error updating lesson progress:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async completeQuiz(userId, lessonId, allLessons, allChapters) {
+    try {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const completedQuizzes = userData.completedQuizzes || [];
+        const unlockedLessons = userData.unlockedLessons || [];
+        const unlockedChapters = userData.unlockedChapters || [];
+        const lessonProgress = userData.lessonProgress || {};
+
+        if (!completedQuizzes.includes(lessonId)) {
+          completedQuizzes.push(lessonId);
+        }
+
+        const currentLesson = allLessons.find(
+          (lesson) => lesson.id === lessonId
+        );
+        if (currentLesson) {
+          lessonProgress[lessonId] = currentLesson.progress.total;
+        }
+
+        const currentIndex = allLessons.findIndex(
+          (lesson) => lesson.id === lessonId
+        );
+        let nextLessonUnlocked = null;
+
+        if (currentIndex !== -1 && currentIndex < allLessons.length - 1) {
+          const nextLesson = allLessons[currentIndex + 1];
+          if (!unlockedLessons.includes(nextLesson.id)) {
+            unlockedLessons.push(nextLesson.id);
+            nextLessonUnlocked = nextLesson.id;
+          }
+        }
+
+        const currentChapterId = lessonId.split("/")[0];
+        const chapterLessons = allLessons.filter((lesson) =>
+          lesson.id.startsWith(currentChapterId)
+        );
+        const allChapterLessonsCompleted = chapterLessons.every((lesson) =>
+          completedQuizzes.includes(lesson.id)
+        );
+
+        let nextChapterUnlocked = null;
+        if (allChapterLessonsCompleted) {
+          const currentChapterIndex = allChapters.findIndex(
+            (chapter) => chapter.id === currentChapterId
+          );
+          if (
+            currentChapterIndex !== -1 &&
+            currentChapterIndex < allChapters.length - 1
+          ) {
+            const nextChapter = allChapters[currentChapterIndex + 1];
+            if (!unlockedChapters.includes(nextChapter.id)) {
+              unlockedChapters.push(nextChapter.id);
+              nextChapterUnlocked = nextChapter.id;
+
+              const nextChapterFirstLesson = allLessons.find((lesson) =>
+                lesson.id.startsWith(nextChapter.id)
+              );
+              if (
+                nextChapterFirstLesson &&
+                !unlockedLessons.includes(nextChapterFirstLesson.id)
+              ) {
+                unlockedLessons.push(nextChapterFirstLesson.id);
+              }
+            }
+          }
+        }
+
+        await updateDoc(userRef, {
+          completedQuizzes,
+          unlockedLessons,
+          unlockedChapters,
+          lessonProgress,
+          updatedAt: serverTimestamp(),
+        });
+
+        return {
+          success: true,
+          nextLessonUnlocked,
+          nextChapterUnlocked,
+          completedQuizzes,
+          unlockedLessons,
+          unlockedChapters,
+        };
+      }
+
+      return { success: false, error: "User not found" };
+    } catch (error) {
+      console.error("Error completing quiz:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getProgressData(userId, lessonsData, chaptersData) {
+    try {
+      const userData = await this.getUserData(userId);
+      if (!userData.success) {
+        return { success: false, error: "Failed to get user data" };
+      }
+
+      const {
+        unlockedLessons = [],
+        unlockedChapters = [],
+        lessonProgress = {},
+      } = userData.data;
+
+      const processedLessons = lessonsData.map((lesson) => ({
+        ...lesson,
+        isUnlocked: unlockedLessons.includes(lesson.id),
+        progress: {
+          ...lesson.progress,
+          completed: lessonProgress[lesson.id] || 0,
+        },
+      }));
+
+      const processedChapters = chaptersData.map((chapter) => ({
+        ...chapter,
+        isUnlocked: unlockedChapters.includes(chapter.id),
+      }));
+
+      return {
+        success: true,
+        lessons: processedLessons,
+        chapters: processedChapters,
+        userData: userData.data,
+      };
+    } catch (error) {
+      console.error("Error processing progress data:", error);
       return { success: false, error: error.message };
     }
   }

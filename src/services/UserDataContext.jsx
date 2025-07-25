@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "../pages/Account/AuthContext";
 import { userDataService } from "./userDataService";
+import { lessonData } from "../pages/Learn/data/lessonData";
+import { chapterData } from "../pages/Learn/data/chapterData";
 
 const UserDataContext = createContext();
 
@@ -15,6 +17,8 @@ export function useUserData() {
 export default function UserDataProvider({ children }) {
   const { user } = useAuth();
   const [userData, setUserData] = useState(null);
+  const [processedLessons, setProcessedLessons] = useState([]);
+  const [processedChapters, setProcessedChapters] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +26,8 @@ export default function UserDataProvider({ children }) {
       loadUserData();
     } else {
       setUserData(null);
+      setProcessedLessons([]);
+      setProcessedChapters([]);
       setLoading(false);
     }
   }, [user]);
@@ -30,10 +36,17 @@ export default function UserDataProvider({ children }) {
     if (!user) return;
 
     setLoading(true);
-    const result = await userDataService.getUserData(user.uid);
+
+    const result = await userDataService.getProgressData(
+      user.uid,
+      lessonData,
+      chapterData
+    );
 
     if (result.success) {
-      setUserData(result.data);
+      setUserData(result.userData);
+      setProcessedLessons(result.lessons);
+      setProcessedChapters(result.chapters);
     } else {
       console.error("Failed to load user data:", result.error);
     }
@@ -83,12 +96,97 @@ export default function UserDataProvider({ children }) {
     return result;
   };
 
+  const completeQuiz = async (lessonId) => {
+    if (!user) return { success: false, error: "User not authenticated" };
+
+    const result = await userDataService.completeQuiz(
+      user.uid,
+      lessonId,
+      lessonData,
+      chapterData
+    );
+
+    if (result.success) {
+      await loadUserData();
+
+      return {
+        success: true,
+        nextLessonUnlocked: result.nextLessonUnlocked,
+        nextChapterUnlocked: result.nextChapterUnlocked,
+      };
+    }
+
+    return result;
+  };
+
+  const updateLessonProgress = async (lessonId, completedCount) => {
+    if (!user) return { success: false, error: "User not authenticated" };
+
+    const result = await userDataService.updateLessonProgress(
+      user.uid,
+      lessonId,
+      completedCount
+    );
+
+    if (result.success) {
+      setProcessedLessons((prev) =>
+        prev.map((lesson) =>
+          lesson.id === lessonId
+            ? {
+                ...lesson,
+                progress: { ...lesson.progress, completed: completedCount },
+              }
+            : lesson
+        )
+      );
+    }
+
+    return result;
+  };
+
+  const getLessonsForChapter = (chapterId) => {
+    return processedLessons.filter((lesson) => lesson.id.startsWith(chapterId));
+  };
+
+  const getLessonById = (lessonId) => {
+    return processedLessons.find((lesson) => lesson.id === lessonId) || null;
+  };
+
+  const getChapterById = (chapterId) => {
+    return (
+      processedChapters.find((chapter) => chapter.id === chapterId) || null
+    );
+  };
+
+  const canAccessLesson = (lessonId) => {
+    const lesson = getLessonById(lessonId);
+    return lesson ? lesson.isUnlocked : false;
+  };
+
+  const canAccessChapter = (chapterId) => {
+    const chapter = getChapterById(chapterId);
+    return chapter ? chapter.isUnlocked : false;
+  };
+
   const value = {
     userData,
     loading,
+
+    lessons: processedLessons,
+    chapters: processedChapters,
+
     updateCookies,
     updateExp,
     giveRewards,
+    completeQuiz,
+    updateLessonProgress,
+
+    getLessonsForChapter,
+    getLessonById,
+    getChapterById,
+    canAccessLesson,
+    canAccessChapter,
+
     refreshUserData: loadUserData,
   };
 
