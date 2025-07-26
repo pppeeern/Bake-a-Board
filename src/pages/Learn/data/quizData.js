@@ -106,7 +106,7 @@ export const quizData = {
       question:
         "The _ is the part of the atom that moves to create electricity.",
       image: "-",
-      options: ["neutron", "nucleus", "electron", "protons"],
+      options: ["neutron", "nucleus", "electron", "proton", "particle", "charge"],
       answer: "electron",
       explanation:
         "Electrons are the tiny, negatively charged particles zipping around atoms — they’re the ones that flow and create electricity!",
@@ -117,7 +117,7 @@ export const quizData = {
       order: NaN,
       question: "A material that blocks electricity is called an _.",
       image: "-",
-      options: ["engine", "insulator", "conductor", "electron"],
+      options: ["engine", "insulator", "conductor", "electron", "battery", "metal"],
       answer: "insulator",
       explanation:
         "Insulators, like rubber or plastic, stop electricity from passing through — they keep circuits safe and controlled!",
@@ -136,7 +136,7 @@ export const quizData = {
         "The size of a battery",
         "A type of lightning",
       ],
-      answer: 0,
+      answer: "The flow of electric charge ",
       explanation:
         "Electric current is simply how many electric charges are moving through a wire every second!",
     },
@@ -147,7 +147,7 @@ export const quizData = {
       question: "What unit is used to measure current?",
       image: "-",
       options: ["Ampere", "Ohm", "Volt", "Watt"],
-      answer: 0,
+      answer: "Ampere",
       explanation:
         "Electric current is measured in Amperes (or Amps). It tells us how strong the flow of electricity is.",
     },
@@ -162,10 +162,8 @@ export const quizData = {
         "From negative to positive ",
         "From east to south",
         "From kanye to west",
-        // "In all directions",
-        // "Around the world"
       ],
-      answer: 0,
+      answer: "From positive to negative",
       explanation:
         'Even though electrons move from negative to positive, we say current flows from positive to negative — it’s called "conventional current."',
     },
@@ -176,7 +174,7 @@ export const quizData = {
       question: "What causes an electric current to flow?",
       image: "-",
       options: ["Heat", "Magic", "Voltage", "Water"],
-      answer: 2,
+      answer: "Voltage",
       explanation:
         "Voltage is like the pressure that pushes electric charges through a wire. No Voltage = No Current!",
     },
@@ -223,5 +221,105 @@ export const quizData = {
       ],
       explanation: "",
     },
+    {
+      id: 7,
+      type: "fill",
+      order: NaN,
+      question:
+        "Electric current is the flow of _.",
+      image: "-",
+      options: ["energy", "protons", "heat", "electric charge", "current"],
+      answer: "electric charge",
+      explanation:
+        "Electric current is like traffic — but instead of cars, it’s electric charge moving through the wires!",
+    },
+    {
+      id: 8,
+      type: "fill",
+      order: NaN,
+      question: "In wires, electricity usually flows because of moving _.",
+      image: "-",
+      options: ["atoms", "light", "electrons", "magnets", "copper", "metal"],
+      answer: "electrons",
+      explanation:
+        "Electrons are the little travelers in metal wires — when they move, that’s electricity in action!",
+    },
+    {
+      id: 9,
+      type: "choice",
+      order: NaN,
+      question: "Which direction does current flow in a circuit?",
+      image: "-",
+      options: [
+        "From positive to negative",
+        "From negative to positive ",
+        "In all directions",
+        "Around the world"
+      ],
+      answer: "From positive to negative",
+      explanation:
+        'Even though electrons move from negative to positive, we say current flows from positive to negative — it’s called "conventional current."',
+    },
   ],
+  "chapter1/lesson3": [
+    {
+      id: 1,
+      type: "match",
+      order: NaN,
+      question: "Meaning of Electronics",
+      image: "-",
+      options: [
+        {
+          term: "Resistor",
+          definition: "Controls how much current flows",
+        },
+        {
+          term: "LED",
+          definition: "Lights up when current flows",
+        },
+        {
+          term: "Battery",
+          definition: "Supplies voltage to the circuit",
+        },
+        {
+          term: "Switch",
+          definition: "Opens or closes the path for the current",
+        },
+      ],
+      explanation: "",
+    },
+    {
+      id: 2,
+      type: "choice",
+      order: NaN,
+      question: "What are Light Emitting Diodes?",
+      image: "-",
+      options: ["Switch", "Batery", "LED", "John"],
+      answer: "LED",
+      explanation:
+        "LEDs are special components that glow when electricity flows through them — they're tiny lights used in everything from TVs to flashlights!",
+    },
+    {
+      id: 3,
+      type: "choice",
+      order: NaN,
+      question: "What does a resistor do in a circuit?",
+      image: "-",
+      options: ["Makes the circuit faster", "Increases current", "Stores electricity", "Slow down the flow of current"],
+      answer: "Slow down the flow of current",
+      explanation:
+        "A resistor slows down the electric current — it’s like a traffic sign for electricity, keeping it from rushing too fast!",
+    },
+    {
+      id: 4,
+      type: "choice",
+      order: NaN,
+      question: "Would the more Voltage = more Current",
+      image: "-",
+      options: ["Yes", "No"],
+      answer: "Yes",
+      explanation:
+        "More voltage means more \"push\" for the electric charges, so yes — usually, higher voltage leads to more current (if resistance stays the same)!",
+    },
+  ]
 };
