@@ -2,12 +2,24 @@ import { Link } from "react-router-dom";
 import "./Learn.css";
 import ProfileIcon from "../../components/profileIcon/ProfileIcon";
 import LessonCard from "./lessonCard/LessonCard";
-import { lessonData } from "./data/lessonData";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import { useUserData } from "../../services/UserDataContext";
 
 function Learn({ chapter }) {
-  const lessons = lessonData.filter((lesson) =>
-    lesson.id.startsWith(`${chapter.id}`)
-  );
+  const { getLessonsForChapter, loading } = useUserData();
+
+  const lessons = getLessonsForChapter(chapter.id);
+
+  if (loading) {
+    return (
+      <div className="wrapper">
+        <ProfileIcon />
+        <div className="wrapper learn_container">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="wrapper">

@@ -3,6 +3,16 @@ import { useAuth } from "../pages/Account/AuthContext";
 import { userDataService } from "./userDataService";
 import { lessonData } from "../pages/Learn/data/lessonData";
 import { chapterData } from "../pages/Learn/data/chapterData";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  increment,
+  serverTimestamp,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const UserDataContext = createContext();
 
@@ -119,6 +129,25 @@ export default function UserDataProvider({ children }) {
     return result;
   };
 
+  const completeQuizWithProgress = async (lessonId, score, totalQuestions) => {
+    if (!user) return { success: false, error: "User not authenticated" };
+
+    const result = await userDataService.completeQuizWithProgress(
+      user.uid,
+      lessonId,
+      score,
+      totalQuestions,
+      lessonData,
+      chapterData
+    );
+
+    if (result.success && result.progressIncremented) {
+      await loadUserData();
+    }
+
+    return result;
+  };
+
   const updateLessonProgress = async (lessonId, completedCount) => {
     if (!user) return { success: false, error: "User not authenticated" };
 
@@ -186,6 +215,7 @@ export default function UserDataProvider({ children }) {
     getChapterById,
     canAccessLesson,
     canAccessChapter,
+    completeQuizWithProgress,
 
     refreshUserData: loadUserData,
   };

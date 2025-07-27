@@ -153,6 +153,71 @@ class UserDataService {
     }
   }
 
+  async completeQuizWithProgress(
+    userId,
+    lessonId,
+    score,
+    totalQuestions,
+    allLessons,
+    allChapters
+  ) {
+    try {
+      const scorePercentage = (score / totalQuestions) * 100;
+
+      if (scorePercentage >= 50) {
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          const lessonProgress = userData.lessonProgress || {};
+
+          const currentLesson = allLessons.find(
+            (lesson) => lesson.id === lessonId
+          );
+          if (currentLesson) {
+            const currentProgress = lessonProgress[lessonId] || 0;
+            const newProgress = Math.min(
+              currentProgress + 1,
+              currentLesson.progress.total
+            );
+
+            lessonProgress[lessonId] = newProgress;
+            await updateDoc(userRef, {
+              lessonProgress,
+              updatedAt: serverTimestamp(),
+            });
+
+            if (newProgress >= currentLesson.progress.total) {
+              return await this.completeQuiz(
+                userId,
+                lessonId,
+                allLessons,
+                allChapters
+              );
+            }
+
+            return {
+              success: true,
+              progressIncremented: true,
+              newProgress,
+              lessonCompleted: false,
+            };
+          }
+        }
+      }
+
+      return {
+        success: true,
+        progressIncremented: false,
+        message: "Score too low to count as progress (need ≥50%)",
+      };
+    } catch (error) {
+      console.error("Error completing quiz with progress:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
   async completeQuiz(userId, lessonId, allLessons, allChapters) {
     try {
       const userRef = doc(db, "users", userId);

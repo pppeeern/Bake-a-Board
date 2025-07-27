@@ -37,7 +37,7 @@ export const quizData = {
       id: 4,
       type: "choice",
       order: NaN,
-      question: "What does electricity need to flow through?",
+      question: "What material that electricity can flow through?",
       image: "-",
       options: ["Metal", "Wool", "Plastic", "Paper"],
       answer: "Metal",
@@ -106,7 +106,14 @@ export const quizData = {
       question:
         "The _ is the part of the atom that moves to create electricity.",
       image: "-",
-      options: ["neutron", "nucleus", "electron", "proton", "particle", "charge"],
+      options: [
+        "neutron",
+        "nucleus",
+        "electron",
+        "proton",
+        "particle",
+        "charge",
+      ],
       answer: "electron",
       explanation:
         "Electrons are the tiny, negatively charged particles zipping around atoms — they’re the ones that flow and create electricity!",
@@ -117,7 +124,14 @@ export const quizData = {
       order: NaN,
       question: "A material that blocks electricity is called an _.",
       image: "-",
-      options: ["engine", "insulator", "conductor", "electron", "battery", "metal"],
+      options: [
+        "engine",
+        "insulator",
+        "conductor",
+        "electron",
+        "battery",
+        "metal",
+      ],
       answer: "insulator",
       explanation:
         "Insulators, like rubber or plastic, stop electricity from passing through — they keep circuits safe and controlled!",
@@ -225,8 +239,7 @@ export const quizData = {
       id: 7,
       type: "fill",
       order: NaN,
-      question:
-        "Electric current is the flow of _.",
+      question: "Electric current is the flow of _.",
       image: "-",
       options: ["energy", "protons", "heat", "electric charge", "current"],
       answer: "electric charge",
@@ -254,7 +267,7 @@ export const quizData = {
         "From positive to negative",
         "From negative to positive ",
         "In all directions",
-        "Around the world"
+        "Around the world",
       ],
       answer: "From positive to negative",
       explanation:
@@ -305,7 +318,12 @@ export const quizData = {
       order: NaN,
       question: "What does a resistor do in a circuit?",
       image: "-",
-      options: ["Makes the circuit faster", "Increases current", "Stores electricity", "Slow down the flow of current"],
+      options: [
+        "Makes the circuit faster",
+        "Increases current",
+        "Stores electricity",
+        "Slow down the flow of current",
+      ],
       answer: "Slow down the flow of current",
       explanation:
         "A resistor slows down the electric current — it’s like a traffic sign for electricity, keeping it from rushing too fast!",
@@ -319,7 +337,7 @@ export const quizData = {
       options: ["Yes", "No"],
       answer: "Yes",
       explanation:
-        "More voltage means more \"push\" for the electric charges, so yes — usually, higher voltage leads to more current (if resistance stays the same)!",
+        'More voltage means more "push" for the electric charges, so yes — usually, higher voltage leads to more current (if resistance stays the same)!',
     },
-  ]
+  ],
 };

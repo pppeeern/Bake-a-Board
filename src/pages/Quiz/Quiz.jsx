@@ -9,10 +9,13 @@ import Fill from "./quizzes/fill/Fill";
 
 import { quizData } from "../Learn/data/quizData";
 import { useNavigate, useParams } from "react-router-dom";
+import { useUserData } from "../../services/UserDataContext";
 
 function Quiz() {
   const navigate = useNavigate();
   const { chapterId, lessonId } = useParams();
+  const { updateLessonProgress, completeQuiz, giveRewards, getLessonById } =
+    useUserData();
   const quizSelector = `${chapterId}/${lessonId}`;
 
   const [questions, setQuestions] = useState([]);
@@ -22,6 +25,7 @@ function Quiz() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [score, setScore] = useState(0);
+  const [isProcessingCompletion, setIsProcessingCompletion] = useState(false);
 
   // get lesson's quiz data
   useEffect(() => {
@@ -68,16 +72,97 @@ function Quiz() {
     }
   };
 
-  const handleComplete = () => {
-    console.log(`Navigating with completed lesson: ${quizSelector}`);
-    navigate("/", {
-      state: {
-        completed: quizSelector,
-        //   score: score,
-        //   total: totalQuestions,
-        //   message: `Great job! You scored ${score}/${totalQuestions}`
-      },
-    });
+  const handleComplete = async () => {
+    if (isProcessingCompletion) return;
+
+    setIsProcessingCompletion(true);
+
+    try {
+      const scorePercentage = (score / totalQuestions) * 100;
+      const currentLesson = getLessonById(quizSelector);
+
+      let result = { success: true, progressIncremented: false };
+
+      console.log(`Starting quiz completion for ${quizSelector}`);
+      console.log(
+        `Score: ${score}/${totalQuestions} (${Math.round(scorePercentage)}%)`
+      );
+
+      if (scorePercentage >= 50 && currentLesson) {
+        console.log("Score meets threshold, updating progress...");
+
+        const newCompleted = Math.min(
+          currentLesson.progress.completed + 1,
+          currentLesson.progress.total
+        );
+
+        const progressResult = await updateLessonProgress(
+          quizSelector,
+          newCompleted
+        );
+        console.log("Progress update result:", progressResult);
+
+        if (progressResult.success) {
+          result.progressIncremented = true;
+          result.newProgress = newCompleted;
+
+          if (newCompleted >= currentLesson.progress.total) {
+            console.log("Lesson completed, marking as finished...");
+            const completeResult = await completeQuiz(quizSelector);
+            console.log("Complete result:", completeResult);
+
+            if (completeResult.success) {
+              console.log("Giving rewards...");
+              await giveRewards({ exp: 50, cookies: 10 });
+              result.lessonCompleted = true;
+              result.nextLessonUnlocked = completeResult.nextLessonUnlocked;
+              result.nextChapterUnlocked = completeResult.nextChapterUnlocked;
+            }
+          }
+        }
+      } else {
+        result.message =
+          scorePercentage < 50
+            ? "Score too low to count as progress (need ≥50%)"
+            : "Unknown error";
+      }
+
+      console.log("Final result:", result);
+      console.log("Navigating back to home...");
+
+      setTimeout(() => {
+        navigate("/", {
+          state: {
+            completed: quizSelector,
+            quizResult: result,
+            score: score,
+            total: totalQuestions,
+            percentage: Math.round(scorePercentage),
+            message: result.progressIncremented
+              ? `Great job! You scored ${score}/${totalQuestions} (${Math.round(
+                  scorePercentage
+                )}%) - Progress updated!`
+              : result.message ||
+                `You scored ${score}/${totalQuestions} (${Math.round(
+                  scorePercentage
+                )}%)`,
+          },
+        });
+      }, 100);
+    } catch (error) {
+      console.error("Error completing quiz:", error);
+      setTimeout(() => {
+        navigate("/", {
+          state: {
+            completed: quizSelector,
+            error: "Failed to update progress: " + error.message,
+            score: score,
+            total: totalQuestions,
+          },
+        });
+      }, 100);
+    } finally {
+    }
   };
 
   const renderQuestion = () => {
@@ -117,6 +202,7 @@ function Quiz() {
     return (
       <>
         <div id="quiz_navigator" className="flex-row">
+          <button onClick={handleNext}>Skip</button>
           <div className="quiz_progress_container">
             <span id="quiz_progress">{currentQuestion + 1}</span>
             <span>/</span>
@@ -135,7 +221,6 @@ function Quiz() {
   };
 
   const renderEachResult = () => {
-    // setSelectedAnswer(null);
     return (
       <>
         <div id="quiz_each_result" className="flex-row">
@@ -156,19 +241,50 @@ function Quiz() {
     );
   };
 
+  const getScoreColor = () => {
+    const percentage = (score / totalQuestions) * 100;
+    if (percentage >= 80) return "success";
+    if (percentage >= 50) return "warning";
+    return "danger";
+  };
+
+  const getScoreMessage = () => {
+    const percentage = (score / totalQuestions) * 100;
+    if (percentage >= 80) return "Excellent work! 🎉";
+    if (percentage >= 50) return "Good job! Keep practicing! 👍";
+    return "Keep studying! You'll get it next time! 💪";
+  };
+
   return (
     <div className="wrapper-m">
       <CloseButton />
       {isComplete ? (
         <div className="quiz_complete_container">
-          <div>Your score:</div>
-          <div className="quiz_complete_text">
-            <span id="quiz_progress">{score}</span>
-            <span>/</span>
-            <span id="quiz_total">{questions.length}</span>
+          <div className="quiz_complete_header">
+            <div>{getScoreMessage()}</div>
+            <div className={`quiz_complete_text ${getScoreColor()}`}>
+              <span id="quiz_progress">{score}</span>
+              <span>/</span>
+              <span id="quiz_total">{questions.length}</span>
+              <span className="percentage">
+                ({Math.round((score / totalQuestions) * 100)}%)
+              </span>
+            </div>
+            {score / totalQuestions >= 0.5 ? (
+              <div className="progress_info">✓ Progress will be updated!</div>
+            ) : (
+              <div className="progress_info warning">
+                ⚠ Need ≥50% to count as progress
+              </div>
+            )}
           </div>
-          <button className="primary" onClick={handleComplete}>
-            Back
+
+          <button
+            className="primary"
+            onClick={handleComplete}
+            disabled={isProcessingCompletion}
+          >
+            {isProcessingCompletion ? "Updating Progress..." : "Complete"}
           </button>
         </div>
       ) : (

@@ -1,9 +1,23 @@
 import "./ChaptersMenu.css";
 import ChaptersCard from "../chaptersCard/ChaptersCard";
 import CloseButton from "../../../components/closeButton/CloseButton";
-import { chapterData } from "../data/chapterData";
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
+import { useUserData } from "../../../services/UserDataContext";
 
-function Chapters({ setChapter, selectedChapter }) {
+function ChaptersMenu({ setChapter, selectedChapter }) {
+  const { chapters, loading } = useUserData();
+
+  if (loading) {
+    return (
+      <div className="wrapper-m">
+        <CloseButton />
+        <div className="loading-container">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="wrapper-m">
       <CloseButton />
@@ -12,14 +26,14 @@ function Chapters({ setChapter, selectedChapter }) {
           <button onClick={() => console.log("Create")}>+ Create Quiz</button>
         </div>
         <div className="chapters_container_top_button" id="join_quiz">
-          <input type="number" name="quiz_code" />
+          <input type="number" name="quiz_code" placeholder="Quiz Code" />
           <button className="side" onClick={() => console.log("Join!")}>
             Join
           </button>
         </div>
       </div>
       <div id="chapters_card_container">
-        {chapterData.map((chapter) => (
+        {chapters.map((chapter) => (
           <ChaptersCard
             key={chapter.id}
             chapter={chapter}
@@ -32,4 +46,4 @@ function Chapters({ setChapter, selectedChapter }) {
   );
 }
 
-export default Chapters;
+export default ChaptersMenu;

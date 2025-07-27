@@ -1,13 +1,16 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./LessonCard.css";
 import { useEffect, useState, useRef } from "react";
+import { useUserData } from "../../../services/UserDataContext";
 
 function LessonCard({ lesson }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { refreshUserData } = useUserData();
 
-  const { id, name, detail, progress, isUnlocked } = lesson;
+  const { id, name, detail, progress, isUnlocked, isCompleted } = lesson;
   const [localCompleted, setLocalCompleted] = useState(progress.completed);
+  const [showProgressUpdate, setShowProgressUpdate] = useState(false);
 
   const handleClick = () => {
     if (isUnlocked) {
@@ -19,14 +22,54 @@ function LessonCard({ lesson }) {
     }
   };
 
-  const updatedOnce = useRef(false); // prevents double update
+  const updatedOnce = useRef(false);
+  const processedLocationKey = useRef(null);
+
   useEffect(() => {
-    // update lesson progress from id
-    if (!updatedOnce.current && location.state?.completed === id) {
-      setLocalCompleted((prev) => Math.min(prev + 1, progress.total));
-      updatedOnce.current = true; // mark as updated
+    if (location.key === processedLocationKey.current) {
+      return;
     }
-  }, [location.state, id, progress.total]);
+
+    if (location.state?.completed === id && location.state?.quizResult) {
+      const quizResult = location.state.quizResult;
+
+      if (quizResult?.progressIncremented && !updatedOnce.current) {
+        setLocalCompleted(quizResult.newProgress);
+        setShowProgressUpdate(true);
+
+        setTimeout(() => {
+          setShowProgressUpdate(false);
+        }, 3000);
+
+        refreshUserData();
+
+        updatedOnce.current = true;
+        processedLocationKey.current = location.key;
+
+        navigate(location.pathname, { replace: true });
+      }
+    }
+  }, [location, id, refreshUserData, navigate]);
+
+  useEffect(() => {
+    updatedOnce.current = false;
+    processedLocationKey.current = null;
+  }, [id]);
+
+  useEffect(() => {
+    setLocalCompleted(progress.completed);
+  }, [progress.completed]);
+
+  const getProgressColor = () => {
+    if (isCompleted) return "success";
+    if (localCompleted > 0) return "warning";
+    return "default";
+  };
+
+  const getProgressText = () => {
+    if (isCompleted) return "Completed!";
+    return `${localCompleted}/${progress.total}`;
+  };
 
   return (
     <div className={`lesson_card ${!isUnlocked ? "locked" : ""}`}>
@@ -45,23 +88,39 @@ function LessonCard({ lesson }) {
           />
         </svg>
       ) : (
-        <></>
+        <>
+          {isCompleted && <div className="lesson_completed_badge">✓</div>}
+          {showProgressUpdate && (
+            <div className="progress_update_notification">Progress +1!</div>
+          )}
+        </>
       )}
+
       <div className="lesson_hover flex-col">
         <div className="lesson_hover_title flex-row dashed">
           <div id="lesson_name">{name}</div>
-          <span id="lesson_progress">
-            {localCompleted}/{progress.total}
+          <span
+            id="lesson_progress"
+            className={`progress-${getProgressColor()}`}
+          >
+            {getProgressText()}
           </span>
         </div>
         <div className="lesson_hover_detail">{detail}</div>
+
+        {isCompleted && (
+          <div className="lesson_completion_status">🎉 Lesson Complete! 🎉</div>
+        )}
+
         <button
           className={`lesson_hover_button ${
             isUnlocked ? "primary" : "disable"
-          }`}
+          } ${isCompleted ? "completed" : ""}`}
           onClick={handleClick}
         >
-          <span>{isUnlocked ? "Start" : "Locked"}</span>
+          <span>
+            {!isUnlocked ? "Locked" : isCompleted ? "Review" : "Start"}
+          </span>
         </button>
       </div>
     </div>

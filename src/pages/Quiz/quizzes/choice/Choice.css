@@ -23,6 +23,6 @@
 }
 
 #choice_answer_container {
-  justify-content: flex-end;
+  justify-content: center;
   gap: 30px;
 }
