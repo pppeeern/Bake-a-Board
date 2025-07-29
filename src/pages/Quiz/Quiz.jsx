@@ -14,8 +14,7 @@ import { useUserData } from "../../services/UserDataContext";
 function Quiz() {
   const navigate = useNavigate();
   const { chapterId, lessonId } = useParams();
-  const { updateLessonProgress, completeQuiz, giveRewards, getLessonById } =
-    useUserData();
+  const { completeQuizWithRewards, getLessonById } = useUserData();
   const quizSelector = `${chapterId}/${lessonId}`;
 
   const [questions, setQuestions] = useState([]);
@@ -79,75 +78,60 @@ function Quiz() {
 
     try {
       const scorePercentage = (score / totalQuestions) * 100;
-      const currentLesson = getLessonById(quizSelector);
-
-      let result = { success: true, progressIncremented: false };
 
       console.log(`Starting quiz completion for ${quizSelector}`);
       console.log(
         `Score: ${score}/${totalQuestions} (${Math.round(scorePercentage)}%)`
       );
 
-      if (scorePercentage >= 50 && currentLesson) {
-        console.log("Score meets threshold, updating progress...");
+      const result = await completeQuizWithRewards(
+        quizSelector,
+        score,
+        totalQuestions
+      );
+      console.log("Quiz completion result:", result);
 
-        const newCompleted = Math.min(
-          currentLesson.progress.completed + 1,
-          currentLesson.progress.total
-        );
+      const navigationState = {
+        completed: quizSelector,
+        score: score,
+        total: totalQuestions,
+        percentage: Math.round(scorePercentage),
+        quizResult: result,
+      };
 
-        const progressResult = await updateLessonProgress(
-          quizSelector,
-          newCompleted
-        );
-        console.log("Progress update result:", progressResult);
+      if (result.success && result.progressIncremented) {
+        let message = `Great job! You scored ${score}/${totalQuestions} (${Math.round(
+          scorePercentage
+        )}%)`;
 
-        if (progressResult.success) {
-          result.progressIncremented = true;
-          result.newProgress = newCompleted;
+        if (result.rewards && result.rewards.newReward) {
+          message += `\n🍪 +${result.rewards.cookies} cookies | ⭐ +${result.rewards.exp} XP`;
 
-          if (newCompleted >= currentLesson.progress.total) {
-            console.log("Lesson completed, marking as finished...");
-            const completeResult = await completeQuiz(quizSelector);
-            console.log("Complete result:", completeResult);
-
-            if (completeResult.success) {
-              console.log("Giving rewards...");
-              await giveRewards({ exp: 50, cookies: 10 });
-              result.lessonCompleted = true;
-              result.nextLessonUnlocked = completeResult.nextLessonUnlocked;
-              result.nextChapterUnlocked = completeResult.nextChapterUnlocked;
-            }
+          if (result.rewards.lessonCompleteBonus) {
+            message += `\n🎉 Lesson Complete Bonus!`;
           }
+
+          if (scorePercentage === 100) {
+            message += `\n✨ Perfect Score Bonus!`;
+          }
+        } else if (result.alreadyRewarded) {
+          message += `\n(No rewards - already completed this quiz)`;
         }
+
+        navigationState.message = message;
+        navigationState.rewards = result.rewards;
       } else {
-        result.message =
-          scorePercentage < 50
-            ? "Score too low to count as progress (need ≥50%)"
-            : "Unknown error";
+        navigationState.message =
+          result.message ||
+          `You scored ${score}/${totalQuestions} (${Math.round(
+            scorePercentage
+          )}%)`;
       }
 
-      console.log("Final result:", result);
-      console.log("Navigating back to home...");
+      console.log("Navigating back to home with state:", navigationState);
 
       setTimeout(() => {
-        navigate("/", {
-          state: {
-            completed: quizSelector,
-            quizResult: result,
-            score: score,
-            total: totalQuestions,
-            percentage: Math.round(scorePercentage),
-            message: result.progressIncremented
-              ? `Great job! You scored ${score}/${totalQuestions} (${Math.round(
-                  scorePercentage
-                )}%) - Progress updated!`
-              : result.message ||
-                `You scored ${score}/${totalQuestions} (${Math.round(
-                  scorePercentage
-                )}%)`,
-          },
-        });
+        navigate("/", { state: navigationState });
       }, 100);
     } catch (error) {
       console.error("Error completing quiz:", error);
@@ -161,7 +145,6 @@ function Quiz() {
           },
         });
       }, 100);
-    } finally {
     }
   };
 
@@ -255,6 +238,42 @@ function Quiz() {
     return "Keep studying! You'll get it next time! 💪";
   };
 
+  const getPotentialRewards = () => {
+    const percentage = (score / totalQuestions) * 100;
+    if (percentage < 50) return null;
+
+    let cookies = 5;
+    let exp = Math.round(percentage);
+
+    if (percentage === 100) {
+      cookies += 5;
+      exp += 25;
+    }
+
+    const currentLesson = getLessonById(quizSelector);
+    const willCompletLesson =
+      currentLesson &&
+      currentLesson.progress.completed + 1 >= currentLesson.progress.total;
+
+    if (willCompletLesson) {
+      cookies += 20;
+      exp += 100;
+    }
+
+    return {
+      cookies,
+      exp,
+      willCompletLesson,
+      lessonProgress: currentLesson
+        ? `${currentLesson.progress.completed + 1}/${
+            currentLesson.progress.total
+          }`
+        : null,
+    };
+  };
+
+  const potentialRewards = getPotentialRewards();
+
   return (
     <div className="wrapper-m">
       <CloseButton />
@@ -270,11 +289,35 @@ function Quiz() {
                 ({Math.round((score / totalQuestions) * 100)}%)
               </span>
             </div>
+
             {score / totalQuestions >= 0.5 ? (
-              <div className="progress_info">✓ Progress will be updated!</div>
+              <div className="progress_info">
+                ✓ Progress will be updated!
+                {potentialRewards && (
+                  <div className="reward_preview">
+                    🍪 +{potentialRewards.cookies} cookies | ⭐ +
+                    {potentialRewards.exp} XP
+                    {potentialRewards.lessonProgress && (
+                      <div className="progress_display">
+                        Progress: {potentialRewards.lessonProgress}
+                      </div>
+                    )}
+                    {score === totalQuestions && (
+                      <div className="perfect_bonus">
+                        ✨ Perfect Score Bonus!
+                      </div>
+                    )}
+                    {potentialRewards.willCompletLesson && (
+                      <div className="lesson_complete_bonus">
+                        🎉 Lesson Complete Bonus! (+20 🍪 +100 ⭐)
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="progress_info warning">
-                ⚠ Need ≥50% to count as progress
+                ⚠ Need ≥50% to count as progress and earn rewards
               </div>
             )}
           </div>
@@ -284,7 +327,7 @@ function Quiz() {
             onClick={handleComplete}
             disabled={isProcessingCompletion}
           >
-            {isProcessingCompletion ? "Updating Progress..." : "Complete"}
+            {isProcessingCompletion ? "Processing..." : "Complete"}
           </button>
         </div>
       ) : (
