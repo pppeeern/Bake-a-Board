@@ -271,7 +271,6 @@ export default function UserDataProvider({ children }) {
               }
             }
 
-            // Refresh data
             await loadUserData();
 
             return {

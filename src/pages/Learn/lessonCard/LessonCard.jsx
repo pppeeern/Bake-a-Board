@@ -119,7 +119,13 @@ function LessonCard({ lesson }) {
           onClick={handleClick}
         >
           <span>
-            {!isUnlocked ? "Locked" : isCompleted ? "Review" : "Start"}
+            {!isUnlocked
+              ? "Locked"
+              : isCompleted
+              ? "Replay"
+              : localCompleted >= progress.total
+              ? "Replay"
+              : "Start"}
           </span>
         </button>
       </div>

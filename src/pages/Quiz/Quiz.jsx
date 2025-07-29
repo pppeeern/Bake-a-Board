@@ -104,7 +104,9 @@ function Quiz() {
           scorePercentage
         )}%)`;
 
-        if (result.rewards && result.rewards.newReward) {
+        if (result.rewards && result.rewards.isReplay) {
+          message += `\n🔄 Replay Mode: ⭐ +${result.rewards.exp} XP (Practice bonus)`;
+        } else if (result.rewards && result.rewards.newReward) {
           message += `\n🍪 +${result.rewards.cookies} cookies | ⭐ +${result.rewards.exp} XP`;
 
           if (result.rewards.lessonCompleteBonus) {
@@ -242,33 +244,46 @@ function Quiz() {
     const percentage = (score / totalQuestions) * 100;
     if (percentage < 50) return null;
 
-    let cookies = 5;
+    const currentLesson = getLessonById(quizSelector);
+    if (!currentLesson) return null;
+
+    const currentProgress = currentLesson.progress.completed;
+    const newProgress = currentProgress + 1;
+
+    const isReplay =
+      currentLesson.isCompleted ||
+      currentProgress >= currentLesson.progress.total;
+
+    let cookies = 0;
     let exp = Math.round(percentage);
 
-    if (percentage === 100) {
-      cookies += 5;
-      exp += 25;
-    }
+    if (isReplay) {
+      exp = Math.round(percentage * 0.5);
+    } else {
+      cookies = 5;
 
-    const currentLesson = getLessonById(quizSelector);
-    const willCompletLesson =
-      currentLesson &&
-      currentLesson.progress.completed + 1 >= currentLesson.progress.total;
+      if (percentage === 100) {
+        cookies += 5;
+        exp += 25;
+      }
 
-    if (willCompletLesson) {
-      cookies += 20;
-      exp += 100;
+      const willCompletLesson = newProgress >= currentLesson.progress.total;
+
+      if (willCompletLesson) {
+        cookies += 20;
+        exp += 100;
+      }
     }
 
     return {
       cookies,
       exp,
-      willCompletLesson,
-      lessonProgress: currentLesson
-        ? `${currentLesson.progress.completed + 1}/${
-            currentLesson.progress.total
-          }`
-        : null,
+      isReplay,
+      willCompletLesson:
+        !isReplay && newProgress >= currentLesson.progress.total,
+      lessonProgress: isReplay
+        ? `${currentLesson.progress.total}/${currentLesson.progress.total}`
+        : `${newProgress}/${currentLesson.progress.total}`,
     };
   };
 
@@ -295,22 +310,34 @@ function Quiz() {
                 ✓ Progress will be updated!
                 {potentialRewards && (
                   <div className="reward_preview">
-                    🍪 +{potentialRewards.cookies} cookies | ⭐ +
-                    {potentialRewards.exp} XP
-                    {potentialRewards.lessonProgress && (
-                      <div className="progress_display">
-                        Progress: {potentialRewards.lessonProgress}
+                    {potentialRewards.isReplay ? (
+                      <div className="replay_rewards">
+                        🔄 Replay Mode: ⭐ +{potentialRewards.exp} XP (Practice
+                        bonus)
+                        <div className="replay_note">
+                          No cookies for replays
+                        </div>
                       </div>
-                    )}
-                    {score === totalQuestions && (
-                      <div className="perfect_bonus">
-                        ✨ Perfect Score Bonus!
-                      </div>
-                    )}
-                    {potentialRewards.willCompletLesson && (
-                      <div className="lesson_complete_bonus">
-                        🎉 Lesson Complete Bonus! (+20 🍪 +100 ⭐)
-                      </div>
+                    ) : (
+                      <>
+                        🍪 +{potentialRewards.cookies} cookies | ⭐ +
+                        {potentialRewards.exp} XP
+                        {potentialRewards.lessonProgress && (
+                          <div className="progress_display">
+                            Progress: {potentialRewards.lessonProgress}
+                          </div>
+                        )}
+                        {score === totalQuestions && (
+                          <div className="perfect_bonus">
+                            ✨ Perfect Score Bonus!
+                          </div>
+                        )}
+                        {potentialRewards.willCompletLesson && (
+                          <div className="lesson_complete_bonus">
+                            🎉 Lesson Complete Bonus! (+20 🍪 +100 ⭐)
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
