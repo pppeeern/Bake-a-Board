@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Battery from "./Battery";
+import * as Electronics from "./Electronics.jsx";
 
-function Breadboard({ clear, zoom, setTip }) {
+function Breadboard({ clear, zoom, setTip, components, setComponents }) {
   const [selecting, setSelecting] = useState(null);
   const [connects, setConnects] = useState([]);
 
   const isSelect = (id) => selecting === id;
   const isConnected = (id) =>
-    connects.some((c) => c.from === id || c.to === id);
+    connects.some((c) => c.from?.includes(id) || c.to?.includes(id));
 
   const handleConnect = (id) => {
     if (selecting) {
@@ -16,7 +16,7 @@ function Breadboard({ clear, zoom, setTip }) {
         to: id,
       };
 
-      if (!isConnected(newConnect)) {
+      if (!isConnected(selecting) && !isConnected(id)) {
         setConnects([...connects, newConnect]);
         setTip(`Connected: ${newConnect.from} → ${newConnect.to}`);
       } else {
@@ -29,6 +29,11 @@ function Breadboard({ clear, zoom, setTip }) {
   };
 
   const handleDisconnect = (e) => {
+    setTip(
+      `Disconnected: ${connects
+        .filter((c) => c.to === e)
+        .map((c) => c.from)} → ${e}`
+    );
     const newConnects = connects.filter((c) => c.from !== e && c.to !== e);
     setConnects(newConnects);
   };
@@ -53,14 +58,26 @@ function Breadboard({ clear, zoom, setTip }) {
     setTip(null);
   };
 
+  const handleComponentClearPin = (com) => {
+    setConnects((prev) =>
+      prev.filter((c) => !c.from?.includes(com) && !c.to?.includes(com))
+    );
+    setTip(`Cleared pins from: ${com}`);
+  };
+  const handleComponentRemove = (com) => {
+    handleComponentClearPin(com);
+    setComponents((prev) => prev.filter((c) => !c.name.includes(com)));
+    setTip(`Removed: ${com}`);
+  };
+
   useEffect(() => {
     if (clear) clear.current = handleClear;
   }, [clear]);
 
   const getPinType = (id) => {
     for (let conn of connects) {
-      if (conn.from === "VCC" && conn.to === id) return "vcc";
-      if (conn.from === "GND" && conn.to === id) return "gnd";
+      if (conn.from?.includes("VCC") && conn.to === id) return "vcc";
+      if (conn.from?.includes("GND") && conn.to === id) return "gnd";
     }
     return null;
   };
@@ -86,11 +103,38 @@ function Breadboard({ clear, zoom, setTip }) {
         transition: "transform 0.2s ease-out",
       }}
     >
-      <Battery
-        onSelect={handleSelect}
-        isSelect={isSelect}
-        isConnected={isConnected}
-      />
+      {components.map((component, i) => {
+        const nameKey = component?.name?.replace(/\s+/g, "");
+        const Comp = Electronics[nameKey];
+        const { id, name } = component;
+        return Comp ? (
+          <Comp
+            key={`${i}-${id}`}
+            onSelect={handleSelect}
+            isSelect={isSelect}
+            isConnected={isConnected}
+          >
+            <div className="comp_hover">
+              <div className="comp_hover_name">{name}</div>
+              <button
+                className={`${
+                  !connects.some(
+                    (c) => c.from?.includes(name) || c.to?.includes(name)
+                  )
+                    ? "disable"
+                    : ""
+                }`}
+                onClick={() => handleComponentClearPin(name)}
+              >
+                Clear Pins
+              </button>
+              <button onClick={() => handleComponentRemove(name)}>
+                Remove
+              </button>
+            </div>
+          </Comp>
+        ) : null;
+      })}
       <div className="bb_body">
         <div className="bb_vol">
           <div style={{ width: "100%", borderTop: "0.15rem solid red" }} />

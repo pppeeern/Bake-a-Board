@@ -1,8 +1,13 @@
 import "./Electronics.css";
+import { components } from "./bakeryComponents";
 
-function Battery({ onSelect, isSelect, isConnected }) {
+export function Battery5V({ onSelect, isSelect, isConnected, children }) {
+  const VCC = "Battery 5V (VCC)";
+  const GND = "Battery 5V (GND)";
+
   return (
-    <div className="elec battery" title="Battery">
+    <div className="comp battery">
+      {children}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -116,10 +121,8 @@ function Battery({ onSelect, isSelect, isConnected }) {
           </g>
           <g
             id="VCC_Bar"
-            className={`${
-              isSelect("VCC") || isConnected("VCC") ? "active" : ""
-            }`}
-            onClick={() => onSelect("VCC")}
+            className={`${isSelect(VCC) || isConnected(VCC) ? "active" : ""}`}
+            onClick={() => onSelect(VCC)}
           >
             <polygon
               className="cls-3"
@@ -152,10 +155,8 @@ function Battery({ onSelect, isSelect, isConnected }) {
           </g>
           <g
             id="GND_Bar"
-            className={`${
-              isSelect("GND") || isConnected("GND") ? "active" : ""
-            }`}
-            onClick={() => onSelect("GND")}
+            className={`${isSelect(GND) || isConnected(GND) ? "active" : ""}`}
+            onClick={() => onSelect(GND)}
           >
             <polygon
               className="cls-3"
@@ -192,5 +193,3 @@ function Battery({ onSelect, isSelect, isConnected }) {
     </div>
   );
 }
-
-export default Battery;

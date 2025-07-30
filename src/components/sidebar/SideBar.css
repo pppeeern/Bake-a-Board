@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 
   border-right: 4px solid transparent;
   border-image: repeating-linear-gradient(
@@ -58,4 +59,14 @@ aside {
 .navItems:not(.active):hover {
   background-color: var(--hover-color-default);
   /* color: #540f5c; */
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  .navItems {
+    justify-content: center;
+  }
+  .navItems_label {
+    display: none;
+  }
 }

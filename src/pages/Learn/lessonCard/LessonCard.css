@@ -11,6 +11,9 @@
   align-items: center;
   transition: all ease 0.15s;
 }
+.lesson_card svg {
+  fill: var(--svg-color);
+}
 .lesson_card.locked {
   /* cursor: default; */
   border: 4px dotted var(--active-color-secondary);

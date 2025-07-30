@@ -29,7 +29,7 @@ function SideBar() {
             title={item.text}
           >
             <SideBarIcon icon={item.text} />
-            <div>{item.text}</div>
+            <div className="navItems_label">{item.text}</div>
           </Link>
         ))}
       </aside>
@@ -56,7 +56,7 @@ function SideBar() {
               />
             </svg>
           </div>
-          <div>Settings</div>
+          <div className="navItems_label">Settings</div>
         </Link>
       </div>
     </nav>
