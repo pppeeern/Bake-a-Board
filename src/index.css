@@ -30,6 +30,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background-color: var(--primary);
+  color: var(--light);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -41,10 +46,6 @@ a {
   text-decoration: inherit;
   cursor: pointer;
   /* color: inherit; */
-}
-
-svg {
-  fill: var(--svg-color);
 }
 
 button {
@@ -114,6 +115,9 @@ select {
   border: none;
   background-color: var(--default);
   color: var(--text-color);
+}
+select {
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: light) {

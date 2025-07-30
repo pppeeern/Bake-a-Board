@@ -4,6 +4,10 @@
   right: 40px;
 }
 
+#profile_icon_container svg {
+  fill: var(--svg-color);
+}
+
 #profile_icon {
   float: inline-end;
   position: sticky;

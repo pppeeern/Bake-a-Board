@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 import SideBar from "./components/sidebar/SideBar";
@@ -21,11 +22,11 @@ import BreadexScanner from "./pages/Breadex/breadexScanner/BreadexScanner";
 import { chapterData } from "./pages/Learn/data/chapterData";
 
 import "./MainLayout.css";
-import "./App.css";
 import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 
 function ProtectedLayout({ children }) {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -46,6 +47,14 @@ function ProtectedLayout({ children }) {
   if (!user) {
     return <Account />;
   }
+
+  const path = location.pathname;
+  const fullscreen =
+    path === "/bakery/" ||
+    path.startsWith("/quiz/") ||
+    path.endsWith("scanner");
+
+  if (fullscreen) return <div id="content">{children}</div>;
 
   return (
     <section className="mainLayout">

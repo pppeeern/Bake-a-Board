@@ -10,6 +10,10 @@
   /* background-color: aliceblue; */
 }
 
+#profile_container svg {
+  fill: var(--svg-color);
+}
+
 #profile_avatar_display {
   height: 100%;
   /* border: 2px solid rgb(235, 235, 235); */

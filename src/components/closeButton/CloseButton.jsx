@@ -1,8 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import "./CloseButton.css";
 
-function CloseButton() {
+function CloseButton({ target }) {
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    if (!target) {
+      window.history.back(); // Go back if no target
+    } else {
+      navigate(target); // Go to specific path
+    }
+  };
+
   return (
-    <div id="close_button" onClick={() => history.back()}>
+    <div id="close_button" onClick={handleClose}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={42}

@@ -1,0 +1,19 @@
+:root {
+  --wordmark-size: 2.6rem;
+  --wordmark-height: 40px;
+}
+
+.wordmark {
+  cursor: pointer;
+  font-family: "Atma";
+  color: var(--orange);
+  font-weight: 900;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-size: var(--wordmark-size);
+  line-height: var(--wordmark-height);
+  transition: all ease 0.2s;
+}
+.wordmark:hover {
+  font-size: calc(var(--wordmark-size) + 0.1rem);
+}
