@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 import SideBar from "./components/sidebar/SideBar";
@@ -15,6 +14,8 @@ import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Setting";
 
 import Quiz from "./pages/Quiz/Quiz";
+import HostRoom from "./pages/QuizRoom/HostRoom";
+
 import Chapters from "./pages/Learn/chaptersMenu/ChaptersMenu";
 import BreadexInfo from "./pages/Breadex/breadexInfo/BreadexInfo";
 import BreadexScanner from "./pages/Breadex/breadexScanner/BreadexScanner";
@@ -26,7 +27,6 @@ import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 
 function ProtectedLayout({ children }) {
   const { user, loading } = useAuth();
-  const location = useLocation();
 
   if (loading) {
     return (
@@ -47,14 +47,6 @@ function ProtectedLayout({ children }) {
   if (!user) {
     return <Account />;
   }
-
-  const path = location.pathname;
-  const fullscreen =
-    path === "/bakery/" ||
-    path.startsWith("/quiz/") ||
-    path.endsWith("scanner");
-
-  if (fullscreen) return <div id="content">{children}</div>;
 
   return (
     <section className="mainLayout">
@@ -156,6 +148,9 @@ function App() {
                 </ProtectedLayout>
               }
             />
+
+            <Route path="/host-room/:roomId" element={<HostRoom />} />
+            {/* <Route path="/join-room/:roomId" element={<JoinRoom />} /> */}
           </Routes>
         </Router>
       </UserDataProvider>

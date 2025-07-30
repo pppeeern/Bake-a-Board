@@ -31,6 +31,20 @@ export default function UserDataProvider({ children }) {
   const [processedChapters, setProcessedChapters] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Unified level calculation function
+  const calculateLevel = (exp) => {
+    if (exp < 100) return 1; // Level 1: 0-99 XP
+    if (exp < 250) return 2; // Level 2: 100-249 XP
+    if (exp < 450) return 3; // Level 3: 250-449 XP
+    if (exp < 700) return 4; // Level 4: 450-699 XP
+    if (exp < 1000) return 5; // Level 5: 700-999 XP
+    if (exp < 1350) return 6; // Level 6: 1000-1349 XP
+    if (exp < 1750) return 7; // Level 7: 1350-1749 XP
+    if (exp < 2200) return 8; // Level 8: 1750-2199 XP
+    if (exp < 2700) return 9; // Level 9: 2200-2699 XP
+    return Math.floor((exp - 2700) / 500) + 10; // Level 10+: Every 500 XP
+  };
+
   useEffect(() => {
     if (user) {
       loadUserData();
@@ -154,42 +168,72 @@ export default function UserDataProvider({ children }) {
               currentLesson.progress.total
             );
 
-            const quizKey = `${lessonId}_${newProgress}`;
-            const hasReceivedRewards = quizRewards[quizKey] || false;
+            const isLessonCompleted =
+              currentLesson.isCompleted ||
+              currentProgress >= currentLesson.progress.total;
 
             let rewards = {
               cookies: 0,
               exp: 0,
               newReward: false,
+              isReplay: false,
             };
 
+            if (isLessonCompleted) {
+              // Replay of completed lesson
+              rewards.exp = Math.round(scorePercentage * 0.5);
+              rewards.cookies = 0;
+              rewards.isReplay = true;
+
+              console.log(
+                `Replay detected for ${lessonId}, giving ${rewards.exp} XP`
+              );
+
+              const newExp = userData.exp + rewards.exp;
+              const newLevel = calculateLevel(newExp); // Use unified function
+
+              await updateDoc(userRef, {
+                exp: newExp,
+                level: newLevel,
+                updatedAt: serverTimestamp(),
+              });
+
+              setUserData((prev) => ({
+                ...prev,
+                exp: newExp,
+                level: newLevel,
+              }));
+
+              await loadUserData();
+
+              return {
+                success: true,
+                progressIncremented: true,
+                newProgress: currentProgress,
+                lessonCompleted: true,
+                rewards,
+                alreadyRewarded: false,
+                isReplay: true,
+              };
+            }
+
+            const quizKey = `${lessonId}_${newProgress}`;
+            const hasReceivedRewards = quizRewards[quizKey] || false;
+
             if (!hasReceivedRewards) {
+              // First time completing this quiz
               rewards.cookies = 5;
               rewards.exp = Math.round(scorePercentage);
+              rewards.newReward = true;
+              rewards.isReplay = false;
 
               if (scorePercentage === 100) {
                 rewards.cookies += 5;
                 rewards.exp += 25;
               }
 
-              rewards.newReward = true;
-
               const newExp = userData.exp + rewards.exp;
-              const calculateBetterLevel = (exp) => {
-                if (exp < 100) return 1;
-                if (exp < 250) return 2;
-                if (exp < 450) return 3;
-                if (exp < 700) return 4;
-                if (exp < 1000) return 5;
-                if (exp < 1350) return 6;
-                if (exp < 1750) return 7;
-                if (exp < 2200) return 8;
-                if (exp < 2700) return 9;
-
-                return Math.floor((exp - 2700) / 500) + 10;
-              };
-
-              const newLevel = calculateBetterLevel(newExp);
+              const newLevel = calculateLevel(newExp); // Use unified function
 
               quizRewards[quizKey] = true;
 
@@ -209,14 +253,37 @@ export default function UserDataProvider({ children }) {
                 level: newLevel,
               }));
             } else {
+              rewards.cookies = 0;
+              rewards.exp = Math.round(scorePercentage * 0.5);
+              rewards.newReward = false;
+              rewards.isReplay = true;
+
+              console.log(
+                `Quiz repeat detected for ${lessonId}_${newProgress}, giving ${rewards.exp} XP`
+              );
+
+              const newExp = userData.exp + rewards.exp;
+              const newLevel = calculateLevel(newExp);
+
               await updateDoc(userRef, {
                 lessonProgress: { ...lessonProgress, [lessonId]: newProgress },
+                exp: newExp,
+                level: newLevel,
                 updatedAt: serverTimestamp(),
               });
+
+              setUserData((prev) => ({
+                ...prev,
+                exp: newExp,
+                level: newLevel,
+              }));
             }
 
             let unlockResult = null;
-            if (newProgress >= currentLesson.progress.total) {
+            if (
+              newProgress >= currentLesson.progress.total &&
+              !isLessonCompleted
+            ) {
               unlockResult = await userDataService.completeQuiz(
                 user.uid,
                 lessonId,
@@ -234,19 +301,7 @@ export default function UserDataProvider({ children }) {
                 const currentUserSnap = await getDoc(userRef);
                 const currentUserData = currentUserSnap.data();
                 const finalExp = currentUserData.exp + lessonBonus.exp;
-                const calculateBetterLevel = (exp) => {
-                  if (exp < 100) return 1;
-                  if (exp < 250) return 2;
-                  if (exp < 450) return 3;
-                  if (exp < 700) return 4;
-                  if (exp < 1000) return 5;
-                  if (exp < 1350) return 6;
-                  if (exp < 1750) return 7;
-                  if (exp < 2200) return 8;
-                  if (exp < 2700) return 9;
-                  return Math.floor((exp - 2700) / 500) + 10;
-                };
-                const finalLevel = calculateBetterLevel(finalExp);
+                const finalLevel = calculateLevel(finalExp);
 
                 quizRewards[lessonCompleteKey] = true;
 
@@ -280,9 +335,10 @@ export default function UserDataProvider({ children }) {
               lessonCompleted: newProgress >= currentLesson.progress.total,
               rewards,
               unlockResult,
-              alreadyRewarded: !rewards.newReward,
+              alreadyRewarded: !rewards.newReward && !rewards.isReplay,
               nextLessonUnlocked: unlockResult?.nextLessonUnlocked,
               nextChapterUnlocked: unlockResult?.nextChapterUnlocked,
+              isReplay: rewards.isReplay,
             };
           }
         }
@@ -370,6 +426,7 @@ export default function UserDataProvider({ children }) {
     canAccessChapter,
 
     refreshUserData: loadUserData,
+    calculateLevel,
   };
 
   return (
