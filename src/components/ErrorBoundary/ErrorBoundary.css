@@ -1,0 +1,117 @@
+.error_boundary_container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  padding: 20px;
+}
+
+.error_boundary_content {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.error_icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.error_boundary_content h2 {
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 1.6em;
+}
+
+.error_boundary_content p {
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.error_actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.retry_btn,
+.home_btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 140px;
+}
+
+.retry_btn {
+  background: #ff6b35;
+  color: white;
+}
+
+.retry_btn:hover {
+  background: #e55a2b;
+  transform: translateY(-1px);
+}
+
+.home_btn {
+  background: #6c757d;
+  color: white;
+}
+
+.home_btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.error_details {
+  margin-top: 20px;
+  text-align: left;
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.error_details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.error_details pre {
+  background: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.8em;
+  overflow-x: auto;
+  margin-bottom: 8px;
+}

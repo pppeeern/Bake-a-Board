@@ -1,0 +1,377 @@
+.host_controls_container {
+  background: var(--default);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  margin-top: 24px;
+  border: 1px solid var(--active-color);
+}
+
+.control_section h3 {
+  color: var(--text-color);
+  margin: 0 0 16px 0;
+  font-size: 1.3em;
+  text-align: center;
+  font-weight: 600;
+}
+
+.control_section p {
+  color: var(--text-color-secondary);
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* Pre-Game Controls */
+.waiting_controls {
+  text-align: center;
+}
+
+.game_info {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--active-color);
+  border-radius: 12px;
+  border: 1px solid var(--active-color-secondary);
+}
+
+.info_stat {
+  text-align: center;
+}
+
+.stat_number {
+  display: block;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.stat_label {
+  font-size: 0.8em;
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* In-Game Controls */
+.game_controls {
+  text-align: center;
+}
+
+.progress_header {
+  margin-bottom: 24px;
+}
+
+.progress_bar_container {
+  background: var(--active-color-secondary);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress_bar {
+  background: linear-gradient(90deg, var(--orange), var(--orange-dark));
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+/* Control Buttons */
+.control_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.primary_btn,
+.secondary_btn,
+.danger_btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+.primary_btn {
+  background: var(--orange);
+  color: var(--light);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.primary_btn:hover:not(:disabled) {
+  background: var(--orange-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+.secondary_btn {
+  background: var(--button-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.secondary_btn:hover:not(:disabled) {
+  background: var(--hover-color-default);
+  transform: translateY(-2px);
+}
+
+.danger_btn {
+  background: var(--danger);
+  color: var(--light);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.danger_btn:hover:not(:disabled) {
+  background: #b71c1c;
+  transform: translateY(-2px);
+}
+
+.primary_btn:disabled,
+.secondary_btn:disabled,
+.danger_btn:disabled {
+  background: var(--button-color-disable);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+/* Loading States */
+.loading_spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  pointer-events: none;
+}
+
+/* Special Button States */
+.start_btn {
+  min-width: 180px;
+  font-size: 1.1em;
+  padding: 16px 24px;
+}
+
+.pause_btn.paused {
+  background: var(--success);
+}
+
+.pause_btn.paused:hover:not(:disabled) {
+  background: #2e7d32;
+}
+
+.finish_btn {
+  background: var(--success);
+}
+
+.finish_btn:hover:not(:disabled) {
+  background: #2e7d32;
+  box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+/* Game Stats */
+.game_stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 16px;
+  background: var(--active-color);
+  border-radius: 8px;
+  border: 1px solid var(--active-color-secondary);
+}
+
+.stat_item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9em;
+  color: var(--text-color-secondary);
+  font-weight: 500;
+}
+
+.stat_icon {
+  font-size: 1.1em;
+}
+
+/* Confirmation Modal */
+.confirmation_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.confirmation_modal {
+  background: var(--default);
+  padding: 32px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  animation: slideUp 0.3s ease;
+  border: 1px solid var(--active-color);
+}
+
+.confirmation_modal h3 {
+  color: var(--danger);
+  margin: 0 0 16px 0;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.confirmation_modal p {
+  color: var(--text-color-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.confirmation_buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .host_controls_container {
+    padding: 20px 16px;
+  }
+
+  .game_info {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .control_buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .primary_btn,
+  .secondary_btn,
+  .danger_btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .game_stats {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .confirmation_modal {
+    padding: 24px 20px;
+  }
+
+  .confirmation_buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .control_section h3 {
+    font-size: 1.2em;
+  }
+
+  .stat_number {
+    font-size: 1.4em;
+  }
+
+  .primary_btn,
+  .secondary_btn,
+  .danger_btn {
+    padding: 14px 16px;
+    font-size: 0.95em;
+  }
+
+  .start_btn {
+    font-size: 1em;
+    padding: 16px 20px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .primary_btn,
+  .secondary_btn,
+  .danger_btn,
+  .progress_bar,
+  .loading_spinner {
+    animation: none;
+    transition: none;
+  }
+
+  .primary_btn:hover:not(:disabled),
+  .secondary_btn:hover:not(:disabled),
+  .danger_btn:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .confirmation_overlay,
+  .confirmation_modal {
+    animation: none;
+  }
+}

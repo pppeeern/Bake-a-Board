@@ -106,6 +106,8 @@
   background: #e8f5e8;
   border-radius: 8px;
   border: 1px solid #4caf50;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .preview_title {
@@ -114,9 +116,122 @@
   margin-bottom: 6px;
 }
 
-.preview_info {
+.max_questions_section {
+  margin: 15px 0;
+}
+
+.max_questions_section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
   color: #2e7d32;
   font-size: 0.9em;
+}
+
+.max_questions_input {
+  width: 80px;
+  padding: 8px;
+  border: 2px solid #4caf50;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.max_questions_input:focus {
+  border-color: #2e7d32;
+  outline: none;
+}
+
+.quiz_selection_section {
+  margin: 15px 0;
+}
+
+.selection_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.selection_header label {
+  font-weight: 600;
+  color: #2e7d32;
+  font-size: 0.9em;
+  margin: 0;
+}
+
+.selection_controls {
+  display: flex;
+  gap: 8px;
+}
+
+.select_all_btn, .clear_all_btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clear_all_btn {
+  background: #f44336;
+}
+
+.select_all_btn:hover {
+  background: #45a049;
+}
+
+.clear_all_btn:hover {
+  background: #da190b;
+}
+
+.quiz_list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #4caf50;
+  border-radius: 6px;
+  padding: 8px;
+  background: white;
+}
+
+.quiz_item {
+  margin-bottom: 8px;
+}
+
+.quiz_checkbox {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  font-size: 0.85em;
+  line-height: 1.3;
+}
+
+.quiz_checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.quiz_question {
+  color: #333;
+}
+
+.preview_info {
+  margin: 10px 0;
+  font-size: 0.9em;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.lesson_details {
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: #666;
+  font-style: italic;
+  line-height: 1.3;
 }
 
 .host_quiz_footer {
