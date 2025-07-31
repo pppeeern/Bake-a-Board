@@ -116,7 +116,7 @@
   align-items: center;
   background-color: rgb(245, 245, 245);
   outline: 3px solid rgb(235, 235, 235);
-  color: var(--svg-color);
+  /* color: var(--svg-color); */
   font-weight: 500;
   height: 1rem;
   border-radius: 100px;

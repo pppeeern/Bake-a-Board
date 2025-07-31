@@ -3,7 +3,7 @@ import "./LessonCard.css";
 import { useEffect, useState, useRef } from "react";
 import { useUserData } from "../../../services/UserDataContext";
 
-function LessonCard({ lesson }) {
+function LessonCard({ index, lesson }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { refreshUserData } = useUserData();
@@ -87,9 +87,11 @@ function LessonCard({ lesson }) {
             transform="translate(-391.71 -278.79)"
           />
         </svg>
+      ) : !isCompleted ? (
+        <div className="lesson_card_badge">{index + 1}</div>
       ) : (
         <>
-          {isCompleted && <div className="lesson_completed_badge">✓</div>}
+          {<div className="lesson_completed_badge">✓</div>}
           {showProgressUpdate && (
             <div className="progress_update_notification">Progress +1!</div>
           )}

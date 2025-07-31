@@ -31,8 +31,8 @@ function Learn({ chapter }) {
           </Link>
         </div>
         <div id="lessons_container">
-          {lessons.map((lesson) => (
-            <LessonCard key={lesson.id} lesson={lesson} />
+          {lessons.map((lesson, i) => (
+            <LessonCard key={lesson.id} index={i} lesson={lesson} />
           ))}
         </div>
       </div>
