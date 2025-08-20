@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./LessonCard.css";
 import { useEffect, useState, useRef } from "react";
 import { useUserData } from "../../../services/UserDataContext";
+import * as lessonIcon from "./lessonIcon";
 
 function LessonCard({ index, lesson }) {
   const navigate = useNavigate();
@@ -74,27 +75,19 @@ function LessonCard({ index, lesson }) {
   return (
     <div className={`lesson_card ${!isUnlocked ? "locked" : ""}`}>
       {!isUnlocked ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={12}
-          height={42}
-          viewBox="0 0 296.59 522.41"
-          fill="rgb(200, 200, 200)"
-        >
-          <path
-            className="cls-1"
-            d="M608.89,558.43a148.29,148.29,0,1,0-137.78,0L397.88,771.22a25,25,0,0,0,24.44,30H657.68a25,25,0,0,0,24.44-30Z"
-            transform="translate(-391.71 -278.79)"
-          />
-        </svg>
+        <img src={lessonIcon["Locked"]} alt="Locked" draggable={false} />
       ) : !isCompleted ? (
-        <div className="lesson_card_badge">{index + 1}</div>
+        <>
+          <img src={lessonIcon["Full"]} alt="Finished" draggable={false} />
+          <div className="lesson_card_badge">{index + 1}</div>
+        </>
       ) : (
         <>
-          {<div className="lesson_completed_badge">✓</div>}
+          {/* <img src={lessonIcon["full"]} alt="Finished" /> */}
+          {/* {<div className="lesson_completed_badge">✓</div>}
           {showProgressUpdate && (
             <div className="progress_update_notification">Progress +1!</div>
-          )}
+          )} */}
         </>
       )}
 

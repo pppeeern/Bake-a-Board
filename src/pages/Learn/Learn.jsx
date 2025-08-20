@@ -35,6 +35,9 @@ function Learn({ chapter }) {
             <LessonCard key={lesson.id} index={i} lesson={lesson} />
           ))}
         </div>
+        <div className="help_container">
+          <img src="assets/kookai/kookai.svg" />
+        </div>
       </div>
     </div>
   );

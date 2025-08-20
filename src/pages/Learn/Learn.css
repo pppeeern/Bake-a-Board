@@ -59,3 +59,35 @@
 #lessons_container > :nth-child(4n + 3) {
   align-self: flex-end;
 }
+
+.help_container {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px 40px 0;
+}
+.help_container:hover img {
+  animation: shaking2 0.5s ease infinite;
+}
+@keyframes shaking2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(8deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
