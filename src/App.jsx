@@ -15,9 +15,6 @@ import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Setting";
 
 import Quiz from "./pages/Quiz/Quiz";
-import HostRoom from "./pages/QuizRoom/HostRoom";
-import JoinRoom from "./pages/QuizRoom/JoinRoom";
-import PlayQuiz from "./pages/QuizRoom/PlayQuiz";
 
 import Chapters from "./pages/Learn/chaptersMenu/ChaptersMenu";
 import BreadexInfo from "./pages/Breadex/breadexInfo/BreadexInfo";
@@ -159,10 +156,6 @@ function App() {
                 </ProtectedLayout>
               }
             />
-
-            <Route path="/host-room/:roomId" element={<HostRoom />} />
-            <Route path="/join-room/:roomId" element={<JoinRoom />} />
-            <Route path="/play-quiz/:roomId" element={<PlayQuiz />} />
           </Routes>
         </Router>
       </UserDataProvider>

@@ -21,24 +21,6 @@
   border: none;
 }
 
-#join_quiz {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-#join_quiz input {
-  width: 70%;
-  height: 100%;
-  padding-left: 14px;
-  font-size: 1.1rem;
-  border: none;
-  outline: none;
-}
-#join_quiz button {
-  width: 30%;
-}
-
 #chapters_card_container {
   width: 100%;
   flex: 1;
