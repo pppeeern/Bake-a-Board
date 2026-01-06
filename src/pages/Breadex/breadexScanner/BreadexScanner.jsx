@@ -3,6 +3,7 @@ import { roboflowService } from "../../../services/roboflowService";
 import "./BreadexScanner.css";
 import CloseButton from "../../../components/closeButton/CloseButton";
 import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
+import { Camera, UploadCloud, Download, RotateCcw, AlertCircle, Scan } from 'lucide-react';
 
 function BreadexScanner() {
   const [inputImage, setInputImage] = useState("");
@@ -103,22 +104,27 @@ function BreadexScanner() {
   };
 
   return (
-    <div className="wrapper-m">
+    <div className="wrapper-m scanner-wrapper">
       <CloseButton />
       <canvas ref={canvasRef} className="hidden-canvas" />
 
-      <div className="scanner_head">
-        <h1>Breadex</h1>
-        <span>Scanner</span>
-        {/* <p>Scan and analyze breadboard components using AI</p> */}
-      </div>
+      <div className="scanner-container">
+        <div className="scanner-header">
+          <h1>Breadex</h1>
+          <span>Scanner</span>
+        </div>
 
-      <div className="scanner_body">
-        <div className="left-section">
+        <div className="scanner-content">
+          
           {!inputImage && (
-            <div className="upload-card">
-              <h3>Upload Image</h3>
-              <div className="upload-area">
+            <div className="scanner-card upload-mode">
+              <div className="icon-badge">
+                <Scan size={48} color="var(--primary)" />
+              </div>
+              <h2>Identify Components</h2>
+              <p>Upload a photo of your component to get instant AI analysis.</p>
+              
+              <div className="upload-zone">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -127,97 +133,82 @@ function BreadexScanner() {
                   className="file-input"
                   id="image-upload"
                 />
-                <label htmlFor="image-upload" className="upload-label">
-                  <div className="upload-icon">📷</div>
-                  <div className="upload-text">Click to select image</div>
-                  <div className="upload-hint">or drag and drop</div>
+                <label htmlFor="image-upload" className="upload-label-zone">
+                  <div className="upload-icon-large">
+                    <UploadCloud size={64} color="var(--text-color-secondary)" />
+                  </div>
+                  <span className="primary-text">Click to upload</span>
+                  <span className="secondary-text">or drag and drop here</span>
                 </label>
               </div>
             </div>
           )}
 
-          {inputImage && (
-            <div className="image-preview-card">
-              <h3>Selected Image</h3>
-              <div className="image-container">
-                <img
-                  src={inputImage}
-                  alt="Selected breadboard"
-                  className="preview-image"
-                />
-              </div>
-              {!resultImage && (
-                <div className="action-buttons">
-                  <button
-                    onClick={analyzeImage}
-                    disabled={loading}
-                    className={`primary analyze-button ${
-                      loading ? "disabled" : ""
-                    }`}
-                  >
-                    {loading ? "Analyzing..." : "Scan"}
-                  </button>
-                  <button onClick={resetScanner} className="danger">
-                    Change
-                  </button>
-                </div>
-              )}
-              {predictions.length > 0 && (
-                <div className="detection-summary">
-                  <div className="summary-card">
-                    <h4>📊 {predictions.length} Components Detected</h4>
-                    <p>
-                      Average Confidence:{" "}
-                      {(
-                        (predictions.reduce((sum, p) => sum + p.confidence, 0) /
-                          predictions.length) *
-                        100
-                      ).toFixed(1)}
-                      %
-                    </p>
+          {inputImage && !resultImage && (
+            <div className="scanner-card preview-mode">
+              <div className="image-display-area">
+                <img src={inputImage} alt="Preview" className="display-image" />
+                {loading && (
+                  <div className="loading-overlay">
+                    <LoadingSpinner />
+                    <p>Analyzing circuitry...</p>
                   </div>
+                )}
+              </div>
+
+              {!loading && (
+                <div className="action-row">
+                  <button onClick={resetScanner} className="secondary">
+                    <RotateCcw size={18} style={{ marginRight: '8px' }} />
+                    Retake
+                  </button>
+                  <button onClick={analyzeImage} className="primary scan-btn">
+                    <Camera size={18} style={{ marginRight: '8px' }} />
+                    Start Scan
+                  </button>
                 </div>
               )}
-            </div>
-          )}
-        </div>
-
-        <div className="right-section">
-          {loading && <LoadingSpinner />}
-
-          {error && (
-            <div className="error-card">
-              <h3>⚠️ Error</h3>
-              <p>{error}</p>
             </div>
           )}
 
           {resultImage && (
-            <div className="result-card">
-              <div className="result-header">
-                <h3>Analysis Result</h3>
-                <div className="result-actions">
-                  <button
-                    onClick={() => downloadImage(resultImage)}
-                    className="download-button"
-                  >
-                    💾 Download
-                  </button>
-                  <button onClick={resetScanner} className="new-scan-button">
-                    🔄 New Scan
-                  </button>
+            <div className="scanner-card result-mode">
+              <div className="result-display-area">
+                <img src={resultImage} alt="Result" className="display-image" />
+                
+                <div className="stats-badges">
+                  <span className="badge success">
+                     {predictions.length} Components Correct
+                  </span>
+                  <span className="badge info">
+                    {(predictions.reduce((sum, p) => sum + p.confidence, 0) / predictions.length * 100).toFixed(1)}% Confidence
+                  </span>
                 </div>
               </div>
 
-              <div className="result-image-container">
-                <img
-                  src={resultImage}
-                  alt="Analysis result with detected components"
-                  className="result-image"
-                />
+              <div className="action-row">
+                <button onClick={resetScanner} className="secondary">
+                  <RotateCcw size={18} style={{ marginRight: '8px' }} />
+                  New Scan
+                </button>
+                <button onClick={() => downloadImage(resultImage)} className="success download-btn">
+                  <Download size={18} style={{ marginRight: '8px' }} />
+                  Download Result
+                </button>
               </div>
             </div>
           )}
+
+          {error && (
+            <div className="error-toast">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <AlertCircle size={20} />
+                <span>{error}</span>
+              </div>
+              <button onClick={() => setError("")} className="close-toast">×</button>
+            </div>
+          )}
+          
         </div>
       </div>
     </div>

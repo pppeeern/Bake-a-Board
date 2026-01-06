@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-// Form validation utility
 export const validateForm = (formData, isLogin) => {
   const errors = {};
 
@@ -8,20 +7,34 @@ export const validateForm = (formData, isLogin) => {
     errors.username = "Username is required";
   }
 
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const commonTLDs = [
+    "com", "net", "org", "edu", "gov", "mil", "int",
+    "th", "co", "io", "ai", "me", "info", "biz", "tv", "dev", "app", 
+    "uk", "us", "ca", "au", "de", "fr", "jp", "cn", "in"
+  ];
+
   if (!formData.email.trim()) {
     errors.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    errors.email = "Invalid email";
+  } else if (!emailRegex.test(formData.email.trim())) {
+    errors.email = "Please enter a valid email address";
+  } else {
+    const domain = formData.email.trim().split("@")[1];
+    const tld = domain.split(".").pop().toLowerCase();
+    
+    if (!commonTLDs.includes(tld)) {
+       errors.email = `Email domain .${tld} is not supported. Please use a common provider.`;
+    }
   }
 
   if (!formData.password) {
     errors.password = "Password is required";
   } else if (!isLogin && formData.password.length < 6) {
-    errors.password = "Password too short (6+ chars)";
+    errors.password = "Password must be at least 6 characters";
   }
 
   if (!isLogin && formData.password !== formData.confirmPassword) {
-    errors.confirmPassword = "Passwords don't match";
+    errors.confirmPassword = "Passwords do not match";
   }
 
   return {
