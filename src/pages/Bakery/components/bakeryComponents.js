@@ -22,4 +22,20 @@ export const components = [
       { id: "neg", type: "GND", label: "-" },
     ],
   },
+  {
+    id: 2,
+    name: "LED",
+    detail: "",
+    img: "LED",
+    category: "out",
+    quantity: 1,
+    isPoleSensitivity: true,
+    specs: {
+      volt: 2,
+    },
+    pins: [
+      { id: "anode", type: "VCC", label: "A" },
+      { id: "cathode", type: "GND", label: "C" },
+    ],
+  },
 ];

@@ -1,9 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import * as Electronics from "./Electronics.jsx";
+import { checkCircuit, buildNets } from "./circuitLogic";
 
 function Breadboard({ clear, zoom, setTip, components, setComponents }) {
   const [selecting, setSelecting] = useState(null);
   const [connects, setConnects] = useState([]);
+
+  // Calculate net connectivity
+  const netHelper = useMemo(() => {
+    return buildNets(connects);
+  }, [connects]);
+
+  // Calculate circuit state
+  const circuitState = useMemo(() => {
+    return checkCircuit(components, connects);
+  }, [components, connects]);
 
   const isSelect = (id) => selecting === id;
   const isConnected = (id) =>
@@ -113,17 +124,18 @@ function Breadboard({ clear, zoom, setTip, components, setComponents }) {
             onSelect={handleSelect}
             isSelect={isSelect}
             isConnected={isConnected}
+            isPowered={circuitState[id]?.isPowered}
+            getPinType={getPinType}
           >
             <div className="comp_hover">
               <div className="comp_hover_name">{name}</div>
               <button
-                className={`${
-                  !connects.some(
-                    (c) => c.from?.includes(name) || c.to?.includes(name)
-                  )
-                    ? "disable"
-                    : ""
-                }`}
+                className={`${!connects.some(
+                  (c) => c.from?.includes(name) || c.to?.includes(name)
+                )
+                  ? "disable"
+                  : ""
+                  }`}
                 onClick={() => handleComponentClearPin(name)}
               >
                 Clear Pins

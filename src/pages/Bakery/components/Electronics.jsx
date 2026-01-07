@@ -193,3 +193,55 @@ export function Battery5V({ onSelect, isSelect, isConnected, children }) {
     </div>
   );
 }
+
+export function LED({ onSelect, isSelect, isConnected, isPowered, getPinType, children }) {
+  const Anode = "LED (Anode)";
+  const Cathode = "LED (Cathode)";
+
+  // Determine pin types (VCC/GND) if connected
+  const anodeType = getPinType ? getPinType(Anode) : null;
+  const cathodeType = getPinType ? getPinType(Cathode) : null;
+
+  return (
+    <div className="comp led">
+      {children}
+      <svg width="60" height="150" viewBox="0 0 60 150">
+        <g
+          className={`led-pin anode ${anodeType || ""} ${isSelect(Anode) || isConnected(Anode) ? "active" : ""}`}
+          onClick={() => onSelect(Anode)}
+        >
+          {/* Visual Leg */}
+          <rect x="35" y="60" width="4" height="90" className="leg" />
+          {/* Interaction Zone */}
+          <rect x="33" y="60" width="8" height="90" fill="transparent" />
+        </g>
+
+        <g
+          className={`led-pin cathode ${cathodeType || ""} ${isSelect(Cathode) || isConnected(Cathode) ? "active" : ""}`}
+          onClick={() => onSelect(Cathode)}
+        >
+          {/* Visual Leg */}
+          <rect x="21" y="60" width="4" height="70" className="leg" />
+          {/* Interaction Zone */}
+          <rect x="19" y="60" width="8" height="70" fill="transparent" />
+        </g>
+
+        <path
+          d="M15,60 L45,60 L45,30 A15,15 0 0,0 15,30 Z"
+          fill={isPowered ? "#FF0000" : "#550000"}
+          stroke={isPowered ? "#FF4444" : "#330000"}
+          strokeWidth="2"
+          style={{ filter: isPowered ? "drop-shadow(0 0 10px #FF0000)" : "none" }}
+        />
+        <ellipse
+          cx="25"
+          cy="25"
+          rx="5"
+          ry="8"
+          fill="rgba(255,255,255,0.4)"
+          transform="rotate(-30 25 25)"
+        />
+      </svg>
+    </div>
+  );
+}

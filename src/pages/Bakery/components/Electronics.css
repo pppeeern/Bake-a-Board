@@ -7,71 +7,128 @@
   position: absolute;
   transform: translate(-150%, 25%);
 }
+
 .battery .cls1 {
   fill: none;
 }
+
 .battery .cls-2 {
   isolation: isolate;
 }
+
 .battery .cls-3 {
   fill: #682b19;
 }
+
 .battery .cls-4 {
   fill: #a2603e;
 }
+
 .battery .cls-5 {
   fill: #ad6a4f;
 }
+
 .battery .cls-6 {
   fill: #824229;
 }
+
 .battery .cls-7 {
   fill: #fff8ee;
 }
+
 .battery .cls-8 {
   fill: #623896;
 }
+
 .battery .cls-9 {
   opacity: 0.4;
   mix-blend-mode: multiply;
 }
+
 .battery .cls-10 {
   clip-path: url(#clip-path);
 }
+
 .battery #VCC_Bar *,
 .battery #GND_Bar * {
   cursor: pointer;
   transition: all ease 0.15s;
 }
+
 .battery #VCC_Bar:hover .cls-3,
 .battery #VCC_Bar.active .cls-3 {
   fill: #88170d;
 }
+
 .battery #VCC_Bar:hover .cls-4,
 .battery #VCC_Bar.active .cls-4 {
   fill: #bf3321;
 }
+
 .battery #VCC_Bar:hover .cls-5,
 .battery #VCC_Bar.active .cls-5 {
   fill: #c6382a;
 }
+
 .battery #VCC_Bar:hover .cls-6,
 .battery #VCC_Bar.active .cls-6 {
   fill: #a92316;
 }
+
 .battery #GND_Bar:hover .cls-3,
 .battery #GND_Bar.active .cls-3 {
   fill: #153a64;
 }
+
 .battery #GND_Bar:hover .cls-4,
 .battery #GND_Bar.active .cls-4 {
   fill: #1660b9;
 }
+
 .battery #GND_Bar:hover .cls-5,
 .battery #GND_Bar.active .cls-5 {
   fill: #176abf;
 }
+
 .battery #GND_Bar:hover .cls-6,
 .battery #GND_Bar.active .cls-6 {
   fill: #1142b2;
+}
+
+.led {
+  position: absolute;
+  transform: translate(1500%, 25%);
+}
+
+.led-pin {
+  cursor: pointer;
+}
+
+.led .leg {
+  fill: #c0c0c0;
+  transition: all ease 0.15s;
+}
+
+.led-pin.anode:hover .leg,
+.led-pin.anode.active .leg {
+  fill: #bf3321;
+  filter: drop-shadow(0 0 2px #bf3321);
+}
+
+.led-pin.cathode:hover .leg,
+.led-pin.cathode.active .leg {
+  fill: #1660b9;
+  filter: drop-shadow(0 0 2px #1660b9);
+}
+
+/* Actual VCC Connection (Overrides Anode Red) - Uses exact user specs */
+.led-pin.vcc .leg {
+  fill: #bf3321;
+  filter: drop-shadow(0 0 5px #bf3321);
+}
+
+/* Actual GND Connection (Overrides Cathode Blue) */
+.led-pin.gnd .leg {
+  fill: #1660b9;
+  filter: drop-shadow(0 0 5px #1660b9);
 }
